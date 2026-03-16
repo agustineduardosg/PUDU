@@ -22,7 +22,6 @@ ENV NODE_ENV=production
 ENV PORT=3000
 
 # Automatically leverage standalone output trace
-# https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
