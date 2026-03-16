@@ -7,6 +7,9 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 
+ARG DATABASE_URL
+ENV DATABASE_URL=$DATABASE_URL
+
 COPY . .
 RUN npx prisma generate
 RUN npm run build
