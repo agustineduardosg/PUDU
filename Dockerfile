@@ -11,7 +11,7 @@ ARG DATABASE_URL
 ENV DATABASE_URL=$DATABASE_URL
 
 COPY . .
-RUN npx prisma generate
+RUN npx prisma@6 generate
 RUN npm run build
 
 # Production Stage
