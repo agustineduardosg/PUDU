@@ -7,7 +7,7 @@ import PuduLogo from "./PuduLogo";
 
 export const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-white">
+    <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-background">
       {/* Video Background */}
       <video
         autoPlay
@@ -20,7 +20,7 @@ export const Hero = () => {
       </video>
 
       {/* Visual Treatment (Overlay) */}
-      <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px] z-10" />
+      <div className="absolute inset-0 bg-background/60 backdrop-blur-[2px] z-10" />
 
       {/* Premium Watermark Logo */}
       <motion.div
@@ -37,7 +37,7 @@ export const Hero = () => {
         }}
         className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none"
       >
-        <PuduLogo className="w-[80%] h-[80%] grayscale opacity-100" color="#0F172A" />
+        <PuduLogo className="w-[80%] h-[80%] grayscale opacity-100 text-foreground" color="currentColor" />
       </motion.div>
 
       {/* Content Container */}
@@ -57,7 +57,7 @@ export const Hero = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-4xl md:text-7xl font-black mb-8 leading-tight tracking-tight mix-blend-multiply"
+            className="text-4xl md:text-7xl font-black mb-8 leading-tight tracking-tight"
           >
             No construimos software. <br />
             <span className="text-gradient-emerald text-3xl md:text-6xl block mt-2">
@@ -69,7 +69,7 @@ export const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-lg md:text-2xl text-foreground/70 mb-12 leading-relaxed max-w-3xl mx-auto mix-blend-multiply"
+            className="text-lg md:text-2xl text-foreground/70 mb-12 leading-relaxed max-w-3xl mx-auto"
           >
             &quot;En un mundo que se mueve a la velocidad del rayo, las soluciones tradicionales de IT se han vuelto lentas, costosas y desconectadas de la realidad del terreno. PUDU nace de una convicción simple: <span className="text-foreground font-medium">La tecnología debe ser tan ágil como nuestra fauna y tan sólida como nuestra industria.</span>&quot;
           </motion.p>

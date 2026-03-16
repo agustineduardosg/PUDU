@@ -31,10 +31,13 @@ export const Header = () => {
     >
       <div className="container mx-auto px-6">
         <nav className={`glass px-6 py-3 rounded-full flex items-center justify-between transition-all duration-500 ${
-          isScrolled ? "bg-opacity-90" : "bg-opacity-50"
+          isScrolled ? "bg-opacity-90 dark:bg-slate-900/90" : "bg-opacity-50 dark:bg-slate-900/50"
         }`}>
           {/* Logo */}
-          <PuduLogo className="h-10 w-28" />
+          <PuduLogo 
+            color="currentColor" 
+            className="h-10 w-28 text-foreground"
+          />
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">
