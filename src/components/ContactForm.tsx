@@ -1,8 +1,9 @@
 "use client";
 
-import React from "react";
-import { Send, Phone, Mail, MapPin } from "lucide-react";
+import React, { useState } from "react";
+import { Send, Phone, Mail, MapPin, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import PuduLogo from "./PuduLogo";
+import { submitContactForm } from "@/app/actions";
 
 export const ContactForm = () => {
   return (
@@ -59,62 +60,118 @@ export const ContactForm = () => {
 
             {/* Form Side */}
             <div className="lg:w-3/5 p-12 bg-white/50 backdrop-blur-xl">
-              <form className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-sm font-bold ml-1">Nombre Completo</label>
-                    <input 
-                      type="text" 
-                      placeholder="Ej: Juan Pérez"
-                      className="w-full px-6 py-4 rounded-2xl bg-white border border-foreground/10 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 outline-none transition-all"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-bold ml-1">Empresa / Cargo</label>
-                    <input 
-                      type="text" 
-                      placeholder="Ej: Minera Norte / Gerente TI"
-                      className="w-full px-6 py-4 rounded-2xl bg-white border border-foreground/10 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 outline-none transition-all"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-bold ml-1">Correo Corporativo</label>
-                  <input 
-                    type="email" 
-                    placeholder="juan@empresa.cl"
-                    className="w-full px-6 py-4 rounded-2xl bg-white border border-foreground/10 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 outline-none transition-all"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-bold ml-1">Área de Interés</label>
-                  <select className="w-full px-6 py-4 rounded-2xl bg-white border border-foreground/10 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 outline-none transition-all appearance-none cursor-pointer">
-                    <option>Transformación Digital General</option>
-                    <option>Integración IA y Datos</option>
-                    <option>IoT y Telemetría Industrial</option>
-                    <option>Ciberseguridad y Monitoreo</option>
-                  </select>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-bold ml-1">Mensaje</label>
-                  <textarea 
-                    rows={4}
-                    placeholder="Cuéntanos sobre tu desafío tecnológico..."
-                    className="w-full px-6 py-4 rounded-2xl bg-white border border-foreground/10 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 outline-none transition-all resize-none"
-                  />
-                </div>
-
-                <button className="w-full bg-gradient-fire text-white py-5 rounded-2xl text-lg font-black flex items-center justify-center gap-3 hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-brand-fire-start/20 mt-4 underline-offset-4">
-                  Enviar Solicitud <Send className="w-5 h-5" />
-                </button>
-              </form>
+              <ContactFormInner />
             </div>
           </div>
         </div>
       </div>
     </section>
+  );
+};
+
+const ContactFormInner = () => {
+  const [state, setState] = useState<{ success?: string; error?: string }>({});
+  const [isPending, setIsPending] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsPending(true);
+    setState({});
+    
+    const formData = new FormData(e.currentTarget);
+    const result = await submitContactForm(formData);
+    
+    if (result.error) {
+      setState({ error: result.error });
+    } else {
+      setState({ success: result.success });
+      (e.target as HTMLFormElement).reset();
+    }
+    setIsPending(false);
+  };
+
+  return (
+    <form className="space-y-6" onSubmit={handleSubmit}>
+      {state.success && (
+        <div className="p-4 rounded-2xl bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald flex items-center gap-3">
+          <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
+          <p className="text-sm font-bold">{state.success}</p>
+        </div>
+      )}
+      {state.error && (
+        <div className="p-4 rounded-2xl bg-brand-fire-start/10 border border-brand-fire-start/20 text-brand-fire-start flex items-center gap-3">
+          <AlertCircle className="w-5 h-5 flex-shrink-0" />
+          <p className="text-sm font-bold">{state.error}</p>
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="space-y-2">
+          <label className="text-sm font-bold ml-1">Nombre Completo</label>
+          <input 
+            name="name"
+            type="text" 
+            required
+            placeholder="Ej: Juan Pérez"
+            className="w-full px-6 py-4 rounded-2xl bg-white border border-foreground/10 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 outline-none transition-all"
+          />
+        </div>
+        <div className="space-y-2">
+          <label className="text-sm font-bold ml-1">Empresa / Cargo</label>
+          <input 
+            name="company"
+            type="text" 
+            placeholder="Ej: Minera Norte / Gerente TI"
+            className="w-full px-6 py-4 rounded-2xl bg-white border border-foreground/10 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 outline-none transition-all"
+          />
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <label className="text-sm font-bold ml-1">Correo Corporativo</label>
+        <input 
+          name="email"
+          type="email" 
+          required
+          placeholder="juan@empresa.cl"
+          className="w-full px-6 py-4 rounded-2xl bg-white border border-foreground/10 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 outline-none transition-all"
+        />
+      </div>
+
+      <div className="space-y-2">
+        <label className="text-sm font-bold ml-1">Área de Interés</label>
+        <select 
+          name="interest"
+          className="w-full px-6 py-4 rounded-2xl bg-white border border-foreground/10 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 outline-none transition-all appearance-none cursor-pointer"
+        >
+          <option>Transformación Digital General</option>
+          <option>Integración IA y Datos</option>
+          <option>IoT y Telemetría Industrial</option>
+          <option>Ciberseguridad y Monitoreo</option>
+        </select>
+      </div>
+
+      <div className="space-y-2">
+        <label className="text-sm font-bold ml-1">Mensaje</label>
+        <textarea 
+          name="message"
+          rows={4}
+          required
+          placeholder="Cuéntanos sobre tu desafío tecnológico..."
+          className="w-full px-6 py-4 rounded-2xl bg-white border border-foreground/10 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 outline-none transition-all resize-none"
+        />
+      </div>
+
+      <button 
+        disabled={isPending}
+        className="w-full bg-gradient-fire text-white py-5 rounded-2xl text-lg font-black flex items-center justify-center gap-3 hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-brand-fire-start/20 mt-4 underline-offset-4 disabled:opacity-50 disabled:hover:scale-100"
+      >
+        {isPending ? (
+          <>Enviando... <Loader2 className="w-5 h-5 animate-spin" /></>
+        ) : (
+          <>Enviar Solicitud <Send className="w-5 h-5" /></>
+        )}
+      </button>
+    </form>
   );
 };
