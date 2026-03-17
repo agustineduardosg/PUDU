@@ -18,7 +18,7 @@ export const IndustryGrid = () => {
       ],
       icon: <Pickaxe className="w-8 h-8 text-white" />,
       span: "md:col-span-2 md:row-span-2",
-      image: "/images/industries/mining-pudu.jpg.png",
+      image: "/images/industries/mineria-pudu.jpg",
       priority: true,
     },
     {
@@ -31,7 +31,7 @@ export const IndustryGrid = () => {
       ],
       icon: <Stethoscope className="w-8 h-8 text-white" />,
       span: "md:col-span-2 md:row-span-1",
-      image: "/images/industries/healthcare-pudu.jpg.jpg",
+      image: "/images/industries/healthcare-pudu.jpg",
     },
     {
       id: "agricultura",
@@ -43,7 +43,7 @@ export const IndustryGrid = () => {
       ],
       icon: <Sprout className="w-8 h-8 text-white" />,
       span: "md:col-span-1 md:row-span-1",
-      image: "/images/industries/agriculture-pudu.jpg.jpg",
+      image: "/images/industries/agricultura-pudu.jpg",
     },
     {
       id: "industrial",
@@ -55,7 +55,7 @@ export const IndustryGrid = () => {
       ],
       icon: <Settings className="w-8 h-8 text-white" />,
       span: "md:col-span-2 md:row-span-1",
-      image: "/images/industries/industrial-pudu.jpg.jpg",
+      image: "/images/industries/industrial-pudu.jpg",
     },
     {
       id: "automocion",
@@ -67,7 +67,7 @@ export const IndustryGrid = () => {
       ],
       icon: <Car className="w-8 h-8 text-white" />,
       span: "md:col-span-1 md:row-span-2",
-      image: "/images/industries/automotive-pudu.jpg.jpg",
+      image: "/images/industries/automocion-pudu.jpg",
     },
   ];
 

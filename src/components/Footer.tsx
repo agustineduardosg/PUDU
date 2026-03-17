@@ -30,9 +30,9 @@ export const Footer = () => {
           <div>
             <h4 className="font-bold mb-6 text-white">Navegación</h4>
             <ul className="space-y-4 text-white/60">
-              <li><a href="#industrias" className="hover:text-brand-emerald transition-colors">Industrias</a></li>
-              <li><a href="#servicios" className="hover:text-brand-emerald transition-colors">Servicios</a></li>
-              <li><a href="#metodo" className="hover:text-brand-emerald transition-colors">Método PUDU</a></li>
+              <li><a href="/#industrias" className="hover:text-brand-emerald transition-colors">Industrias</a></li>
+              <li><a href="/#servicios" className="hover:text-brand-emerald transition-colors">Servicios</a></li>
+              <li><a href="/#metodo" className="hover:text-brand-emerald transition-colors">Método PUDU</a></li>
               <li><a href="#" className="hover:text-brand-emerald transition-colors">Casos de Éxito</a></li>
             </ul>
           </div>

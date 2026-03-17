@@ -1,8 +1,13 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { ArrowRight, CheckCircle2, Globe, Rocket, Shield } from "lucide-react";
-import * as LucideIcons from "lucide-react";
+import { 
+  ArrowRight, CheckCircle2, Globe, Rocket, Shield,
+  Gauge, Activity, ShieldAlert, Box, 
+  Network, ClipboardCheck, Users, Video, 
+  Droplets, QrCode, Sprout, Truck, 
+  BarChart3, Cpu, PackageSearch, Settings2, MapPin
+} from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ContactForm } from "@/components/ContactForm";
@@ -33,6 +38,23 @@ interface IndustryContent {
 
 const industries = industriesData as Record<string, IndustryContent>;
 
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const industry = industries[id];
+  
+  if (!industry) return { title: "Industria no encontrada | PUDU" };
+
+  return {
+    title: `${industry.hero.title} | PUDU Specialized`,
+    description: industry.hero.subtitle,
+    openGraph: {
+      title: `${industry.hero.title} | PUDU`,
+      description: industry.hero.subtitle,
+      images: [`/images/industries/${id}-pudu.jpg`],
+    },
+  };
+}
+
 export async function generateStaticParams() {
   return Object.keys(industries).map((id) => ({
     id,
@@ -47,9 +69,16 @@ export default async function IndustryPage({ params }: { params: Promise<{ id: s
     notFound();
   }
 
+  const IconMap: Record<string, React.ElementType> = {
+    Gauge, Activity, ShieldAlert, Box,
+    Network, ClipboardCheck, Users, Video,
+    Droplets, QrCode, Sprout, Truck,
+    BarChart3, Cpu, PackageSearch, Settings2, MapPin, Globe
+  };
+
   const IconComponent = (iconName: string) => {
-    const Icon = (LucideIcons as any)[iconName];
-    return Icon ? <Icon className="w-8 h-8" /> : <Globe className="w-8 h-8" />;
+    const Icon = IconMap[iconName] || Globe;
+    return <Icon className="w-8 h-8" />;
   };
 
   return (
@@ -62,11 +91,15 @@ export default async function IndustryPage({ params }: { params: Promise<{ id: s
       {/* Hero Section */}
       <section className="relative h-[80vh] flex items-center justify-center overflow-hidden bg-slate-950">
         <div className="absolute inset-0 bg-slate-950/60 z-10" />
-        <div 
-          className="absolute inset-0 z-0 opacity-40 bg-cover bg-center"
-          style={{ backgroundImage: `url('/images/industries/${id}-pudu.jpg')` }}
-        >
-          {/* Fallback pattern if image is missing */}
+        <div className="absolute inset-0 z-0 opacity-40">
+          <Image
+            src={`/images/industries/${id}-pudu.jpg`}
+            alt={industry.hero.title}
+            fill
+            className="object-cover"
+            priority
+          />
+          {/* Fallback/Overlay pattern */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--industry-accent)_0%,_transparent_70%)] opacity-20" />
         </div>
         

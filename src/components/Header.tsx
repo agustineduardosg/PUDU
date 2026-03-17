@@ -18,9 +18,9 @@ export const Header = () => {
   }, []);
 
   const navLinks = [
-    { name: "Industrias", href: "#industrias" },
-    { name: "Servicios", href: "#servicios" },
-    { name: "El método PUDU", href: "#metodo" },
+    { name: "Industrias", href: "/#industrias" },
+    { name: "Servicios", href: "/#servicios" },
+    { name: "El método PUDU", href: "/#metodo" },
   ];
 
   return (

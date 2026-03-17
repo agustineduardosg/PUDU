@@ -170,8 +170,11 @@ const ContactFormInner = ({ preselectedIndustry, themeColor }: { preselectedIndu
 
       <button 
         disabled={isPending}
-        className="w-full bg-gradient-fire text-white py-5 rounded-2xl text-lg font-black flex items-center justify-center gap-3 hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-brand-fire-start/20 mt-4 underline-offset-4 disabled:opacity-50 disabled:hover:scale-100"
-        style={themeColor ? { background: `linear-gradient(to right, ${themeColor}, ${themeColor}dd)` } : {}}
+        className="w-full text-white py-5 rounded-2xl text-lg font-black flex items-center justify-center gap-3 hover:scale-[1.02] active:scale-95 transition-all shadow-xl mt-4 disabled:opacity-50"
+        style={{ 
+          background: themeColor ? `linear-gradient(to right, ${themeColor}, ${themeColor}dd)` : "linear-gradient(to right, #f59e0b, #ef4444)",
+          boxShadow: themeColor ? `0 20px 25px -5px ${themeColor}33` : undefined
+        }}
       >
         {isPending ? (
           <>Enviando... <Loader2 className="w-5 h-5 animate-spin" /></>
