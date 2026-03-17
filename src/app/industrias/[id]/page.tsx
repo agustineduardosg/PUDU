@@ -53,7 +53,10 @@ export default async function IndustryPage({ params }: { params: Promise<{ id: s
   };
 
   return (
-    <main className="min-h-screen bg-background" style={{ "--industry-accent": industry.colorTheme } as React.CSSProperties}>
+    <main className="min-h-screen bg-background" style={{ 
+      "--industry-accent": industry.colorTheme,
+      "--industry-accent-glow": `${industry.colorTheme}33`
+    } as React.CSSProperties}>
       <Header />
 
       {/* Hero Section */}
@@ -134,10 +137,7 @@ export default async function IndustryPage({ params }: { params: Promise<{ id: s
             {industry.detailedServices.map((service, idx) => (
               <div 
                 key={idx} 
-                className="p-10 glass rounded-[2rem] hover:shadow-xl transition-all group border border-transparent"
-                style={{ borderColor: 'transparent' }}
-                onMouseEnter={(e) => (e.currentTarget.style.borderColor = `${industry.colorTheme}33`)}
-                onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'transparent')}
+                className="p-10 glass rounded-[2rem] hover:shadow-xl transition-all group border border-transparent hover:border-[var(--industry-accent-glow)] mx-auto w-full"
               >
                 <div 
                   className="w-16 h-16 rounded-2xl mb-8 flex items-center justify-center transition-all group-hover:scale-110"
