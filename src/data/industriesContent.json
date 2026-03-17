@@ -9,7 +9,7 @@
     },
     "storytelling": {
       "pain": "En la minería de alta montaña, una detención no programada o un incidente de seguridad no solo cuesta millones de dólares, sino que pone en riesgo la vida. La falta de datos integrados en tiempo real entre la faena y la central de operaciones es el cuello de botella de la eficiencia moderna.",
-      "solution": "PUDU inyecta inteligencia en el corazón de la operación. Conectamos tus activos más pesados —desde camiones de extracción hasta sistemas de procesamiento— con una capa digital de alta disponibilidad que convierte el hierro en datos estratégicos.",
+      "solution": "PUDU inyecta inteligencia en el corazón de la operation. Conectamos tus activos más pesados —desde camiones de extracción hasta sistemas de procesamiento— con una capa digital de alta disponibilidad que convierte el hierro en datos estratégicos.",
       "upgrade": "Logramos una visibilidad del 100% sobre el estado de los activos, optimizamos los ciclos de mantenimiento basados en datos reales y establecemos un estándar de seguridad de 'Riesgo Cero' mediante alertas tempranas."
     },
     "detailedServices": [
@@ -127,68 +127,74 @@
   },
   "industrial": {
     "id": "industrial",
-    "colorTheme": "#3B82F6",
+    "colorTheme": "#0EA5E9",
     "hero": {
-      "title": "Manufactura Inteligente: Máxima Eficiencia OEE",
-      "subtitle": "Eliminando cuellos de botella y automatizando procesos para la industria del siglo XXI.",
+      "title": "Industria 4.0: Sincronización Total de la Cadena Productiva.",
+      "subtitle": "Convertimos plantas de producción en ecosistemas inteligentes. Elevamos la eficiencia operativa (OEE) mediante automatización y analítica en tiempo real.",
       "videoPlaceholderUrl": "/videos/industries/industrial.mp4"
     },
     "storytelling": {
-      "pain": "Muchas plantas industriales operan por debajo de su OEE potencial debido a cuellos de botella no identificados y procesos manuales obsoletos. La falta de visibilidad en tiempo real sobre la eficiencia de los equipos impide una competitividad real.",
-      "solution": "Aplicamos nuestra metodología Vibe Coding para prototipar rápidamente dashboards de OEE y sistemas de automatización a medida. Eliminamos los cuellos de botella mediante la integración de software industrial inteligente.",
-      "upgrade": "Una planta de alto rendimiento con procesos optimizados que operan con la precisión de un reloj suizo, maximizando la rentabilidad y la capacidad de producción."
+      "pain": "La falta de visibilidad en la línea de producción es el 'asesino silencioso' de la rentabilidad. Cuellos de botella invisibles, mermas de inventario y procesos manuales obsoletos impiden que las industrias locales compitan en un mercado global hiper-acelerado.",
+      "solution": "PUDU inyecta agilidad en la manufactura. Implementamos capas de software que conectan máquinas, personas y procesos en un solo dashboard centralizado, permitiendo una toma de decisiones basada en hechos, no en suposiciones.",
+      "upgrade": "Logramos un incremento medible en el OEE, una reducción drástica en los tiempos de ciclo y una trazabilidad total de la producción que garantiza la calidad desde la materia prima hasta el producto final."
     },
     "detailedServices": [
       {
-        "title": "Dashboards de OEE en Tiempo Real",
-        "description": "Visibilizamos la disponibilidad, el rendimiento y la calidad de cada línea de producción. Identificamos micro-paradas y causas raíz de ineficiencia mediante la integración directa con PLCs y sistemas SCADA.",
-        "icon": "Settings"
+        "id": "optimizacion-oee",
+        "title": "Optimización de OEE en Tiempo Real",
+        "icon": "BarChart3",
+        "description": "Visualización profunda de la Eficiencia General de los Equipos. Identificamos micro-paradas y pérdidas de velocidad para maximizar el rendimiento de la planta."
       },
       {
-        "title": "Automatización de Workflow",
-        "description": "Digitalización de órdenes de trabajo y gestión de inventario crítico. Implementamos software de capa MES que orquestra la planta, sincronizando las necesidades de materiales con los ritmos reales de fabricación.",
-        "icon": "Layers"
+        "id": "automatizacion-procesos",
+        "title": "Automatización de Workflows Industriales",
+        "icon": "Cpu",
+        "description": "Eliminamos la fricción operativa mediante el desarrollo de software a medida que automatiza tareas repetitivas y digitaliza el control de calidad en línea."
       },
       {
-        "title": "Sistemas de Control de Calidad",
-        "description": "Inspección automatizada mediante visión artificial y sensores de precisión. Garantizamos que el 100% de la producción cumpla con las especificaciones técnicas, eliminando el error humano en las etapas de validación.",
-        "icon": "Zap"
+        "id": "inventario-inteligente",
+        "title": "Gestión de Stock & Supply Chain",
+        "icon": "PackageSearch",
+        "description": "Sistemas inteligentes que predicen la demanda y automatizan los puntos de reorden, asegurando que el stock crítico esté siempre disponible sin sobrecostos."
       }
     ],
-    "transversalValue": "Transformamos hierro en inteligencia. Nuestro DMA evalúa la madurez de tus sistemas actuales para construir puentes hacia la Industria 4.0. Aplicamos Vibe Coding para que los cambios en planta se vean reflejados en dashboards ejecutivos de inmediato.",
-    "ctaLabel": "Aumentar mi Eficiencia"
+    "transversalValue": "Nuestra metodología DMA industrial detecta fugas de eficiencia que el ojo humano no ve. Con Vibe Coding, integramos sistemas legados (ERP/MES) con interfaces modernas, logrando una adopción inmediata por parte de los operadores de planta.",
+    "ctaLabel": "Solicitar Auditoría de Eficiencia Operativa"
   },
   "automocion": {
     "id": "automocion",
-    "colorTheme": "#EF4444",
+    "colorTheme": "#64748B",
     "hero": {
-      "title": "Inteligencia de Movilidad: Flotas y Servicio 360",
-      "subtitle": "Optimización de activos móviles y portales de servicio proactivo para una experiencia superior.",
+      "title": "Automoción & Logística: Inteligencia en Movimiento.",
+      "subtitle": "Sistemas de gestión integrada para flotas y servicios automotrices. Optimizamos la última milla y la vida útil de los activos mediante telemetría proactiva.",
       "videoPlaceholderUrl": "/videos/industries/automotive.mp4"
     },
     "storytelling": {
-      "pain": "La gestión de flotas y el servicio post-venta en el sector automotriz carecen a menudo de proactividad. Los mantenimientos reactivos y la falta de seguimiento inteligente disparan los costos operativos y reducen la satisfacción del cliente.",
-      "solution": "Desarrollamos plataformas de inteligencia de flotas que analizan hábitos de conducción y consumo. Implementamos portales de servicio proactivo que conectan al fabricante, al concesionario y al cliente final.",
-      "upgrade": "Una red automotriz inteligente donde cada vehículo está conectado y cada mantenimiento es una oportunidad para deleitar al cliente, logrando una eficiencia operativa sin precedentes."
+      "pain": "Gestionar una flota o un taller mecánico bajo un modelo reactivo es una receta para el gasto descontrolado. Los costos de combustible, el desgaste prematuro de activos y la falta de comunicación con el cliente final erosionan los márgenes de beneficio cada día.",
+      "solution": "PUDU conecta el vehículo con la estrategia de negocio. Creamos plataformas de inteligencia logística y portales de servicio que transforman la relación con el activo, pasando de 'reparar cuando falle' a 'optimizar para que nunca se detenga'.",
+      "upgrade": "Garantizamos una reducción en costos logísticos mediante rutas dinámicas, una extensión de la vida útil de la flota y un aumento en la fidelización del cliente final a través de transparencia digital."
     },
     "detailedServices": [
       {
-        "title": "Seguimiento y Optimización de Flotas",
-        "description": "Geolocalización avanzada integrada con sensores de telemetría CAN-Bus. Analizamos rutas, tiempos de ralentí y comportamiento de conducción para reducir costos de combustible y riesgos en la vía.",
-        "icon": "Car"
+        "id": "gestion-flotas",
+        "title": "Inteligencia de Flotas & Telemetría",
+        "icon": "Truck",
+        "description": "Seguimiento avanzado y análisis de patrones de conducción para optimizar el consumo de combustible y garantizar el cumplimiento de rutas seguras."
       },
       {
-        "title": "Portales de Experiencia del Cliente",
-        "description": "Aplicaciones móviles y portales web que notifican automáticamente mantenimientos preventivos, agendan servicios con un click y proporcionan historial digital completo de cada unidad de la flota.",
-        "icon": "Smartphone"
+        "id": "portal-servicio",
+        "title": "Portales de Servicio & Mantención",
+        "icon": "Settings2",
+        "description": "Plataformas B2B/B2C que automatizan el agendamiento de servicios técnicos, historial de reparaciones y notificaciones preventivas automáticas."
       },
       {
-        "title": "Análisis de Demanda y Logística",
-        "description": "Motores de IA que predicen la carga logística de los talleres y puntos de servicio. Optimizamos el stock de repuestos y la asignación de mecánicos especializados según la demanda real proyectada.",
-        "icon": "LineChart"
+        "id": "ultima-milla",
+        "title": "Optimización de Última Milla",
+        "icon": "MapPin",
+        "description": "Algoritmos de planificación de rutas dinámicas que consideran tráfico, ventanas de entrega y capacidad de carga para una logística impecable."
       }
     ],
-    "transversalValue": "Movilizamos tus datos. El DMA nos permite entender la topología de tu flota y red de servicios. Usamos Vibe Coding para integrar datos de diversas marcas y modelos en una sola plataforma de gestión unificada y ágil.",
-    "ctaLabel": "Escalar mi Gestión Automotriz"
+    "transversalValue": "Aplicamos DMA para auditar la conectividad de los activos móviles y la integridad de los datos en ruta. Gracias a Vibe Coding, entregamos aplicaciones de gestión de flota ultra-rápidas que permiten a los despachadores tomar decisiones en segundos.",
+    "ctaLabel": "Solicitar Diagnóstico Logístico"
   }
 }
