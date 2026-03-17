@@ -7,7 +7,7 @@ import PuduLogo from "./PuduLogo";
 
 export const PuduMetaphor = () => {
   return (
-    <section className="py-24 relative overflow-hidden bg-foreground/[0.01]">
+    <section className="py-24 relative overflow-hidden bg-background">
       <div className="container mx-auto px-6">
         <div className="max-w-5xl mx-auto">
           <motion.div

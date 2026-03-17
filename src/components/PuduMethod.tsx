@@ -29,7 +29,7 @@ export const PuduMethod = () => {
   ];
 
   return (
-    <section id="metodo" className="py-24 relative overflow-hidden">
+    <section id="metodo" className="py-24 relative overflow-hidden bg-background">
       <div className="container mx-auto px-6">
         <div className="flex flex-col lg:flex-row items-center gap-16">
           <div className="lg:w-1/2">
@@ -64,7 +64,7 @@ export const PuduMethod = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="p-8 glass rounded-3xl hover:bg-brand-emerald/5 transition-colors border-foreground/5 group"
               >
-                <div className="w-12 h-12 bg-foreground/5 rounded-xl flex items-center justify-center mb-6 group-hover:bg-white group-hover:shadow-md transition-all">
+                <div className="w-12 h-12 bg-foreground/5 rounded-xl flex items-center justify-center mb-6 group-hover:bg-background group-hover:shadow-md transition-all">
                   {step.icon}
                 </div>
                 <h3 className="text-xl font-bold mb-4">{step.title}</h3>

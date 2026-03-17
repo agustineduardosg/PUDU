@@ -7,9 +7,9 @@ import { submitContactForm } from "@/app/actions";
 
 export const ContactForm = () => {
   return (
-    <section className="py-24 bg-foreground/[0.02]">
+    <section className="py-24 bg-background">
       <div className="container mx-auto px-6">
-        <div className="max-w-6xl mx-auto glass rounded-[2.5rem] overflow-hidden shadow-2xl border-white/20">
+        <div className="max-w-6xl mx-auto glass rounded-[2.5rem] overflow-hidden shadow-2xl border-border/10">
           <div className="flex flex-col lg:flex-row">
             {/* Info Side */}
             <div className="lg:w-2/5 bg-black p-12 text-white flex flex-col justify-between">
@@ -59,7 +59,7 @@ export const ContactForm = () => {
             </div>
 
             {/* Form Side */}
-            <div className="lg:w-3/5 p-12 bg-white/50 backdrop-blur-xl">
+            <div className="lg:w-3/5 p-12 bg-background/50 backdrop-blur-xl">
               <ContactFormInner />
             </div>
           </div>
@@ -113,7 +113,7 @@ const ContactFormInner = () => {
             type="text" 
             required
             placeholder="Ej: Juan Pérez"
-            className="w-full px-6 py-4 rounded-2xl bg-white border border-foreground/10 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 outline-none transition-all"
+            className="w-full px-6 py-4 rounded-2xl bg-background border border-foreground/10 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 outline-none transition-all"
           />
         </div>
         <div className="space-y-2">
@@ -122,7 +122,7 @@ const ContactFormInner = () => {
             name="company"
             type="text" 
             placeholder="Ej: Minera Norte / Gerente TI"
-            className="w-full px-6 py-4 rounded-2xl bg-white border border-foreground/10 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 outline-none transition-all"
+            className="w-full px-6 py-4 rounded-2xl bg-background border border-foreground/10 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 outline-none transition-all"
           />
         </div>
       </div>

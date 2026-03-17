@@ -46,7 +46,7 @@ export const IndustryGrid = () => {
   ];
 
   return (
-    <section id="industrias" className="py-24 bg-white overflow-hidden">
+    <section id="industrias" className="py-24 bg-background overflow-hidden">
       <div className="container mx-auto px-6">
         <div className="max-w-3xl mb-16 text-left">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-emerald/10 border border-brand-emerald/20 mb-6">
