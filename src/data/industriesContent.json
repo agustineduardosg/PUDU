@@ -85,36 +85,45 @@
   },
   "agricultura": {
     "id": "agricultura",
-    "colorTheme": "#84CC16",
+    "colorTheme": "#10B981",
     "hero": {
-      "title": "Agro-Tecnología: El Nuevo Estándar de Exportación",
-      "subtitle": "Eficiencia hídrica y trazabilidad digital total para el campo chileno de clase mundial.",
+      "title": "Agricultura Inteligente: Optimización desde la Raíz hasta la Nube.",
+      "subtitle": "Transformamos predios agrícolas en centros de datos de alta precisión. Aseguramos la rentabilidad hídrica y la trazabilidad total para los mercados más exigentes del mundo.",
       "videoPlaceholderUrl": "/videos/industries/agriculture.mp4"
     },
     "storytelling": {
-      "pain": "La agricultura moderna se ve amenazada por la escasez hídrica y las crecientes exigencias de trazabilidad para mercados de exportación. Sin datos precisos del campo, las decisiones se basan en conjeturas, lo que resulta en desperdicio de recursos y riesgos de certificación.",
-      "solution": "Desplegamos soluciones de IoT de campo que monitorean la humedad y salud de suelos en tiempo real. Automatizamos el registro de la cadena de valor, asegurando que cada producto cumpla con los estándares internacionales de exportación.",
-      "upgrade": "Un campo digitalizado que produce más con menos, cumpliendo con orgullo las certificaciones globales y asegurando la sostenibilidad del recurso hídrico."
+      "pain": "El cambio climático y la escasez hídrica ya no son amenazas futuras, son realidades operativas. Gestionar un predio con métodos tradicionales hoy significa perder competitividad frente a una cadena de suministro global que exige datos precisos y sostenibilidad comprobada.",
+      "solution": "PUDU digitaliza el campo. Implementamos redes de sensores IoT y plataformas de gestión que eliminan la incertidumbre de la producción agrícola, permitiendo que cada gota de agua y cada gramo de fertilizante se traduzcan en rendimiento real y medible.",
+      "upgrade": "Garantizamos ahorros de hasta un 30% en el consumo hídrico, una trazabilidad digital lista para auditorías de exportación y una visibilidad total de la salud del cultivo desde cualquier dispositivo, en cualquier lugar."
     },
     "detailedServices": [
       {
-        "title": "Gestión Inteligente de Riego",
-        "description": "Uso de sensores de humedad de suelo y datos meteorológicos locales para automatizar el riego de precisión. Ahorramos hasta un 30% de agua garantizando que la planta reciba exactamente lo que necesita para su desarrollo óptimo.",
-        "icon": "Droplets"
+        "id": "gestion-hidrica",
+        "title": "Riego de Precisión & Gestión Hídrica",
+        "icon": "Droplets",
+        "description": "Monitoreo de humedad de suelo y clima integrado para automatizar calendarios de riego, optimizando el recurso más crítico y reduciendo costos energéticos de forma drástica."
       },
       {
-        "title": "Trazabilidad Blockchain-Ready",
-        "description": "Digitalización del cuaderno de campo y seguimiento de la cadena de frío. Generamos un registro inmutable desde la siembra hasta la llegada a puerto, facilitando auditorías de exportación y certificaciones orgánicas.",
-        "icon": "ClipboardCheck"
+        "id": "trazabilidad-exportadora",
+        "title": "Trazabilidad Digital Automática",
+        "icon": "QrCode",
+        "description": "Digitalización de cuadernos de campo y registros de aplicación bajo estándares internacionales (GlobalGAP). Generamos reportes listos para exportación con un solo clic."
       },
       {
-        "title": "Monitoreo Satelital y Drones",
-        "description": "Análisis multiespectral para detectar estrés hídrico o plagas de forma temprana. Proporcionamos mapas de vigor que permiten una aplicación de fertilizantes y pesticidas focalizada, reduciendo el impacto ambiental.",
-        "icon": "Sprout"
+        "id": "monitoreo-iot",
+        "title": "Salud de Cultivo & IoT de Campo",
+        "icon": "Sprout",
+        "description": "Sensores de alta frecuencia para la detección temprana de estrés hídrico, plagas o deficiencias nutricionales, permitiendo intervenciones localizadas y precisas."
+      },
+      {
+        "id": "logistica-cosecha",
+        "title": "Optimización de Post-Cosecha",
+        "icon": "Truck",
+        "description": "Control digital de la cadena de frío y tiempos de transporte, asegurando que la calidad del producto se mantenga intacta desde el predio hasta el consumidor final."
       }
     ],
-    "transversalValue": "Conectamos el terreno con la nube. A través de nuestro Digital Maturity Audit, definimos la mejor arquitectura de conectividad rural. Vibe Coding nos permite entregar dashboards móviles que los agricultores pueden consultar en el tractor, con datos accionables y simples.",
-    "ctaLabel": "Digitalizar mi Producción"
+    "transversalValue": "Nuestra metodología DMA en agricultura soluciona el desafío de la conectividad rural. Desarrollamos soluciones 'Offline-First' que capturan datos en el campo y los sincronizan automáticamente al detectar señal, aplicando Vibe Coding para crear interfaces que el operario de terreno adopta de inmediato.",
+    "ctaLabel": "Solicitar Auditoría de Eficiencia Hídrica"
   },
   "industrial": {
     "id": "industrial",
