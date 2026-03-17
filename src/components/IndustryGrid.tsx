@@ -3,13 +3,17 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Pickaxe, Stethoscope, Sprout, Car, Settings, ArrowUpRight } from "lucide-react";
+import { Pickaxe, Stethoscope, Sprout, Car, Settings, ArrowUpRight, CheckCircle2 } from "lucide-react";
 
 export const IndustryGrid = () => {
   const industries = [
     {
       title: "Minería",
-      description: "Telemetría inteligente y seguridad de vanguardia.",
+      features: [
+        "Telemetría de Activos: Monitoreo en tiempo real de flotas y maquinaria pesada.",
+        "Mantenimiento Predictivo: Algoritmos de IA para reducir tiempos de inactividad no programados.",
+        "Seguridad Proactiva: Sistemas de control de fatiga y alertas de riesgo en faena."
+      ],
       icon: <Pickaxe className="w-8 h-8 text-white" />,
       span: "md:col-span-2 md:row-span-2",
       image: "/images/industries/mining-pudu.jpg.png",
@@ -17,31 +21,47 @@ export const IndustryGrid = () => {
     },
     {
       title: "Atención Sanitaria",
-      description: "Interoperabilidad basada en la experiencia RedCuida.",
+      features: [
+        "Interoperabilidad Total: Integración de sistemas bajo normativa SIS/MINSAL (Experiencia RedCuida).",
+        "Gestión de Pacientes: Motores inteligentes de agendamiento y flujos clínicos optimizados.",
+        "Telemedicina Avanzada: Plataformas seguras de atención remota con historial clínico unificado."
+      ],
       icon: <Stethoscope className="w-8 h-8 text-white" />,
       span: "md:col-span-2 md:row-span-1",
       image: "/images/industries/healthcare-pudu.jpg.jpg",
     },
     {
       title: "Agricultura",
-      description: "IoT y optimización de datos de campo en tiempo real.",
+      features: [
+        "Eficiencia Hídrica: Sensores IoT para el monitoreo de humedad y riego de precisión.",
+        "Trazabilidad Digital: Registro automatizado de la cadena de valor para certificaciones de exportación.",
+        "Monitoreo Satelital: Dashboards de rendimiento de cultivo y salud de suelos."
+      ],
       icon: <Sprout className="w-8 h-8 text-white" />,
       span: "md:col-span-1 md:row-span-1",
       image: "/images/industries/agriculture-pudu.jpg.jpg",
     },
     {
-      title: "Automoción",
-      description: "Sistemas de gestión integrados para la logística global.",
-      icon: <Car className="w-8 h-8 text-white" />,
-      span: "md:col-span-1 md:row-span-2",
-      image: "/images/industries/automotive-pudu.jpg.jpg",
-    },
-    {
       title: "Sector Industrial",
-      description: "Automatización de procesos y eficiencia operativa total.",
+      features: [
+        "Optimización OEE: Visualización de la Eficiencia General de los Equipos en tiempo real.",
+        "Automatización de Procesos: Eliminación de cuellos de botella mediante software a medida.",
+        "Inventario Inteligente: Control de stock crítico y reabastecimiento automatizado."
+      ],
       icon: <Settings className="w-8 h-8 text-white" />,
       span: "md:col-span-2 md:row-span-1",
       image: "/images/industries/industrial-pudu.jpg.jpg",
+    },
+    {
+      title: "Automoción",
+      features: [
+        "Gestión de Flotas: Seguimiento inteligente y optimización de consumo de combustible.",
+        "Servicio Proactivo: Portales de mantenimiento que anticipan las necesidades del cliente.",
+        "Logística de Última Milla: Planificación de rutas dinámicas para máxima eficiencia operativa."
+      ],
+      icon: <Car className="w-8 h-8 text-white" />,
+      span: "md:col-span-1 md:row-span-2",
+      image: "/images/industries/automotive-pudu.jpg.jpg",
     },
   ];
 
@@ -96,9 +116,16 @@ export const IndustryGrid = () => {
                       <ArrowUpRight className="w-5 h-5" />
                     </div>
                   </div>
-                  <p className="text-white/70 leading-relaxed group-hover:text-white transition-colors line-clamp-2">
-                    {item.description}
-                  </p>
+                  <div className="space-y-2 mt-4">
+                    {item.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-start gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-brand-emerald shrink-0 mt-0.5" />
+                        <p className="text-white/80 text-xs leading-tight group-hover:text-white transition-colors">
+                          {feature}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </motion.div>
