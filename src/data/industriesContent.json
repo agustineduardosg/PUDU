@@ -1,0 +1,185 @@
+{
+  "mineria": {
+    "id": "mineria",
+    "colorTheme": "#F59E0B",
+    "hero": {
+      "title": "Minería 4.0: Precisión Digital en Operaciones Críticas.",
+      "subtitle": "Maximizamos la continuidad operativa y la seguridad en faena mediante telemetría avanzada y sistemas de inteligencia predictiva de grado industrial.",
+      "videoPlaceholderUrl": "/videos/industries/mining.mp4"
+    },
+    "storytelling": {
+      "pain": "En la minería de alta montaña, una detención no programada o un incidente de seguridad no solo cuesta millones de dólares, sino que pone en riesgo la vida. La falta de datos integrados en tiempo real entre la faena y la central de operaciones es el cuello de botella de la eficiencia moderna.",
+      "solution": "PUDU inyecta inteligencia en el corazón de la operación. Conectamos tus activos más pesados —desde camiones de extracción hasta sistemas de procesamiento— con una capa digital de alta disponibilidad que convierte el hierro en datos estratégicos.",
+      "upgrade": "Logramos una visibilidad del 100% sobre el estado de los activos, optimizamos los ciclos de mantenimiento basados en datos reales y establecemos un estándar de seguridad de 'Riesgo Cero' mediante alertas tempranas."
+    },
+    "detailedServices": [
+      {
+        "id": "telemetria-activos",
+        "title": "Telemetría de Activos Pesados",
+        "icon": "Gauge",
+        "description": "Monitoreo en tiempo real de flotas (CAEX) y maquinaria crítica. Capturamos datos de rendimiento, consumo y salud mecánica para una gestión de flujo ultra-eficiente."
+      },
+      {
+        "id": "mantenimiento-predictivo",
+        "title": "Predictive Maintenance AI",
+        "icon": "Activity",
+        "description": "Implementación de algoritmos de Machine Learning que anticipan fallas catastróficas, permitiendo programar intervenciones antes de que ocurra la detención del equipo."
+      },
+      {
+        "id": "seguridad-proactiva",
+        "title": "Seguridad & Control de Fatiga",
+        "icon": "ShieldAlert",
+        "description": "Sistemas de visión computacional y sensores biométricos para el monitoreo de fatiga y proximidad, reduciendo drásticamente los incidentes en entornos de alta complejidad."
+      },
+      {
+        "id": "digital-twins",
+        "title": "Digital Twins de Faena",
+        "icon": "Box",
+        "description": "Réplicas virtuales de procesos mineros para simulación de escenarios, optimización de rutas logísticas y entrenamiento de operadores en entornos seguros."
+      }
+    ],
+    "transversalValue": "Nuestro enfoque DMA (Digital Maturity Audit) en minería evalúa la infraestructura de red en condiciones extremas y la capacidad de procesamiento en el 'Edge'. Con Vibe Coding, desplegamos dashboards de control que funcionan donde otros fallan: en la frontera de la conectividad.",
+    "ctaLabel": "Solicitar Diagnóstico de Madurez Minera"
+  },
+  "healthcare": {
+    "id": "healthcare",
+    "colorTheme": "#10B981",
+    "hero": {
+      "title": "Healthcare Digital Upgrade: Interoperabilidad de Grado Clínico.",
+      "subtitle": "Transformamos la complejidad asistencial en flujos eficientes. Llevamos el legado de RedCuida a tu institución, garantizando cumplimiento normativo y seguridad del paciente.",
+      "videoPlaceholderUrl": "/videos/industries/healthcare.mp4"
+    },
+    "storytelling": {
+      "pain": "La fragmentación de datos es el mayor enemigo de la salud moderna. Sistemas aislados generan silos de información, burocracia excesiva y riesgos críticos en la continuidad de la atención clínica.",
+      "solution": "Integramos cada nodo de tu operación. Desde la admisión hasta el alta, creamos un ecosistema digital donde los datos fluyen con precisión, permitiendo que el personal médico recupere su tiempo para lo que importa: el paciente.",
+      "upgrade": "Logramos una reducción drástica en la carga administrativa, eliminamos errores de transcripción y aseguramos cumplimiento total con los estándares de la Superintendencia de Salud y el MINSAL."
+    },
+    "detailedServices": [
+      {
+        "id": "interoperabilidad",
+        "title": "Interoperabilidad SIS/MINSAL",
+        "icon": "Network",
+        "description": "Implementación de estándares HL7/FHIR para asegurar que tu institución hable el lenguaje de la salud moderna, garantizando el cumplimiento estricto de las normativas vigentes en Chile."
+      },
+      {
+        "id": "gestion-agendas-fce",
+        "title": "Agendas & Ficha Clínica Universal",
+        "icon": "ClipboardCheck",
+        "description": "Digitalización total para profesionales independientes y centros médicos. Levantamiento de agendas inteligentes y Ficha Clínica Electrónica (FCE) bajo la Ley 20.584, accesible desde cualquier dispositivo."
+      },
+      {
+        "id": "optimizacion-flujos",
+        "title": "Gestión Inteligente de Pacientes",
+        "icon": "Users",
+        "description": "Motores de agendamiento proactivo y dashboards de analítica predictiva para optimizar la ocupación de box, reducir el ausentismo y gestionar listas de espera de forma eficiente."
+      },
+      {
+        "id": "telemedicina",
+        "title": "Telemedicina & Registro Unificado",
+        "icon": "Video",
+        "description": "Plataformas de atención remota integradas directamente a la ficha clínica, asegurando que cada consulta alimente el historial del paciente bajo estándares de ciberseguridad médica."
+      }
+    ],
+    "transversalValue": "Nuestra metodología DMA (Digital Maturity Audit) en salud es clínica y técnica. Entendemos los protocolos asistenciales y aplicamos Vibe Coding para desplegar interfaces intuitivas en tiempo récord, haciendo que la tecnología sea un aliado del personal de salud.",
+    "ctaLabel": "Solicitar Auditoría de Madurez Clínica"
+  },
+  "agricultura": {
+    "id": "agricultura",
+    "colorTheme": "#84CC16",
+    "hero": {
+      "title": "Agro-Tecnología: El Nuevo Estándar de Exportación",
+      "subtitle": "Eficiencia hídrica y trazabilidad digital total para el campo chileno de clase mundial.",
+      "videoPlaceholderUrl": "/videos/industries/agriculture.mp4"
+    },
+    "storytelling": {
+      "pain": "La agricultura moderna se ve amenazada por la escasez hídrica y las crecientes exigencias de trazabilidad para mercados de exportación. Sin datos precisos del campo, las decisiones se basan en conjeturas, lo que resulta en desperdicio de recursos y riesgos de certificación.",
+      "solution": "Desplegamos soluciones de IoT de campo que monitorean la humedad y salud de suelos en tiempo real. Automatizamos el registro de la cadena de valor, asegurando que cada producto cumpla con los estándares internacionales de exportación.",
+      "upgrade": "Un campo digitalizado que produce más con menos, cumpliendo con orgullo las certificaciones globales y asegurando la sostenibilidad del recurso hídrico."
+    },
+    "detailedServices": [
+      {
+        "title": "Gestión Inteligente de Riego",
+        "description": "Uso de sensores de humedad de suelo y datos meteorológicos locales para automatizar el riego de precisión. Ahorramos hasta un 30% de agua garantizando que la planta reciba exactamente lo que necesita para su desarrollo óptimo.",
+        "icon": "Droplets"
+      },
+      {
+        "title": "Trazabilidad Blockchain-Ready",
+        "description": "Digitalización del cuaderno de campo y seguimiento de la cadena de frío. Generamos un registro inmutable desde la siembra hasta la llegada a puerto, facilitando auditorías de exportación y certificaciones orgánicas.",
+        "icon": "ClipboardCheck"
+      },
+      {
+        "title": "Monitoreo Satelital y Drones",
+        "description": "Análisis multiespectral para detectar estrés hídrico o plagas de forma temprana. Proporcionamos mapas de vigor que permiten una aplicación de fertilizantes y pesticidas focalizada, reduciendo el impacto ambiental.",
+        "icon": "Sprout"
+      }
+    ],
+    "transversalValue": "Conectamos el terreno con la nube. A través de nuestro Digital Maturity Audit, definimos la mejor arquitectura de conectividad rural. Vibe Coding nos permite entregar dashboards móviles que los agricultores pueden consultar en el tractor, con datos accionables y simples.",
+    "ctaLabel": "Digitalizar mi Producción"
+  },
+  "industrial": {
+    "id": "industrial",
+    "colorTheme": "#3B82F6",
+    "hero": {
+      "title": "Manufactura Inteligente: Máxima Eficiencia OEE",
+      "subtitle": "Eliminando cuellos de botella y automatizando procesos para la industria del siglo XXI.",
+      "videoPlaceholderUrl": "/videos/industries/industrial.mp4"
+    },
+    "storytelling": {
+      "pain": "Muchas plantas industriales operan por debajo de su OEE potencial debido a cuellos de botella no identificados y procesos manuales obsoletos. La falta de visibilidad en tiempo real sobre la eficiencia de los equipos impide una competitividad real.",
+      "solution": "Aplicamos nuestra metodología Vibe Coding para prototipar rápidamente dashboards de OEE y sistemas de automatización a medida. Eliminamos los cuellos de botella mediante la integración de software industrial inteligente.",
+      "upgrade": "Una planta de alto rendimiento con procesos optimizados que operan con la precisión de un reloj suizo, maximizando la rentabilidad y la capacidad de producción."
+    },
+    "detailedServices": [
+      {
+        "title": "Dashboards de OEE en Tiempo Real",
+        "description": "Visibilizamos la disponibilidad, el rendimiento y la calidad de cada línea de producción. Identificamos micro-paradas y causas raíz de ineficiencia mediante la integración directa con PLCs y sistemas SCADA.",
+        "icon": "Settings"
+      },
+      {
+        "title": "Automatización de Workflow",
+        "description": "Digitalización de órdenes de trabajo y gestión de inventario crítico. Implementamos software de capa MES que orquestra la planta, sincronizando las necesidades de materiales con los ritmos reales de fabricación.",
+        "icon": "Layers"
+      },
+      {
+        "title": "Sistemas de Control de Calidad",
+        "description": "Inspección automatizada mediante visión artificial y sensores de precisión. Garantizamos que el 100% de la producción cumpla con las especificaciones técnicas, eliminando el error humano en las etapas de validación.",
+        "icon": "Zap"
+      }
+    ],
+    "transversalValue": "Transformamos hierro en inteligencia. Nuestro DMA evalúa la madurez de tus sistemas actuales para construir puentes hacia la Industria 4.0. Aplicamos Vibe Coding para que los cambios en planta se vean reflejados en dashboards ejecutivos de inmediato.",
+    "ctaLabel": "Aumentar mi Eficiencia"
+  },
+  "automocion": {
+    "id": "automocion",
+    "colorTheme": "#EF4444",
+    "hero": {
+      "title": "Inteligencia de Movilidad: Flotas y Servicio 360",
+      "subtitle": "Optimización de activos móviles y portales de servicio proactivo para una experiencia superior.",
+      "videoPlaceholderUrl": "/videos/industries/automotive.mp4"
+    },
+    "storytelling": {
+      "pain": "La gestión de flotas y el servicio post-venta en el sector automotriz carecen a menudo de proactividad. Los mantenimientos reactivos y la falta de seguimiento inteligente disparan los costos operativos y reducen la satisfacción del cliente.",
+      "solution": "Desarrollamos plataformas de inteligencia de flotas que analizan hábitos de conducción y consumo. Implementamos portales de servicio proactivo que conectan al fabricante, al concesionario y al cliente final.",
+      "upgrade": "Una red automotriz inteligente donde cada vehículo está conectado y cada mantenimiento es una oportunidad para deleitar al cliente, logrando una eficiencia operativa sin precedentes."
+    },
+    "detailedServices": [
+      {
+        "title": "Seguimiento y Optimización de Flotas",
+        "description": "Geolocalización avanzada integrada con sensores de telemetría CAN-Bus. Analizamos rutas, tiempos de ralentí y comportamiento de conducción para reducir costos de combustible y riesgos en la vía.",
+        "icon": "Car"
+      },
+      {
+        "title": "Portales de Experiencia del Cliente",
+        "description": "Aplicaciones móviles y portales web que notifican automáticamente mantenimientos preventivos, agendan servicios con un click y proporcionan historial digital completo de cada unidad de la flota.",
+        "icon": "Smartphone"
+      },
+      {
+        "title": "Análisis de Demanda y Logística",
+        "description": "Motores de IA que predicen la carga logística de los talleres y puntos de servicio. Optimizamos el stock de repuestos y la asignación de mecánicos especializados según la demanda real proyectada.",
+        "icon": "LineChart"
+      }
+    ],
+    "transversalValue": "Movilizamos tus datos. El DMA nos permite entender la topología de tu flota y red de servicios. Usamos Vibe Coding para integrar datos de diversas marcas y modelos en una sola plataforma de gestión unificada y ágil.",
+    "ctaLabel": "Escalar mi Gestión Automotriz"
+  }
+}

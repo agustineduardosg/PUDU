@@ -5,7 +5,7 @@ import { Send, Phone, Mail, MapPin, CheckCircle2, AlertCircle, Loader2 } from "l
 import PuduLogo from "./PuduLogo";
 import { submitContactForm } from "@/app/actions";
 
-export const ContactForm = () => {
+export const ContactForm = ({ preselectedIndustry, themeColor }: { preselectedIndustry?: string; themeColor?: string }) => {
   return (
     <section className="py-24 bg-background">
       <div className="container mx-auto px-6">
@@ -60,7 +60,7 @@ export const ContactForm = () => {
 
             {/* Form Side */}
             <div className="lg:w-3/5 p-12 bg-background/50 backdrop-blur-xl">
-              <ContactFormInner />
+              <ContactFormInner preselectedIndustry={preselectedIndustry} themeColor={themeColor} />
             </div>
           </div>
         </div>
@@ -69,7 +69,7 @@ export const ContactForm = () => {
   );
 };
 
-const ContactFormInner = () => {
+const ContactFormInner = ({ preselectedIndustry, themeColor }: { preselectedIndustry?: string; themeColor?: string }) => {
   const [state, setState] = useState<{ success?: string; error?: string }>({});
   const [isPending, setIsPending] = useState(false);
 
@@ -142,12 +142,18 @@ const ContactFormInner = () => {
         <label className="text-sm font-bold ml-1">Área de Interés</label>
         <select 
           name="interest"
+          defaultValue={preselectedIndustry || "Transformación Digital General"}
           className="w-full px-6 py-4 rounded-2xl bg-white border border-foreground/10 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 outline-none transition-all appearance-none cursor-pointer"
+          style={themeColor ? { borderColor: `${themeColor}33`, focusVisible: { borderColor: themeColor } } as any : {}}
         >
-          <option>Transformación Digital General</option>
-          <option>Integración IA y Datos</option>
-          <option>IoT y Telemetría Industrial</option>
-          <option>Ciberseguridad y Monitoreo</option>
+          <option value="Transformación Digital General">Transformación Digital General</option>
+          <option value="mineria">Minería (Telemetría y Seguridad)</option>
+          <option value="healthcare">Healthcare (Salud Conectada e Interoperabilidad)</option>
+          <option value="agricultura">Agricultura (Agro-Tecnología y Eficiencia Hídrica)</option>
+          <option value="industrial">Industrial (Manufactura e Inteligencia OEE)</option>
+          <option value="automocion">Automoción (Movilidad y Flotas Inteligentes)</option>
+          <option value="Integración IA y Datos">Integración IA y Datos</option>
+          <option value="Ciberseguridad y Monitoreo">Ciberseguridad y Monitoreo</option>
         </select>
       </div>
 
@@ -165,11 +171,15 @@ const ContactFormInner = () => {
       <button 
         disabled={isPending}
         className="w-full bg-gradient-fire text-white py-5 rounded-2xl text-lg font-black flex items-center justify-center gap-3 hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-brand-fire-start/20 mt-4 underline-offset-4 disabled:opacity-50 disabled:hover:scale-100"
+        style={themeColor ? { background: `linear-gradient(to right, ${themeColor}, ${themeColor}dd)` } : {}}
       >
         {isPending ? (
           <>Enviando... <Loader2 className="w-5 h-5 animate-spin" /></>
         ) : (
-          <>Enviar Solicitud <Send className="w-5 h-5" /></>
+          <>
+            {preselectedIndustry ? `Solicitar Auditoría Specialized` : "Enviar Solicitud"} 
+            <Send className="w-5 h-5" />
+          </>
         )}
       </button>
     </form>

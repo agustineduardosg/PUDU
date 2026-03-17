@@ -57,10 +57,10 @@ export const Hero = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-4xl md:text-7xl font-black mb-8 leading-tight tracking-tight text-white"
+            className="text-3xl md:text-7xl font-black mb-8 leading-tight tracking-tight text-white px-2"
           >
             No construimos software. <br />
-            <span className="text-gradient-emerald text-3xl md:text-6xl block mt-2">
+            <span className="text-gradient-emerald text-2xl md:text-6xl block mt-2">
               Entregamos el Upgrade que tu industria necesita.
             </span>
           </motion.h1>

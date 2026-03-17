@@ -3,11 +3,13 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { Pickaxe, Stethoscope, Sprout, Car, Settings, ArrowUpRight, CheckCircle2 } from "lucide-react";
 
 export const IndustryGrid = () => {
   const industries = [
     {
+      id: "mineria",
       title: "Minería",
       features: [
         "Telemetría de Activos: Monitoreo en tiempo real de flotas y maquinaria pesada.",
@@ -20,6 +22,7 @@ export const IndustryGrid = () => {
       priority: true,
     },
     {
+      id: "healthcare",
       title: "Atención Sanitaria",
       features: [
         "Interoperabilidad Total: Integración de sistemas bajo normativa SIS/MINSAL (Experiencia RedCuida).",
@@ -31,9 +34,10 @@ export const IndustryGrid = () => {
       image: "/images/industries/healthcare-pudu.jpg.jpg",
     },
     {
+      id: "agricultura",
       title: "Agricultura",
       features: [
-        "Eficiencia Hídrica: Sensores IoT para el monitoreo de humedad y riego de precisión.",
+        "Eficiencia Hídrica: Sensores IoT para el monitoreo de humedad y riesgo de precisión.",
         "Trazabilidad Digital: Registro automatizado de la cadena de valor para certificaciones de exportación.",
         "Monitoreo Satelital: Dashboards de rendimiento de cultivo y salud de suelos."
       ],
@@ -42,6 +46,7 @@ export const IndustryGrid = () => {
       image: "/images/industries/agriculture-pudu.jpg.jpg",
     },
     {
+      id: "industrial",
       title: "Sector Industrial",
       features: [
         "Optimización OEE: Visualización de la Eficiencia General de los Equipos en tiempo real.",
@@ -53,6 +58,7 @@ export const IndustryGrid = () => {
       image: "/images/industries/industrial-pudu.jpg.jpg",
     },
     {
+      id: "automocion",
       title: "Automoción",
       features: [
         "Gestión de Flotas: Seguimiento inteligente y optimización de consumo de combustible.",
@@ -80,7 +86,7 @@ export const IndustryGrid = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-[250px]">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-auto md:auto-rows-[250px]">
           {industries.map((item, index) => (
             <motion.div
               key={item.title}
@@ -88,8 +94,9 @@ export const IndustryGrid = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className={`relative overflow-hidden group rounded-[2rem] shadow-xl border border-border/5 ${item.span}`}
+              className={`relative overflow-hidden group rounded-[2rem] shadow-xl border border-border/5 min-h-[300px] md:min-h-0 ${item.span}`}
             >
+              <Link href={`/industrias/${item.id}`} className="absolute inset-0 z-30 cursor-pointer" />
               {/* Background Image */}
               <div className="absolute inset-0 z-0">
                 <Image
@@ -104,23 +111,23 @@ export const IndustryGrid = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent z-10" />
               </div>
               
-              <div className="relative z-20 h-full p-8 md:p-10 flex flex-col items-start justify-between text-white">
-                <div className="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20 group-hover:bg-brand-emerald group-hover:border-brand-emerald transition-all duration-500">
-                  {item.icon}
+              <div className="relative z-20 h-full p-6 md:p-10 flex flex-col items-start justify-between text-white pointer-events-none">
+                <div className="w-12 h-12 md:w-14 md:h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/20 group-hover:bg-brand-emerald group-hover:border-brand-emerald transition-all duration-500">
+                  {React.cloneElement(item.icon as React.ReactElement<any>, { className: "w-6 h-6 md:w-8 md:h-8 text-white" })}
                 </div>
                 
-                <div className="w-full">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-2xl font-black tracking-tight">{item.title}</h3>
-                    <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300">
-                      <ArrowUpRight className="w-5 h-5" />
+                <div className="w-full mt-10 md:mt-0">
+                  <div className="flex items-center justify-between mb-2 md:mb-3">
+                    <h3 className="text-xl md:text-2xl font-black tracking-tight">{item.title}</h3>
+                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-full border border-white/20 flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300">
+                      <ArrowUpRight className="w-4 h-4 md:w-5 md:h-5 text-white" />
                     </div>
                   </div>
-                  <div className="space-y-2 mt-4">
+                  <div className="space-y-1.5 md:space-y-2 mt-2 md:mt-4">
                     {item.features.map((feature, idx) => (
                       <div key={idx} className="flex items-start gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-brand-emerald shrink-0 mt-0.5" />
-                        <p className="text-white/80 text-xs leading-tight group-hover:text-white transition-colors">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-brand-emerald shrink-0 mt-0.5" />
+                        <p className="text-white/80 text-[11px] md:text-xs leading-relaxed md:leading-tight group-hover:text-white transition-colors">
                           {feature}
                         </p>
                       </div>
