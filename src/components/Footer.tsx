@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Linkedin, Github, Twitter } from "lucide-react";
+import { Linkedin, Github, Instagram } from "lucide-react";
 import PuduLogo from "./PuduLogo";
 
 export const Footer = () => {
@@ -15,13 +15,13 @@ export const Footer = () => {
               La Casa Tecnológica líder en transformación digital industrial en Chile. Ingeniería ágil, resultados superiores.
             </p>
             <div className="flex items-center gap-4">
-              <a href="#" className="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-brand-emerald hover:text-white transition-all text-white">
+              <a href="https://lnkd.in/d9dmZYc3" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-brand-emerald hover:text-white transition-all text-white">
                 <Linkedin className="w-5 h-5" />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-brand-blue hover:text-white transition-all text-white">
-                <Twitter className="w-5 h-5" />
+              <a href="https://www.instagram.com/puduitsolutions?igsh=MWozNW9ud2VxcTBnag%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-brand-blue hover:text-white transition-all text-white">
+                <Instagram className="w-5 h-5" />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-white/10 hover:text-white transition-all text-white">
+              <a href="https://github.com/agustineduardosg/PUDU" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-white/10 hover:text-white transition-all text-white">
                 <Github className="w-5 h-5" />
               </a>
             </div>
@@ -48,11 +48,11 @@ export const Footer = () => {
           </div>
  
           <div>
-            <h4 className="font-bold mb-6 text-white">Legal</h4>
-            <ul className="space-y-4 text-white/60">
-              <li><a href="#" className="hover:text-brand-fire-start transition-colors">Aviso Legal</a></li>
-              <li><a href="#" className="hover:text-brand-fire-start transition-colors">Privacidad</a></li>
-              <li><a href="#" className="hover:text-brand-fire-start transition-colors">Cookies</a></li>
+            <h4 className="font-bold mb-6 text-white">Contacto</h4>
+            <ul className="space-y-4 text-white/60 text-sm">
+              <li>agustineduardosg@puduit.tech</li>
+              <li>puduit_solutions@puduit.tech</li>
+              <li>+56 9 6904 0587</li>
             </ul>
           </div>
         </div>

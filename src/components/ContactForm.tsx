@@ -27,7 +27,7 @@ export const ContactForm = ({ preselectedIndustry, themeColor }: { preselectedIn
                     </div>
                     <div>
                       <div className="text-sm text-white/40 uppercase tracking-widest font-bold">Teléfono</div>
-                      <div className="text-lg">+56 (2) 2345 6789</div>
+                      <div className="text-lg">+56 9 6904 0587</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-6">
@@ -36,7 +36,7 @@ export const ContactForm = ({ preselectedIndustry, themeColor }: { preselectedIn
                     </div>
                     <div>
                       <div className="text-sm text-white/40 uppercase tracking-widest font-bold">Email</div>
-                      <div className="text-lg">contacto@pudu.tech</div>
+                      <div className="text-lg">agustineduardosg@puduit.tech</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-6">
