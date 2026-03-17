@@ -36,7 +36,9 @@ export const Header = () => {
           {/* Logo */}
           <PuduLogo 
             color="currentColor" 
-            className="h-10 w-28 text-foreground"
+            className={`h-10 w-28 transition-colors duration-500 ${
+              isScrolled ? "text-foreground" : "text-white"
+            }`}
           />
 
           {/* Desktop Nav */}
@@ -45,7 +47,11 @@ export const Header = () => {
               <a
                 key={link.name}
                 href={link.href}
-                className="text-sm font-medium text-foreground/70 hover:text-brand-emerald transition-colors"
+                className={`text-sm font-medium transition-colors ${
+                  isScrolled 
+                    ? "text-foreground/70 hover:text-brand-emerald" 
+                    : "text-white/80 hover:text-brand-emerald"
+                }`}
               >
                 {link.name}
               </a>

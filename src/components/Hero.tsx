@@ -7,7 +7,7 @@ import PuduLogo from "./PuduLogo";
 
 export const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-background">
+    <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-slate-950">
       {/* Video Background */}
       <video
         autoPlay
@@ -19,14 +19,14 @@ export const Hero = () => {
         <source src="/videos/hero_bg.mp4" type="video/mp4" />
       </video>
 
-      {/* Visual Treatment (Overlay) */}
-      <div className="absolute inset-0 bg-background/60 backdrop-blur-[2px] z-10" />
+      {/* Visual Treatment (Overlay) - Darker and more premium for industrial feel */}
+      <div className="absolute inset-0 bg-slate-950/70 backdrop-blur-[1px] z-10" />
 
       {/* Premium Watermark Logo */}
       <motion.div
         initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
         animate={{ 
-          opacity: 0.03, 
+          opacity: 0.05, 
           scale: 1, 
           rotate: 0,
           y: [0, -20, 0] 
@@ -37,7 +37,7 @@ export const Hero = () => {
         }}
         className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none"
       >
-        <PuduLogo className="w-[80%] h-[80%] grayscale opacity-100 text-foreground" color="currentColor" />
+        <PuduLogo className="w-[80%] h-[80%] grayscale opacity-100 text-white" color="currentColor" />
       </motion.div>
 
       {/* Content Container */}
@@ -57,7 +57,7 @@ export const Hero = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-4xl md:text-7xl font-black mb-8 leading-tight tracking-tight"
+            className="text-4xl md:text-7xl font-black mb-8 leading-tight tracking-tight text-white"
           >
             No construimos software. <br />
             <span className="text-gradient-emerald text-3xl md:text-6xl block mt-2">
@@ -69,9 +69,9 @@ export const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-lg md:text-2xl text-foreground/70 mb-12 leading-relaxed max-w-3xl mx-auto"
+            className="text-lg md:text-2xl text-white/80 mb-12 leading-relaxed max-w-3xl mx-auto"
           >
-            &quot;En un mundo que se mueve a la velocidad del rayo, las soluciones tradicionales de IT se han vuelto lentas, costosas y desconectadas de la realidad del terreno. PUDU nace de una convicción simple: <span className="text-foreground font-medium">La tecnología debe ser tan ágil como nuestra fauna y tan sólida como nuestra industria.</span>&quot;
+            &quot;En un mundo que se mueve a la velocidad del rayo, las soluciones tradicionales de IT se han vuelto lentas, costosas y desconectadas de la realidad del terreno. PUDU nace de una convicción simple: <span className="text-brand-emerald font-medium">La tecnología debe ser tan ágil como nuestra fauna y tan sólida como nuestra industria.</span>&quot;
           </motion.p>
 
           <motion.div
@@ -83,7 +83,7 @@ export const Hero = () => {
             <button className="px-10 py-5 bg-gradient-fire text-white rounded-2xl font-black text-lg shadow-xl shadow-brand-fire-start/20 hover:scale-[1.05] transition-all flex items-center gap-2 group">
               Inicia tu Transformación <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
-            <button className="px-10 py-5 bg-white border border-foreground/10 text-foreground font-bold rounded-2xl hover:bg-foreground/5 transition-all backdrop-blur-sm">
+            <button className="px-10 py-5 bg-white/10 border border-white/20 text-white font-bold rounded-2xl hover:bg-white/20 transition-all backdrop-blur-sm">
               Ver el Método PUDU
             </button>
           </motion.div>
@@ -91,7 +91,7 @@ export const Hero = () => {
       </div>
 
       {/* Decorative animated elements */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 z-20 opacity-30">
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 z-20 opacity-40 text-white">
         <span className="text-xs font-bold uppercase tracking-tighter">Explorar</span>
         <motion.div 
           animate={{ y: [0, 10, 0] }}
