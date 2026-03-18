@@ -37,3 +37,12 @@ Página de inicio oficial para PUDU (Prime Utility Digital Upgrade), posicionand
    - Metadatos dinámicos para cada industria.
    - Optimización de carga de imágenes (`next/image`) e iconos (Tree-shaking).
 4. **Validación de Datos:** Auditoría de tipos TypeScript y saneamiento de assets visuales.
+5. **Identidad de Marca:** Implementación de Favicon oficial (`icon.svg`) y eliminación de assets genéricos de Next.js.
+6. **Integración de Contacto Real:** 
+   - Configuración de teléfonos corporativos y correos oficiales (`puduit.tech`).
+   - Vinculación de redes sociales: LinkedIn e Instagram (Icono actualizado).
+7. **Sistema de Notificaciones:** Integración de `nodemailer` con Zoho SMTP para recepción de cada lead en tiempo real por correo electrónico.
+
+## Infraestructura (EasyPanel)
+- **Variables de Entorno:** Configuración crítica de `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER` y `SMTP_PASS` en el dashboard de producción para el funcionamiento del correo.
+- **Base de Datos:** PostgreSQL administrado vía Prisma.
