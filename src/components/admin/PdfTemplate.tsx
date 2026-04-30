@@ -1,5 +1,4 @@
 import React from "react";
-import PuduLogo from "@/components/PuduLogo";
 
 interface QuoteItem {
   id: string;
@@ -120,7 +119,7 @@ export const PdfTemplate = React.forwardRef<HTMLDivElement, PdfTemplateProps>(
           </div>
 
           {/* DYNAMIC OPTIONS */}
-          {options.map((opt, optIndex) => {
+          {options.map((opt) => {
             const optSubt = opt.items.reduce((acc, item) => acc + (item.quantity * item.unitPrice), 0);
             const optIva = applyIva ? optSubt * 0.19 : 0;
             const optTot = optSubt + optIva;

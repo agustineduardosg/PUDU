@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronDown, Pickaxe, Stethoscope, Sprout, Car, Settings, ShoppingCart, Smartphone, Globe, Cctv, Network, ShieldCheck } from "lucide-react";
 import PuduLogo from "./PuduLogo";
+import Link from "next/link";
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -86,16 +87,16 @@ export const Header = () => {
                       </h4>
                       <div className="grid gap-4">
                         {groupA.map((item) => (
-                          <a 
+                          <Link 
                             key={item.name} 
                             href={item.href} 
                             className="flex items-center gap-3 text-sm font-medium text-foreground/70 hover:text-brand-blue transition-colors group"
                           >
                             <div className="w-8 h-8 rounded-xl bg-white/5 flex items-center justify-center group-hover:bg-brand-blue/10 transition-colors">
-                              {React.cloneElement(item.icon as React.ReactElement<any>, { className: "w-4 h-4 group-hover:scale-110 transition-transform" })}
+                              {React.cloneElement(item.icon as React.ReactElement<{ className?: string }>, { className: "w-4 h-4 group-hover:scale-110 transition-transform" })}
                             </div>
                             {item.name}
-                          </a>
+                          </Link>
                         ))}
                       </div>
                     </div>
@@ -106,16 +107,16 @@ export const Header = () => {
                       </h4>
                       <div className="grid gap-4">
                         {groupB.map((item) => (
-                          <a 
+                          <Link 
                             key={item.name} 
                             href={item.href} 
                             className="flex items-center gap-3 text-sm font-medium text-foreground/70 hover:text-brand-blue transition-colors group"
                           >
                             <div className="w-8 h-8 rounded-xl bg-white/5 flex items-center justify-center group-hover:bg-brand-blue/10 transition-colors">
-                              {React.cloneElement(item.icon as React.ReactElement<any>, { className: "w-4 h-4 group-hover:scale-110 transition-transform" })}
+                              {React.cloneElement(item.icon as React.ReactElement<{ className?: string }>, { className: "w-4 h-4 group-hover:scale-110 transition-transform" })}
                             </div>
                             {item.name}
-                          </a>
+                          </Link>
                         ))}
                       </div>
                     </div>
@@ -124,14 +125,14 @@ export const Header = () => {
               </AnimatePresence>
             </div>
 
-            <a 
+            <Link 
               href="/#metodo" 
               className={`text-sm font-bold transition-colors ${
                 isScrolled ? "text-foreground/70 hover:text-brand-blue" : "text-white/80 hover:text-brand-blue"
               }`}
             >
               EL MÉTODO PUDU
-            </a>
+            </Link>
           </div>
 
           {/* CTA */}
@@ -181,9 +182,9 @@ export const Header = () => {
                       <p className="text-[10px] font-black text-brand-blue uppercase tracking-widest mb-3">Ecosistemas SIO</p>
                       <div className="grid gap-3">
                         {groupA.map(item => (
-                          <a key={item.name} href={item.href} className="text-sm font-medium text-foreground/70" onClick={() => setMobileMenuOpen(false)}>
+                          <Link key={item.name} href={item.href} className="text-sm font-medium text-foreground/70" onClick={() => setMobileMenuOpen(false)}>
                             {item.name}
-                          </a>
+                          </Link>
                         ))}
                       </div>
                     </div>
@@ -191,9 +192,9 @@ export const Header = () => {
                       <p className="text-[10px] font-black text-brand-blue uppercase tracking-widest mb-3">Técnicas a Medida</p>
                       <div className="grid gap-3">
                         {groupB.map(item => (
-                          <a key={item.name} href={item.href} className="text-sm font-medium text-foreground/70" onClick={() => setMobileMenuOpen(false)}>
+                          <Link key={item.name} href={item.href} className="text-sm font-medium text-foreground/70" onClick={() => setMobileMenuOpen(false)}>
                             {item.name}
-                          </a>
+                          </Link>
                         ))}
                       </div>
                     </div>
@@ -201,13 +202,13 @@ export const Header = () => {
                 )}
               </AnimatePresence>
 
-              <a
+              <Link
                 href="/#metodo"
                 onClick={() => setMobileMenuOpen(false)}
                 className="text-lg font-black text-foreground py-2 border-t border-white/5"
               >
                 EL MÉTODO PUDU
-              </a>
+              </Link>
             </div>
             
             <button className="bg-gradient-fire text-white px-6 py-4 rounded-2xl text-sm font-black uppercase tracking-widest mt-4 shadow-lg">

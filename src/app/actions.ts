@@ -61,3 +61,88 @@ export async function submitContactForm(formData: FormData) {
     return { error: "Hubo un problema al enviar tu solicitud. Inténtalo de nuevo." };
   }
 }
+
+export async function saveQuote(data: {
+  clientName: string;
+  clientRut: string;
+  clientEmail: string;
+  validUntil: string;
+  subtotal: number;
+  iva: number;
+  total: number;
+  notes: string;
+  items: {
+    serviceId: string;
+    description: string;
+    quantity: number;
+    unitPrice: number;
+  }[];
+}) {
+  try {
+    const quote = await prisma.quote.create({
+      data: {
+        clientName: data.clientName,
+        clientRut: data.clientRut,
+        clientEmail: data.clientEmail,
+        validUntil: data.validUntil,
+        subtotal: data.subtotal,
+        iva: data.iva,
+        total: data.total,
+        notes: data.notes,
+        items: {
+          create: data.items.map((item) => ({
+            serviceId: item.serviceId,
+            description: item.description,
+            quantity: item.quantity,
+            unitPrice: item.unitPrice,
+            totalPrice: item.quantity * item.unitPrice,
+          })),
+        },
+      },
+    });
+
+    revalidatePath("/admin");
+    return { success: true, quoteId: quote.id };
+  } catch (error) {
+    console.error("Error saving quote:", error);
+    return { error: "No se pudo guardar la cotización en la base de datos." };
+  }
+}
+
+export async function getDashboardData() {
+  try {
+    const [quotesCount, totalProposed, recentQuotes, recentLeads] = await Promise.all([
+      prisma.quote.count(),
+      prisma.quote.aggregate({
+        _sum: {
+          total: true,
+        },
+      }),
+      prisma.quote.findMany({
+        take: 5,
+        orderBy: {
+          createdAt: "desc",
+        },
+      }),
+      prisma.contactSubmission.findMany({
+        take: 5,
+        orderBy: {
+          createdAt: "desc",
+        },
+      }),
+    ]);
+
+    return {
+      metrics: {
+        quotesCount,
+        totalValue: totalProposed._sum.total || 0,
+        dbStatus: "OK",
+      },
+      recentQuotes,
+      recentLeads,
+    };
+  } catch (error) {
+    console.error("Error fetching dashboard data:", error);
+    throw new Error("No se pudo cargar la información del panel.");
+  }
+}

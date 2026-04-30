@@ -144,7 +144,7 @@ const ContactFormInner = ({ preselectedIndustry, themeColor }: { preselectedIndu
           name="interest"
           defaultValue={preselectedIndustry || "Transformación Digital General"}
           className="w-full px-6 py-4 rounded-2xl bg-white border border-foreground/10 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 outline-none transition-all appearance-none cursor-pointer"
-          style={themeColor ? { borderColor: `${themeColor}33`, focusVisible: { borderColor: themeColor } } as any : {}}
+          style={themeColor ? { borderColor: `${themeColor}33` } as React.CSSProperties : {}}
         >
           <option value="Transformación Digital General">Transformación Digital General</option>
           <option value="mineria">Minería (Telemetría y Seguridad)</option>

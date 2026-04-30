@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { Plus, Trash2, Download, Save, Calculator, Check } from "lucide-react";
+import { Plus, Trash2, Download, Save, Calculator, Check, ArrowLeft } from "lucide-react";
 import { PdfTemplate } from "@/components/admin/PdfTemplate";
+import { saveQuote } from "@/app/actions";
+import Link from "next/link";
 
 const SERVICES_OPTIONS = [
   { id: "sio-min", name: "Minería (SIO Min)", descBase: "Implementación de Sincronización Operativa 24/7 y Telemetría." },
@@ -68,7 +70,7 @@ export default function QuoteEngine() {
     }));
   };
 
-  const handleItemChange = (optId: string, itemId: string, field: string, value: any) => {
+  const handleItemChange = (optId: string, itemId: string, field: string, value: string | number) => {
     setOptions(options.map(o => {
       if (o.id === optId) {
         return {
@@ -102,7 +104,7 @@ export default function QuoteEngine() {
       pdfRef.current.style.position = "relative";
       
       // Dynamic import to avoid SSR issues with html2pdf
-      // @ts-ignore
+      // @ts-expect-error - html2pdf.js does not have official types
       const html2pdf = (await import('html2pdf.js')).default;
 
       const currDate = new Date().toISOString().split("T")[0];
@@ -120,6 +122,24 @@ export default function QuoteEngine() {
 
       await html2pdf().set(opt).from(pdfRef.current).save();
 
+      // 4. Guardar en Base de Datos (Solo la primera opción como registro principal)
+      const mainOption = options[0];
+      const subtotal = mainOption.items.reduce((acc, item) => acc + (item.quantity * item.unitPrice), 0);
+      const iva = applyIva ? subtotal * 0.19 : 0;
+      const total = subtotal + iva;
+
+      await saveQuote({
+        clientName: clientData.name,
+        clientRut: clientData.rut,
+        clientEmail: clientData.email,
+        validUntil: clientData.validUntil,
+        subtotal,
+        iva,
+        total,
+        notes,
+        items: mainOption.items
+      });
+
     } catch (error) {
       console.error("Error generating PDF:", error);
       alert("Hubo un error generando el PDF.");
@@ -136,9 +156,14 @@ export default function QuoteEngine() {
   return (
     <div className="animate-in fade-in duration-700">
       <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-3xl font-black tracking-tight mb-2">Editor de <span className="text-brand-blue">Cotizaciones</span> (CPQ)</h1>
-          <p className="text-white/50">Configura servicios, precios y genera documentos oficiales al instante.</p>
+        <div className="flex items-center gap-4">
+          <Link href="/admin" className="p-2 hover:bg-white/5 rounded-full transition-colors group">
+            <ArrowLeft className="w-6 h-6 text-white/50 group-hover:text-white" />
+          </Link>
+          <div>
+            <h1 className="text-3xl font-black tracking-tight mb-2">Editor de <span className="text-brand-blue">Cotizaciones</span> (CPQ)</h1>
+            <p className="text-white/50">Configura servicios, precios y genera documentos oficiales al instante.</p>
+          </div>
         </div>
         <div className="flex gap-3">
            <button className="bg-white/5 hover:bg-white/10 text-white px-5 py-2.5 rounded-xl font-bold flex items-center gap-2 transition-colors border border-white/10">
@@ -225,7 +250,7 @@ export default function QuoteEngine() {
                 </button>
              </div>
 
-             {options.map((opt, optIndex) => (
+             {options.map((opt) => (
                <div key={opt.id} className="bg-slate-900/50 rounded-2xl p-5 border border-white/10 relative">
                  {options.length > 1 && (
                     <button 
@@ -371,7 +396,7 @@ export default function QuoteEngine() {
               </div>
 
               <div className="space-y-4 mb-6 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
-                {options.map((opt, i) => {
+                {options.map((opt) => {
                   const optSubtotal = opt.items.reduce((acc, item) => acc + (item.quantity * item.unitPrice), 0);
                   const optIva = applyIva ? optSubtotal * 0.19 : 0;
                   const optTotal = optSubtotal + optIva;

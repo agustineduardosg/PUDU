@@ -3,6 +3,7 @@
 import React from "react";
 import { Linkedin, Github, Instagram, MapPin } from "lucide-react";
 import PuduLogo from "./PuduLogo";
+import Link from "next/link";
 
 import { AdminLoginModal } from "./admin/AdminLoginModal";
 
@@ -48,9 +49,9 @@ export const Footer = () => {
           <div className="col-span-1 md:col-span-2">
             <h4 className="font-bold mb-6 text-white uppercase text-xs tracking-widest text-brand-blue">Navegación</h4>
             <ul className="space-y-4 text-white/60 text-sm">
-              <li><a href="/#soluciones" className="hover:text-brand-blue transition-colors">Soluciones</a></li>
-              <li><a href="/#metodo" className="hover:text-brand-blue transition-colors">Método PUDU</a></li>
-              <li><a href="/#contacto" className="hover:text-brand-blue transition-colors">Contacto</a></li>
+              <li><Link href="/#soluciones" className="hover:text-brand-blue transition-colors">Soluciones</Link></li>
+              <li><Link href="/#metodo" className="hover:text-brand-blue transition-colors">Método PUDU</Link></li>
+              <li><Link href="/#contacto" className="hover:text-brand-blue transition-colors">Contacto</Link></li>
             </ul>
           </div>
  
@@ -58,14 +59,14 @@ export const Footer = () => {
             <h4 className="font-bold mb-6 text-white uppercase text-xs tracking-widest text-brand-blue">Soluciones High-End</h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
               {solutions.map((sol) => (
-                <a 
+                <Link 
                   key={sol.name} 
                   href={sol.href} 
                   className="text-white/60 text-sm hover:text-brand-blue transition-colors flex items-center gap-2"
                 >
                   <span className="w-1 h-1 rounded-full bg-brand-blue/40" />
                   {sol.name}
-                </a>
+                </Link>
               ))}
             </div>
           </div>
