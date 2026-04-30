@@ -3,198 +3,342 @@
     "id": "mineria",
     "colorTheme": "#F59E0B",
     "hero": {
-      "title": "Minería 4.0: Precisión Digital en Operaciones Críticas.",
-      "subtitle": "Maximizamos la continuidad operativa y la seguridad en faena mediante telemetría avanzada y sistemas de inteligencia predictiva de grado industrial.",
+      "title": "Minería (SIO Min)",
+      "subtitle": "Sincronización Operativa 24/7 y Predicción de Fallas mediante Telemetría Avanzada.",
       "videoPlaceholderUrl": "/videos/industries/mining.mp4"
     },
     "storytelling": {
-      "pain": "En la minería de alta montaña, una detención no programada o un incidente de seguridad no solo cuesta millones de dólares, sino que pone en riesgo la vida. La falta de datos integrados en tiempo real entre la faena y la central de operaciones es el cuello de botella de la eficiencia moderna.",
-      "solution": "PUDU inyecta inteligencia en el corazón de la operation. Conectamos tus activos más pesados —desde camiones de extracción hasta sistemas de procesamiento— con una capa digital de alta disponibilidad que convierte el hierro en datos estratégicos.",
-      "upgrade": "Logramos una visibilidad del 100% sobre el estado de los activos, optimizamos los ciclos de mantenimiento basados en datos reales y establecemos un estándar de seguridad de 'Riesgo Cero' mediante alertas tempranas."
+      "pain": "La falta de sincronización operativa y las fallas críticas no programadas detienen la productividad y aumentan los riesgos en faena.",
+      "solution": "SIO Min sincroniza cada nodo de la operación minera, desde el transporte hasta el procesamiento, con telemetría de alta frecuencia.",
+      "upgrade": "Logramos una visibilidad 24/7 de la operación y establecemos una capa de mantenimiento predictivo que anticipa las fallas antes de que ocurran."
     },
     "detailedServices": [
       {
-        "id": "telemetria-activos",
-        "title": "Telemetría de Activos Pesados",
-        "icon": "Gauge",
-        "description": "Monitoreo en tiempo real de flotas (CAEX) y maquinaria crítica. Capturamos datos de rendimiento, consumo y salud mecánica para una gestión de flujo ultra-eficiente."
-      },
-      {
-        "id": "mantenimiento-predictivo",
-        "title": "Predictive Maintenance AI",
+        "id": "sincronizacion-24-7",
+        "title": "Sincronización Operativa 24/7",
         "icon": "Activity",
-        "description": "Implementación de algoritmos de Machine Learning que anticipan fallas catastróficas, permitiendo programar intervenciones antes de que ocurra la detención del equipo."
+        "description": "Monitoreo ininterrumpido de todos los procesos críticos para una coordinación perfecta en tiempo real."
       },
       {
-        "id": "seguridad-proactiva",
-        "title": "Seguridad & Control de Fatiga",
-        "icon": "ShieldAlert",
-        "description": "Sistemas de visión computacional y sensores biométricos para el monitoreo de fatiga y proximidad, reduciendo drásticamente los incidentes en entornos de alta complejidad."
-      },
-      {
-        "id": "digital-twins",
-        "title": "Digital Twins de Faena",
-        "icon": "Box",
-        "description": "Réplicas virtuales de procesos mineros para simulación de escenarios, optimización de rutas logísticas y entrenamiento de operadores en entornos seguros."
+        "id": "prediccion-fallas",
+        "title": "Predicción de Fallas",
+        "icon": "Gauge",
+        "description": "Algoritmos avanzados de telemetría que identifican patrones de desgaste y previenen detenciones no programadas."
       }
     ],
-    "transversalValue": "Nuestro enfoque DMA (Digital Maturity Audit) en minería evalúa la infraestructura de red en condiciones extremas y la capacidad de procesamiento en el 'Edge'. Con Vibe Coding, desplegamos dashboards de control que funcionan donde otros fallan: en la frontera de la conectividad.",
-    "ctaLabel": "Solicitar Diagnóstico de Madurez Minera"
+    "transversalValue": "SIO Min es el núcleo digital para la minería de alto rendimiento.",
+    "ctaLabel": "Sincronizar Operación Minera"
   },
   "healthcare": {
     "id": "healthcare",
     "colorTheme": "#10B981",
     "hero": {
-      "title": "Healthcare Digital Upgrade: Interoperabilidad de Grado Clínico.",
-      "subtitle": "Transformamos la complejidad asistencial en flujos eficientes. Llevamos el legado de RedCuida a tu institución, garantizando cumplimiento normativo y seguridad del paciente.",
+      "title": "Salud (SIO Health)",
+      "subtitle": "Ecosistemas Clínicos Seguros e Interoperables bajo Estándares SIS y MINSAL.",
       "videoPlaceholderUrl": "/videos/industries/healthcare.mp4"
     },
     "storytelling": {
-      "pain": "La fragmentación de datos es el mayor enemigo de la salud moderna. Sistemas aislados generan silos de información, burocracia excesiva y riesgos críticos en la continuidad de la atención clínica.",
-      "solution": "Integramos cada nodo de tu operación. Desde la admisión hasta el alta, creamos un ecosistema digital donde los datos fluyen con precisión, permitiendo que el personal médico recupere su tiempo para lo que importa: el paciente.",
-      "upgrade": "Logramos una reducción drástica en la carga administrativa, eliminamos errores de transcripción y aseguramos cumplimiento total con los estándares de la Superintendencia de Salud y el MINSAL."
+      "pain": "La fragmentación de datos y la falta de interoperabilidad clínica comprometen la seguridad del paciente y la eficiencia institucional.",
+      "solution": "SIO Health integra sistemas aislados en un ecosistema clínico fluido que cumple estrictamente con las normativas SIS y MINSAL.",
+      "upgrade": "Transformamos centros médicos en entornos digitales interoperables, donde la información fluye segura y el paciente es el centro."
     },
     "detailedServices": [
       {
-        "id": "interoperabilidad",
+        "id": "ecosistemas-clinicos",
+        "title": "Ecosistemas Clínicos Seguros",
+        "icon": "ShieldCheck",
+        "description": "Protección de datos sensibles y sistemas robustos para una atención clínica sin interrupciones."
+      },
+      {
+        "id": "interoperabilidad-sis-minsal",
         "title": "Interoperabilidad SIS/MINSAL",
         "icon": "Network",
-        "description": "Implementación de estándares HL7/FHIR para asegurar que tu institución hable el lenguaje de la salud moderna, garantizando el cumplimiento estricto de las normativas vigentes en Chile."
-      },
-      {
-        "id": "gestion-agendas-fce",
-        "title": "Agendas & Ficha Clínica Universal",
-        "icon": "ClipboardCheck",
-        "description": "Digitalización total para profesionales independientes y centros médicos. Levantamiento de agendas inteligentes y Ficha Clínica Electrónica (FCE) bajo la Ley 20.584, accesible desde cualquier dispositivo."
-      },
-      {
-        "id": "optimizacion-flujos",
-        "title": "Gestión Inteligente de Pacientes",
-        "icon": "Users",
-        "description": "Motores de agendamiento proactivo y dashboards de analítica predictiva para optimizar la ocupación de box, reducir el ausentismo y gestionar listas de espera de forma eficiente."
-      },
-      {
-        "id": "telemedicina",
-        "title": "Telemedicina & Registro Unificado",
-        "icon": "Video",
-        "description": "Plataformas de atención remota integradas directamente a la ficha clínica, asegurando que cada consulta alimente el historial del paciente bajo estándares de ciberseguridad médica."
+        "description": "Cumplimiento total con los estándares de interoperabilidad requeridos por la autoridad sanitaria en Chile."
       }
     ],
-    "transversalValue": "Nuestra metodología DMA (Digital Maturity Audit) en salud es clínica y técnica. Entendemos los protocolos asistenciales y aplicamos Vibe Coding para desplegar interfaces intuitivas en tiempo récord, haciendo que la tecnología sea un aliado del personal de salud.",
-    "ctaLabel": "Solicitar Auditoría de Madurez Clínica"
+    "transversalValue": "SIO Health garantiza el futuro digital de la salud en Chile.",
+    "ctaLabel": "Implementar Ecosistema Clínico"
   },
   "agricultura": {
     "id": "agricultura",
     "colorTheme": "#10B981",
     "hero": {
-      "title": "Agricultura Inteligente: Optimización desde la Raíz hasta la Nube.",
-      "subtitle": "Transformamos predios agrícolas en centros de datos de alta precisión. Aseguramos la rentabilidad hídrica y la trazabilidad total para los mercados más exigentes del mundo.",
+      "title": "Agricultura de Precisión (SIO Agro)",
+      "subtitle": "Gestión Hídrica Inteligente e IoT de Campo para Máxima Trazabilidad.",
       "videoPlaceholderUrl": "/videos/industries/agriculture.mp4"
     },
     "storytelling": {
-      "pain": "El cambio climático y la escasez hídrica ya no son amenazas futuras, son realidades operativas. Gestionar un predio con métodos tradicionales hoy significa perder competitividad frente a una cadena de suministro global que exige datos precisos y sostenibilidad comprobada.",
-      "solution": "PUDU digitaliza el campo. Implementamos redes de sensores IoT y plataformas de gestión que eliminan la incertidumbre de la producción agrícola, permitiendo que cada gota de agua y cada gramo de fertilizante se traduzcan en rendimiento real y medible.",
-      "upgrade": "Garantizamos ahorros de hasta un 30% en el consumo hídrico, una trazabilidad digital lista para auditorías de exportación y una visibilidad total de la salud del cultivo desde cualquier dispositivo, en cualquier lugar."
+      "pain": "La incertidumbre climática y el uso ineficiente de recursos hídricos amenazan la rentabilidad y sostenibilidad del campo.",
+      "solution": "SIO Agro digitaliza el entorno agrícola con sensores IoT y algoritmos de gestión hídrica para una precisión absoluta.",
+      "upgrade": "Logramos una trazabilidad total de la producción y optimizamos el recurso hídrico para una agricultura rentable y resiliente."
     },
     "detailedServices": [
       {
-        "id": "gestion-hidrica",
-        "title": "Riego de Precisión & Gestión Hídrica",
+        "id": "gestion-hidrica-inteligente",
+        "title": "Gestión Hídrica Inteligente",
         "icon": "Droplets",
-        "description": "Monitoreo de humedad de suelo y clima integrado para automatizar calendarios de riego, optimizando el recurso más crítico y reduciendo costos energéticos de forma drástica."
+        "description": "Control preciso del riego basado en datos de humedad de suelo y predicción climática."
       },
       {
-        "id": "trazabilidad-exportadora",
-        "title": "Trazabilidad Digital Automática",
-        "icon": "QrCode",
-        "description": "Digitalización de cuadernos de campo y registros de aplicación bajo estándares internacionales (GlobalGAP). Generamos reportes listos para exportación con un solo clic."
-      },
-      {
-        "id": "monitoreo-iot",
-        "title": "Salud de Cultivo & IoT de Campo",
+        "id": "iot-campo-trazabilidad",
+        "title": "IoT de Campo & Trazabilidad",
         "icon": "Sprout",
-        "description": "Sensores de alta frecuencia para la detección temprana de estrés hídrico, plagas o deficiencias nutricionales, permitiendo intervenciones localizadas y precisas."
-      },
-      {
-        "id": "logistica-cosecha",
-        "title": "Optimización de Post-Cosecha",
-        "icon": "Truck",
-        "description": "Control digital de la cadena de frío y tiempos de transporte, asegurando que la calidad del producto se mantenga intacta desde el predio hasta el consumidor final."
+        "description": "Sensores distribuidos que registran cada etapa del cultivo para exportaciones con certificación digital."
       }
     ],
-    "transversalValue": "Nuestra metodología DMA en agricultura soluciona el desafío de la conectividad rural. Desarrollamos soluciones 'Offline-First' que capturan datos en el campo y los sincronizan automáticamente al detectar señal, aplicando Vibe Coding para crear interfaces que el operario de terreno adopta de inmediato.",
-    "ctaLabel": "Solicitar Auditoría de Eficiencia Hídrica"
+    "transversalValue": "SIO Agro lleva la precisión digital a la raíz del cultivo.",
+    "ctaLabel": "Digitalizar Campo con SIO Agro"
   },
   "industrial": {
     "id": "industrial",
     "colorTheme": "#0EA5E9",
     "hero": {
-      "title": "Industria 4.0: Sincronización Total de la Cadena Productiva.",
-      "subtitle": "Convertimos plantas de producción en ecosistemas inteligentes. Elevamos la eficiencia operativa (OEE) mediante automatización y analítica en tiempo real.",
+      "title": "Industria 4.0 (SIO Ind)",
+      "subtitle": "Automatización Industrial y Visibilidad Total de Planta para la Manufactura del Futuro.",
       "videoPlaceholderUrl": "/videos/industries/industrial.mp4"
     },
     "storytelling": {
-      "pain": "La falta de visibilidad en la línea de producción es el 'asesino silencioso' de la rentabilidad. Cuellos de botella invisibles, mermas de inventario y procesos manuales obsoletos impiden que las industrias locales compitan en un mercado global hiper-acelerado.",
-      "solution": "PUDU inyecta agilidad en la manufactura. Implementamos capas de software que conectan máquinas, personas y procesos en un solo dashboard centralizado, permitiendo una toma de decisiones basada en hechos, no en suposiciones.",
-      "upgrade": "Logramos un incremento medible en el OEE, una reducción drástica en los tiempos de ciclo y una trazabilidad total de la producción que garantiza la calidad desde la materia prima hasta el producto final."
+      "pain": "Procesos manuales y áreas ciegas en la producción limitan el crecimiento y la competitividad de las plantas industriales.",
+      "solution": "SIO Ind automatiza workflows y ofrece visibilidad total sobre cada proceso productivo en tiempo real.",
+      "upgrade": "Convertimos plantas tradicionales en fábricas inteligentes preparadas para las demandas de la Industria 4.0."
     },
     "detailedServices": [
       {
-        "id": "optimizacion-oee",
-        "title": "Optimización de OEE en Tiempo Real",
-        "icon": "BarChart3",
-        "description": "Visualización profunda de la Eficiencia General de los Equipos. Identificamos micro-paradas y pérdidas de velocidad para maximizar el rendimiento de la planta."
-      },
-      {
-        "id": "automatizacion-procesos",
-        "title": "Automatización de Workflows Industriales",
+        "id": "automatizacion-industrial",
+        "title": "Automatización Industrial",
         "icon": "Cpu",
-        "description": "Eliminamos la fricción operativa mediante el desarrollo de software a medida que automatiza tareas repetitivas y digitaliza el control de calidad en línea."
+        "description": "Eliminación de cuellos de botella mediante integración de software y hardware de control."
       },
       {
-        "id": "inventario-inteligente",
-        "title": "Gestión de Stock & Supply Chain",
-        "icon": "PackageSearch",
-        "description": "Sistemas inteligentes que predicen la demanda y automatizan los puntos de reorden, asegurando que el stock crítico esté siempre disponible sin sobrecostos."
+        "id": "visibilidad-total-planta",
+        "title": "Visibilidad Total de Planta",
+        "icon": "Layout",
+        "description": "Dashboards holísticos que muestran el estado de la producción de materia prima a producto final."
       }
     ],
-    "transversalValue": "Nuestra metodología DMA industrial detecta fugas de eficiencia que el ojo humano no ve. Con Vibe Coding, integramos sistemas legados (ERP/MES) con interfaces modernas, logrando una adopción inmediata por parte de los operadores de planta.",
-    "ctaLabel": "Solicitar Auditoría de Eficiencia Operativa"
+    "transversalValue": "SIO Ind es el motor de la eficiencia manufacturera.",
+    "ctaLabel": "Automatizar con SIO Ind"
   },
   "automocion": {
     "id": "automocion",
     "colorTheme": "#64748B",
     "hero": {
-      "title": "Automoción & Logística: Inteligencia en Movimiento.",
-      "subtitle": "Sistemas de gestión integrada para flotas y servicios automotrices. Optimizamos la última milla y la vida útil de los activos mediante telemetría proactiva.",
+      "title": "Automoción (SIO Logistics)",
+      "subtitle": "Sincronización de Última Milla y Gestión Avanzada de Flotas con Precisión.",
       "videoPlaceholderUrl": "/videos/industries/automotive.mp4"
     },
     "storytelling": {
-      "pain": "Gestionar una flota o un taller mecánico bajo un modelo reactivo es una receta para el gasto descontrolado. Los costos de combustible, el desgaste prematuro de activos y la falta de comunicación con el cliente final erosionan los márgenes de beneficio cada día.",
-      "solution": "PUDU conecta el vehículo con la estrategia de negocio. Creamos plataformas de inteligencia logística y portales de servicio que transforman la relación con el activo, pasando de 'reparar cuando falle' a 'optimizar para que nunca se detenga'.",
-      "upgrade": "Garantizamos una reducción en costos logísticos mediante rutas dinámicas, una extensión de la vida útil de la flota y un aumento en la fidelización del cliente final a través de transparencia digital."
+      "pain": "La ineficiencia en las rutas y la falta de control sobre los activos móviles disparan los costos logísticos operativos.",
+      "solution": "SIO Logistics optimiza cada trayecto y gestiona flotas con inteligencia predictiva para una logística sin fallas.",
+      "upgrade": "Logramos una última milla milimétrica y una gestión de flota que maximiza la vida útil y el rendimiento de cada activo."
     },
     "detailedServices": [
       {
-        "id": "gestion-flotas",
-        "title": "Inteligencia de Flotas & Telemetría",
-        "icon": "Truck",
-        "description": "Seguimiento avanzado y análisis de patrones de conducción para optimizar el consumo de combustible y garantizar el cumplimiento de rutas seguras."
-      },
-      {
-        "id": "portal-servicio",
-        "title": "Portales de Servicio & Mantención",
-        "icon": "Settings2",
-        "description": "Plataformas B2B/B2C que automatizan el agendamiento de servicios técnicos, historial de reparaciones y notificaciones preventivas automáticas."
-      },
-      {
-        "id": "ultima-milla",
-        "title": "Optimización de Última Milla",
+        "id": "sincronizacion-ultima-milla",
+        "title": "Sincronización de Última Milla",
         "icon": "MapPin",
-        "description": "Algoritmos de planificación de rutas dinámicas que consideran tráfico, ventanas de entrega y capacidad de carga para una logística impecable."
+        "description": "Entrega perfecta mediante planificación dinámica de rutas y monitoreo en tiempo real."
+      },
+      {
+        "id": "gestion-avanzada-flotas",
+        "title": "Gestión Avanzada de Flotas",
+        "icon": "Truck",
+        "description": "Control de mantenimiento y telemetría proactiva para una operación logística ininterrumpida."
       }
     ],
-    "transversalValue": "Aplicamos DMA para auditar la conectividad de los activos móviles y la integridad de los datos en ruta. Gracias a Vibe Coding, entregamos aplicaciones de gestión de flota ultra-rápidas que permiten a los despachadores tomar decisiones en segundos.",
-    "ctaLabel": "Solicitar Diagnóstico Logístico"
+    "transversalValue": "SIO Logistics redefine el movimiento de mercancías y servicios.",
+    "ctaLabel": "Optimizar Logística con SIO Logistics"
+  },
+  "ecommerce": {
+    "id": "ecommerce",
+    "colorTheme": "#F59E0B",
+    "hero": {
+      "title": "E-commerce (SIO E-com)",
+      "subtitle": "Plataformas de Venta Omnicanal con Sincronización de Stock y Logística en Tiempo Real.",
+      "videoPlaceholderUrl": "/videos/industries/ecommerce.mp4"
+    },
+    "storytelling": {
+      "pain": "El descalce de stock entre canales y la lentitud logística merman la confianza del cliente y las ventas.",
+      "solution": "SIO E-com integra todos los puntos de venta con el inventario y la logística para una experiencia de compra fluida.",
+      "upgrade": "Transformamos el comercio minorista en una potencia omnicanal con datos sincronizados cada segundo."
+    },
+    "detailedServices": [
+      {
+        "id": "venta-omnicanal",
+        "title": "Venta Omnicanal",
+        "icon": "ShoppingCart",
+        "description": "Presencia unificada en tienda física, web y marketplace compartiendo un mismo ecosistema."
+      },
+      {
+        "id": "sincronizacion-stock-tiempo-real",
+        "title": "Sincronización de Stock & Logística",
+        "icon": "RefreshCw",
+        "description": "Actualización inmediata de inventarios y gestión de despacho integrada directamente a la venta."
+      }
+    ],
+    "transversalValue": "SIO E-com es el estándar dorado para la venta digital moderna.",
+    "ctaLabel": "Potenciar Ventas con SIO E-com"
+  },
+  "desarrollo-apps": {
+    "id": "desarrollo-apps",
+    "colorTheme": "#0EA5E9",
+    "hero": {
+      "title": "Desarrollo de Apps",
+      "subtitle": "Creación de Aplicaciones iOS/Android Escalables con Arquitectura Senior (React Native/Flutter).",
+      "videoPlaceholderUrl": "/videos/industries/apps.mp4"
+    },
+    "storytelling": {
+      "pain": "Apps lentas y poco escalables frustran a los usuarios e impiden el crecimiento digital de las marcas.",
+      "solution": "Desarrollamos aplicaciones móviles nativas y cross-platform bajo estándares de arquitectura senior.",
+      "upgrade": "Entregamos experiencias móviles fluidas, seguras y preparadas para escalar a millones de usuarios."
+    },
+    "detailedServices": [
+      {
+        "id": "react-native-flutter",
+        "title": "React Native & Flutter",
+        "icon": "Smartphone",
+        "description": "Desarrollo eficiente con un solo código base para iOS y Android sin sacrificar rendimiento."
+      },
+      {
+        "id": "arquitectura-senior",
+        "title": "Arquitectura Senior",
+        "icon": "Code",
+        "description": "Código limpio, mantenible y escalable utilizando las mejores prácticas de ingeniería de software."
+      }
+    ],
+    "transversalValue": "Construimos el futuro móvil de tu empresa.",
+    "ctaLabel": "Iniciar Desarrollo de App"
+  },
+  "paginas-web-pro": {
+    "id": "paginas-web-pro",
+    "colorTheme": "#0EA5E9",
+    "hero": {
+      "title": "Páginas Web Pro",
+      "subtitle": "Desarrollo Web de Alto Rendimiento, Optimizado para SEO y Conversión (Next.js/React).",
+      "videoPlaceholderUrl": "/videos/industries/web.mp4"
+    },
+    "storytelling": {
+      "pain": "Webs lentas y no optimizadas para buscadores significan oportunidades de negocio perdidas cada minuto.",
+      "solution": "Diseñamos y desarrollamos sitios web corporativos y de productos con tecnologías de vanguardia como Next.js.",
+      "upgrade": "Logramos un rendimiento web impecable y una tasa de conversión superior mediante diseño UX/UI de precisión."
+    },
+    "detailedServices": [
+      {
+        "id": "optimizacion-seo",
+        "title": "Optimización SEO Pro",
+        "icon": "Search",
+        "description": "Estructura de código y contenido diseñada para dominar los resultados de búsqueda orgánica."
+      },
+      {
+        "id": "desarrollo-nextjs-react",
+        "title": "Next.js & React Core",
+        "icon": "Globe",
+        "description": "Velocidad de carga instantánea y componentes interactivos para una navegación de primer nivel."
+      }
+    ],
+    "transversalValue": "Diseñamos ventanas digitales que cierran negocios.",
+    "ctaLabel": "Desarrollar Web de Alto Rendimiento"
+  },
+  "videovigilancia-rural": {
+    "id": "videovigilancia-rural",
+    "colorTheme": "#10B981",
+    "hero": {
+      "title": "Videovigilancia Rural",
+      "subtitle": "Sistemas de Monitoreo Off-Grid (Solares/AI) para Perímetros Críticos en Agro e Industria.",
+      "videoPlaceholderUrl": "/videos/industries/surveillance.mp4"
+    },
+    "storytelling": {
+      "pain": "Perímetros rurales vulnerables y falta de energía impiden un monitoreo de seguridad efectivo en áreas críticas.",
+      "solution": "Implementamos estaciones de vigilancia solar autónomas con inteligencia artificial para detección perimetral.",
+      "upgrade": "Garantizamos seguridad total en zonas remotas, 365 días al año, sin depender de la red eléctrica."
+    },
+    "detailedServices": [
+      {
+        "id": "monitoreo-off-grid-solar",
+        "title": "Monitoreo Off-Grid (Solar)",
+        "icon": "Sun",
+        "description": "Autonomía energética total mediante paneles solares y baterías de alta capacidad para operación continua."
+      },
+      {
+        "id": "deteccion-ai-perimetros",
+        "title": "IA para Perímetros Críticos",
+        "icon": "Cctv",
+        "description": "Analítica de video inteligente que distingue entre fauna local e intrusiones reales, reduciendo falsas alarmas."
+      }
+    ],
+    "transversalValue": "Protegemos lo que más importa, donde sea que esté.",
+    "ctaLabel": "Blindar Perímetro Rural"
+  },
+  "redes-infraestructura": {
+    "id": "redes-infraestructura",
+    "colorTheme": "#64748B",
+    "hero": {
+      "title": "Redes e Infraestructura",
+      "subtitle": "Diseño e Implementación de Redes Corporativas y Backbone Industrial.",
+      "videoPlaceholderUrl": "/videos/industries/networks.mp4"
+    },
+    "storytelling": {
+      "pain": "Infraestructura de red inestable o desactualizada genera cuellos de botella y vulnerabilidades de seguridad.",
+      "solution": "Diseñamos y desplegamos infraestructuras de red de alta disponibilidad y backbone industrial robusto.",
+      "upgrade": "Aseguramos una conectividad empresarial sin fisuras, preparada para el tráfico pesado y los ataques modernos."
+    },
+    "detailedServices": [
+      {
+        "id": "diseno-redes-corporativas",
+        "title": "Redes Corporativas",
+        "icon": "Wifi",
+        "description": "Arquitectura de red escalable con segmentación segura para entornos empresariales modernos."
+      },
+      {
+        "id": "backbone-industrial",
+        "title": "Backbone Industrial",
+        "icon": "Server",
+        "description": "Implementación de redes de alta resistencia en entornos industriales hostiles para datos de control críticos."
+      }
+    ],
+    "transversalValue": "Cimentamos la conectividad que impulsa tu industria.",
+    "ctaLabel": "Fortalecer Infraestructura"
+  },
+  "cybersecurity-govtech": {
+    "id": "cybersecurity-govtech",
+    "colorTheme": "#4F46E5",
+    "hero": {
+      "title": "Cybersecurity & GovTech",
+      "subtitle": "Estrategia Integral de Compliance & DLP impulsada por IA en alianza estratégica con e-know.",
+      "videoPlaceholderUrl": "/videos/industries/cybersecurity.mp4"
+    },
+    "alliance": {
+      "partnerName": "e-know",
+      "yearsExperience": "20 años",
+      "partnerLogo": "/images/logos/eknow-logo.png",
+      "description": "Alianza estratégica exclusiva integrando la ingeniería predictiva de PUDU con la experiencia en DLP y Compliance de e-know."
+    },
+    "storytelling": {
+      "pain": "La nueva Ley 21.719 y las crecientes amenazas internas ponen en riesgo crítico la continuidad, datos personales y reputación institucional.",
+      "solution": "En alianza estratégica con e-know (20 años de experiencia), implementamos soluciones de Prevención de Fuga de Datos (DLP) de clase mundial.",
+      "upgrade": "Transformamos el cumplimiento normativo en un blindaje operativo avanzado, asegurando que tu información nunca caiga en manos equivocadas."
+    },
+    "detailedServices": [
+      {
+        "id": "safetica-dlp",
+        "title": "Safetica DLP (Software)",
+        "icon": "ShieldCheck",
+        "description": "Software líder para prevención de fuga de datos, descubrimiento guiado por IA y control de información sensible (PII)."
+      },
+      {
+        "id": "compliance-ley-21719",
+        "title": "Compliance Ley 21.719",
+        "icon": "Scale",
+        "description": "Implementación del modelo PIMS (Privacy Information Management System) asegurando el cumplimiento normativo en Chile."
+      },
+      {
+        "id": "insider-risk",
+        "title": "Gestión de Riesgo Interno",
+        "icon": "Eye",
+        "description": "Detección proactiva de amenazas internas, control de exfiltración por USB/Nubes y trazabilidad forense completa."
+      }
+    ],
+    "transversalValue": "El escudo digital definitivo para tu información más crítica.",
+    "ctaLabel": "Blindar mi Institución"
   }
 }

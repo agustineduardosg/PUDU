@@ -11,6 +11,7 @@ import {
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ContactForm } from "@/components/ContactForm";
+import PuduLogo from "@/components/PuduLogo";
 import industriesData from "@/data/industriesContent.json";
 
 // Type for the industry data
@@ -21,6 +22,12 @@ interface IndustryContent {
     title: string;
     subtitle: string;
     videoPlaceholderUrl: string;
+  };
+  alliance?: {
+    partnerName: string;
+    yearsExperience: string;
+    partnerLogo: string;
+    description: string;
   };
   storytelling: {
     pain: string;
@@ -156,6 +163,49 @@ export default async function IndustryPage({ params }: { params: Promise<{ id: s
           </div>
         </div>
       </section>
+
+      {/* Alliance Section (Conditionally Rendered) */}
+      {industry.alliance && (
+        <section className="py-16 border-b border-border/10 overflow-hidden relative bg-slate-950 text-white">
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950 to-slate-900/40 -z-10" />
+          <div className="container mx-auto px-6">
+            <div className="glass p-8 md:p-12 rounded-[2.5rem] border border-white/10 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-12 bg-white/5 backdrop-blur-xl">
+              <div className="absolute top-0 right-0 w-1/2 h-full bg-[radial-gradient(ellipse_at_top_right,_var(--industry-accent-glow),_transparent_70%)] opacity-30 pointer-events-none" />
+              
+              <div className="relative z-10 md:w-1/2">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/20 bg-white/10 mb-6">
+                  <Shield className="w-3 h-3 text-white" />
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-white">Alianza Estratégica</span>
+                </div>
+                <h3 className="text-3xl font-black mb-4 leading-tight text-white">
+                  Potenciado por <br /> <span style={{ color: industry.colorTheme }}>{industry.alliance.partnerName}</span>
+                </h3>
+                <p className="text-lg text-white/80 leading-relaxed mb-6">
+                  {industry.alliance.description}
+                </p>
+                <div className="flex items-center gap-3">
+                  <span className="text-sm font-bold bg-white/10 px-4 py-2 rounded-xl text-white border border-white/20">
+                    +{industry.alliance.yearsExperience} de experiencia
+                  </span>
+                </div>
+              </div>
+
+              <div className="relative z-10 md:w-1/2 flex items-center justify-center gap-8 md:gap-12">
+                <PuduLogo color="white" className="w-32 text-white" />
+                <div className="h-16 w-px bg-white/20" />
+                <div className="relative w-32 h-16 flex items-center justify-center">
+                  <Image 
+                    src={industry.alliance.partnerLogo || "/images/logos/eknow-logo.png"} 
+                    alt={industry.alliance.partnerName}
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Detailed Services */}
       <section className="py-24 bg-slate-50 dark:bg-slate-900/20">
