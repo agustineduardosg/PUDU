@@ -10,14 +10,16 @@ import {
   LayoutDashboard, 
   Settings, 
   LogOut,
-  ChevronRight
+  ChevronRight,
+  Plus
 } from "lucide-react";
 import PuduLogo from "../PuduLogo";
 
 const navItems = [
   { name: "Dashboard", href: "/admin", icon: <LayoutDashboard className="w-5 h-5" /> },
   { name: "Leads (CRM)", href: "/admin/leads", icon: <Users className="w-5 h-5" /> },
-  { name: "Cotizaciones (CPQ)", href: "/admin/cotizador", icon: <FileText className="w-5 h-5" /> },
+  { name: "Historial CPQ", href: "/admin/history", icon: <FileText className="w-5 h-5" /> },
+  { name: "Nuevo Cotizador", href: "/admin/cotizador", icon: <Plus className="w-5 h-5" /> },
   { name: "Configuración", href: "/admin/settings", icon: <Settings className="w-5 h-5" /> },
 ];
 

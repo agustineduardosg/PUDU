@@ -157,3 +157,32 @@ export async function getDashboardData() {
     };
   }
 }
+export async function getAllLeads() {
+  try {
+    const leads = await prisma.contactSubmission.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    return leads;
+  } catch (error) {
+    console.error("Error fetching all leads:", error);
+    throw new Error("No se pudieron cargar los prospectos.");
+  }
+}
+export async function getAllQuotes() {
+  try {
+    const quotes = await prisma.quote.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        items: true,
+      },
+    });
+    return quotes;
+  } catch (error) {
+    console.error("Error fetching all quotes:", error);
+    throw new Error("No se pudieron cargar las cotizaciones.");
+  }
+}
