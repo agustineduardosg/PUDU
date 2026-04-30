@@ -39,6 +39,7 @@ const SERVICES_MAP: Record<string, string> = {
   "web": "Páginas Web Pro",
   "cctv": "Videovigilancia Rural",
   "redes": "Redes e Infraestructura",
+  "cybersecurity": "Cybersecurity & GovTech",
 };
 
 export const PdfTemplate = React.forwardRef<HTMLDivElement, PdfTemplateProps>(

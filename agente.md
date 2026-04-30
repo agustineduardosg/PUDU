@@ -43,6 +43,21 @@ Página de inicio oficial para PUDU (Prime Utility Digital Upgrade), posicionand
    - Vinculación de redes sociales: LinkedIn e Instagram (Icono actualizado).
 7. **Sistema de Notificaciones:** Integración de `nodemailer` con Zoho SMTP para recepción de cada lead en tiempo real por correo electrónico.
 
+## Avances Recientes (Abril 2026)
+1. **Vertical de Ciberseguridad:** Implementación del sector "Cybersecurity & GovTech" centrado en Compliance (Ley 21.719) y Safetica DLP.
+2. **Alianza Estratégica:** Integración visual y técnica de la alianza con **e-know** (20 años de experiencia), incluyendo branding oficial en la web.
+3. **Admin Dashboard (CPQ):** 
+   - Desarrollo de un motor de cotizaciones (`/admin/cotizador`) para generación instantánea de PDFs profesionales.
+   - Template de PDF con branding premium y anexo de capacidades industriales.
+   - Lógica de cálculo de impuestos (IVA) y gestión de múltiples opciones comerciales.
+4. **Identidad Visual High-End:** Sustitución de placeholders por imágenes de alta fidelidad generadas y logos oficiales.
+
 ## Infraestructura (EasyPanel)
 - **Variables de Entorno:** Configuración crítica de `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER` y `SMTP_PASS` en el dashboard de producción para el funcionamiento del correo.
 - **Base de Datos:** PostgreSQL administrado vía Prisma.
+- **Deployment:** Pipeline automatizado vía GitHub Actions hacia Easypanel.
+
+## Próximos Pasos
+- [ ] Refinar el dashboard administrativo con métricas de leads.
+- [ ] Implementar autenticación para la ruta `/admin`.
+- [ ] Optimizar el rendimiento de renderizado del PDF en dispositivos móviles.
