@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { FileText, Plus, TrendingUp, Settings2, UserCheck, Mail, Calendar } from "lucide-react";
+import { FileText, Plus, TrendingUp, Settings2, UserCheck, Mail, Calendar, Database } from "lucide-react";
 import { getDashboardData } from "@/app/actions";
 
 export const dynamic = "force-dynamic";
@@ -18,6 +18,15 @@ export default async function AdminDashboard() {
 
   return (
     <div className="animate-in fade-in duration-700">
+      {data.metrics.dbStatus === "ERROR" && (
+        <div className="bg-red-500/10 border border-red-500/20 p-4 rounded-2xl mb-8 flex items-center gap-4 text-red-400">
+          <Database className="w-5 h-5 shrink-0" />
+          <div>
+            <p className="font-bold text-sm">Error de Conexión a Base de Datos</p>
+            <p className="text-xs opacity-70">{(data.metrics as any).errorMessage}</p>
+          </div>
+        </div>
+      )}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
         <div>
           <h1 className="text-4xl font-black tracking-tight mb-2">

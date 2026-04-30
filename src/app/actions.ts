@@ -141,8 +141,19 @@ export async function getDashboardData() {
       recentQuotes,
       recentLeads,
     };
-  } catch (error) {
-    console.error("Error fetching dashboard data:", error);
-    throw new Error("No se pudo cargar la información del panel.");
+  } catch (error: any) {
+    console.error("CRITICAL: Error fetching dashboard data:", error);
+    // Return empty state instead of crashing, but include error info for the dev
+    return {
+      metrics: {
+        quotesCount: 0,
+        totalValue: 0,
+        dbStatus: "ERROR",
+        errorMessage: error.message || "Error desconocido de base de datos"
+      },
+      recentQuotes: [],
+      recentLeads: [],
+      error: true
+    };
   }
 }
