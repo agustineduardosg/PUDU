@@ -185,7 +185,7 @@ export default function QuoteEngine() {
         <div className="lg:col-span-8 space-y-8">
           
           {/* Client Data Wrapper */}
-          <div className="glass p-6 rounded-[2rem] border border-white/5">
+          <div className="bg-[#0f172a]/80 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/10 shadow-2xl">
             <h2 className="text-lg font-bold mb-6 flex items-center gap-2 text-brand-blue">
               <span className="w-6 h-6 rounded-full bg-brand-blue/20 flex items-center justify-center text-xs">1</span>
               Datos del Cliente
@@ -235,7 +235,7 @@ export default function QuoteEngine() {
           </div>
 
           {/* Options & Services Wrapper */}
-          <div className="glass p-6 rounded-[2rem] border border-white/5 space-y-8">
+          <div className="bg-[#0f172a]/80 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/10 shadow-2xl space-y-8">
              <div className="flex items-center justify-between">
                 <h2 className="text-lg font-bold flex items-center gap-2 text-brand-blue">
                   <span className="w-6 h-6 rounded-full bg-brand-blue/20 flex items-center justify-center text-xs">2</span>
@@ -372,7 +372,7 @@ export default function QuoteEngine() {
           </div>
 
           {/* Notes */}
-          <div className="glass p-6 rounded-[2rem] border border-white/5">
+          <div className="bg-[#0f172a]/80 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/10 shadow-2xl">
              <h2 className="text-lg font-bold mb-4 flex items-center gap-2 text-brand-blue">
               <span className="w-6 h-6 rounded-full bg-brand-blue/20 flex items-center justify-center text-xs">3</span>
               Términos y Condiciones
@@ -388,7 +388,7 @@ export default function QuoteEngine() {
 
         {/* Totals & Calc Sidebar */}
         <div className="lg:col-span-4">
-           <div className="glass p-6 rounded-[2rem] border border-white/5 sticky top-24">
+           <div className="bg-[#0f172a]/80 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/10 shadow-2xl sticky top-24">
               <div className="flex items-center gap-2 mb-6 text-brand-blue">
                 <Calculator className="w-5 h-5" />
                 <h3 className="font-bold text-lg">Resumen de Cotización</h3>

@@ -11,7 +11,8 @@ import {
   Settings, 
   LogOut,
   ChevronRight,
-  Plus
+  Plus,
+  X
 } from "lucide-react";
 import PuduLogo from "../PuduLogo";
 
@@ -32,12 +33,20 @@ export const AdminSidebar = () => {
   };
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-72 bg-[#020617] border-r border-white/5 flex flex-col z-40">
+    <aside className="h-screen w-72 bg-[#020617] border-r border-white/5 flex flex-col z-40">
       {/* Sidebar Header */}
-      <div className="p-8 border-b border-white/5 mb-6">
-        <Link href="/admin">
-          <PuduLogo color="white" className="h-8 w-24" />
-        </Link>
+      <div className="p-8 border-b border-white/5 mb-6 relative">
+        <div className="flex items-center justify-between">
+          <Link href="/admin">
+            <PuduLogo color="white" className="h-8 w-24" />
+          </Link>
+          <button 
+            onClick={onClose}
+            className="lg:hidden p-2 hover:bg-white/5 rounded-xl transition-colors"
+          >
+            <X className="w-5 h-5 text-white/50" />
+          </button>
+        </div>
         <div className="mt-4 flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-brand-blue animate-pulse" />
           <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">

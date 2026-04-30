@@ -24,16 +24,16 @@ export default async function HistoryPage() {
         <p className="text-white/50 text-lg">Registro histórico de todas las propuestas comerciales emitidas.</p>
       </div>
 
-      <div className="glass rounded-[2rem] border border-white/5 overflow-hidden">
-        <div className="p-6 border-b border-white/5 flex items-center justify-between bg-white/5">
+      <div className="bg-[#0f172a]/80 backdrop-blur-xl rounded-[2rem] border border-white/10 overflow-hidden shadow-2xl">
+        <div className="p-6 border-b border-white/10 flex items-center justify-between bg-white/[0.03]">
           <h2 className="text-xl font-bold flex items-center gap-2">
             <FileText className="w-5 h-5 text-brand-blue" />
             Cotizaciones Guardadas ({quotes.length})
           </h2>
         </div>
         
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+        <div className="overflow-x-auto custom-scrollbar">
+          <table className="w-full text-left border-collapse min-w-[900px]">
             <thead>
               <tr className="border-b border-white/5 bg-white/[0.02]">
                 <th className="p-6 text-[10px] font-black uppercase tracking-widest text-white/40">ID / Fecha</th>

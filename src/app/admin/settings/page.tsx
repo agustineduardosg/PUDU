@@ -30,36 +30,36 @@ export default function SettingsPage() {
 
         {/* Settings Content Area */}
         <div className="lg:col-span-2 space-y-8">
-          <div className="glass rounded-[2rem] border border-white/5 overflow-hidden">
-            <div className="p-8 border-b border-white/5">
-              <h2 className="text-xl font-bold mb-1">Perfil de Administrador</h2>
+          <div className="bg-[#0f172a]/80 backdrop-blur-xl rounded-[2.5rem] border border-white/10 overflow-hidden shadow-2xl">
+            <div className="p-8 border-b border-white/10 bg-white/[0.02]">
+              <h2 className="text-xl font-bold mb-1 text-white">Perfil de Administrador</h2>
               <p className="text-sm text-white/40">Gestiona tus credenciales de acceso al Control Center.</p>
             </div>
             
             <div className="p-8 space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-widest text-white/30 ml-1">Nombre de Usuario</label>
+                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-brand-blue ml-1">Nombre de Usuario</label>
                   <input 
                     type="text" 
                     defaultValue="Admin PUDU" 
                     disabled
-                    className="w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-white/40 outline-none cursor-not-allowed"
+                    className="w-full px-6 py-4 rounded-2xl bg-white/[0.03] border border-white/10 text-white/60 outline-none cursor-not-allowed font-bold"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-widest text-white/30 ml-1">Email de Control</label>
+                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-brand-blue ml-1">Email de Control</label>
                   <input 
                     type="email" 
                     defaultValue="agustineduardosg@puduit.tech" 
                     disabled
-                    className="w-full px-6 py-4 rounded-2xl bg-white/5 border border-white/10 text-white/40 outline-none cursor-not-allowed"
+                    className="w-full px-6 py-4 rounded-2xl bg-white/[0.03] border border-white/10 text-white/60 outline-none cursor-not-allowed font-bold"
                   />
                 </div>
               </div>
               
               <div className="pt-6">
-                <button className="bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-full font-bold transition-all text-sm flex items-center gap-2">
+                <button className="bg-brand-blue/20 hover:bg-brand-blue/30 text-brand-blue border border-brand-blue/30 px-8 py-4 rounded-full font-black transition-all text-[10px] uppercase tracking-widest flex items-center gap-2">
                   <Save className="w-4 h-4" />
                   Guardar Cambios
                 </button>
@@ -67,25 +67,25 @@ export default function SettingsPage() {
             </div>
           </div>
 
-          <div className="glass rounded-[2rem] border border-white/5 overflow-hidden">
-            <div className="p-8 border-b border-white/5 bg-brand-blue/5">
-              <h2 className="text-xl font-bold mb-1 flex items-center gap-2">
+          <div className="bg-[#0f172a]/80 backdrop-blur-xl rounded-[2.5rem] border border-white/10 overflow-hidden shadow-2xl">
+            <div className="p-8 border-b border-white/10 bg-brand-blue/10">
+              <h2 className="text-xl font-bold mb-1 flex items-center gap-2 text-white">
                 <Database className="w-5 h-5 text-brand-blue" />
                 Estado del Servidor
               </h2>
             </div>
             <div className="p-8">
-              <div className="flex items-center justify-between p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 mb-4">
+              <div className="flex items-center justify-between p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 mb-4">
                 <div className="flex items-center gap-4">
-                  <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="text-sm font-bold text-emerald-400">Base de Datos Conectada</span>
+                  <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
+                  <span className="text-sm font-black text-emerald-400 tracking-tight">Base de Datos Conectada</span>
                 </div>
-                <span className="text-[10px] font-mono text-emerald-500/60 uppercase">PostgreSQL 16</span>
+                <span className="text-[10px] font-mono text-emerald-500/60 uppercase font-black">PostgreSQL 16</span>
               </div>
               
-              <div className="p-4 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-between">
-                <span className="text-xs text-white/60">Uso de Almacenamiento</span>
-                <span className="text-xs font-black text-white">0.24 GB / 10 GB</span>
+              <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-between">
+                <span className="text-xs font-bold text-white/40 uppercase tracking-widest">Uso de Almacenamiento</span>
+                <span className="text-sm font-black text-white">0.24 GB / 10 GB</span>
               </div>
             </div>
           </div>

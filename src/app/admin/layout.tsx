@@ -16,7 +16,7 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className={`min-h-screen bg-[#020617] text-white ${outfit.className}`}>
+    <div className={`min-h-screen bg-[#020617] text-white dark ${outfit.className}`}>
       <AdminLayoutWrapper>
         {children}
       </AdminLayoutWrapper>
