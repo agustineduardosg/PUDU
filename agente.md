@@ -46,9 +46,10 @@ Página de inicio oficial para PUDU (Prime Utility Digital Upgrade), posicionand
 ## Avances Recientes (Abril 2026)
 1. **Vertical de Ciberseguridad:** Implementación del sector "Cybersecurity & GovTech" centrado en Compliance (Ley 21.719) y Safetica DLP.
 2. **Alianza Estratégica:** Integración visual y técnica de la alianza con **e-know** (20 años de experiencia), incluyendo branding oficial en la web.
-3. **Admin Dashboard (CPQ):** 
-   - Desarrollo de un motor de cotizaciones (`/admin/cotizador`) para generación instantánea de PDFs profesionales.
-   - Template de PDF con branding premium y anexo de capacidades industriales.
+3. **Admin Dashboard (CPQ) & Métricas:** 
+   - Desarrollo de un motor de cotizaciones (`/admin/cotizador`) con persistencia automática en base de datos.
+   - Panel de control dinámico con métricas en tiempo real: contador de cotizaciones, valor total propuesto y volumen de leads.
+   - Historial de actividad reciente con tablas interactivas para seguimiento de oportunidades comerciales.
    - Lógica de cálculo de impuestos (IVA) y gestión de múltiples opciones comerciales.
 4. **Identidad Visual High-End:** Sustitución de placeholders por imágenes de alta fidelidad generadas y logos oficiales.
 

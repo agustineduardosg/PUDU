@@ -104,7 +104,6 @@ export default function QuoteEngine() {
       pdfRef.current.style.position = "relative";
       
       // Dynamic import to avoid SSR issues with html2pdf
-      // @ts-expect-error - html2pdf.js does not have official types
       const html2pdf = (await import('html2pdf.js')).default;
 
       const currDate = new Date().toISOString().split("T")[0];
