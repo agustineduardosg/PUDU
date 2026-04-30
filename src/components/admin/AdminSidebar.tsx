@@ -24,7 +24,11 @@ const navItems = [
   { name: "Configuración", href: "/admin/settings", icon: <Settings className="w-5 h-5" /> },
 ];
 
-export const AdminSidebar = () => {
+interface AdminSidebarProps {
+  onClose?: () => void;
+}
+
+export const AdminSidebar: React.FC<AdminSidebarProps> = ({ onClose }) => {
   const pathname = usePathname();
 
   const handleLogout = () => {
