@@ -340,5 +340,41 @@
     ],
     "transversalValue": "El escudo digital definitivo para tu información más crítica.",
     "ctaLabel": "Blindar mi Institución"
+  },
+  "construccion": {
+    "id": "construccion",
+    "colorTheme": "#F97316",
+    "hero": {
+      "title": "Construcción y Adm. (SIO Build)",
+      "subtitle": "Control total de obra, presupuestos, subcontratos y avance físico-financiero en tiempo real con nuestro Building Construction Project Control ERP.",
+      "videoPlaceholderUrl": "/videos/industries/construction.mp4"
+    },
+    "storytelling": {
+      "pain": "El descontrol de costos, los desfases en cronogramas de obra y la falta de visibilidad en el avance físico-financiero generan pérdidas millonarias y retrasos críticos en proyectos inmobiliarios y de infraestructura.",
+      "solution": "SIO Build, cimentado en nuestro ERP de control especializado, centraliza presupuestos, cubicaciones, existencias de bodega, control de mano de obra y liquidaciones de subcontratos en un solo motor de precisión.",
+      "upgrade": "Logramos un control milimétrico del margen operacional de cada obra, optimizando el abastecimiento logístico y conectando el terreno con la administración corporativa de forma transparente y automatizada."
+    },
+    "detailedServices": [
+      {
+        "id": "control-presupuestario-desviaciones",
+        "title": "Control Presupuestario & Desviaciones",
+        "icon": "BarChart3",
+        "description": "Monitoreo en tiempo real del costo real versus el presupuestado (línea base) para prevenir desviaciones financieras y resguardar el margen operacional."
+      },
+      {
+        "id": "suministros-bodega-subcontratos",
+        "title": "Suministros y Subcontratos",
+        "icon": "PackageSearch",
+        "description": "Flujo integrado de solicitudes de compra, control digital de existencias en bodega e hitos de pago por avance físico para subcontratistas."
+      },
+      {
+        "id": "planificacion-avance-fisico",
+        "title": "Planificación & Avance Físico",
+        "icon": "ClipboardCheck",
+        "description": "Conexión de la bitácora de obra con firmas digitales, reportes fotográficos automáticos y sincronización directa con cartas Gantt."
+      }
+    ],
+    "transversalValue": "SIO Build es la columna vertebral tecnológica diseñada para constructoras e inmobiliarias que exigen precisión milimétrica en sus márgenes.",
+    "ctaLabel": "Cotizar SIO Build ERP"
   }
 }

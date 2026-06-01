@@ -17,7 +17,8 @@ import {
   Globe, 
   Cctv, 
   Network,
-  ShieldCheck 
+  ShieldCheck,
+  HardHat 
 } from "lucide-react";
 
 export const IndustryGrid = () => {
@@ -154,6 +155,18 @@ export const IndustryGrid = () => {
       icon: <ShieldCheck className="w-8 h-8 text-white" />,
       span: "md:col-span-1 md:row-span-1",
       image: "/images/industries/cybersecurity-pudu.jpg",
+    },
+    {
+      id: "construccion",
+      title: "Construcción y Adm. (SIO Build)",
+      features: [
+        "Project Control ERP",
+        "Suministros y Bodegas",
+        "Control Presupuestario"
+      ],
+      icon: <HardHat className="w-8 h-8 text-white" />,
+      span: "md:col-span-1 md:row-span-1",
+      image: "/images/industries/construccion-pudu.jpg",
     },
   ];
 

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ChevronDown, Pickaxe, Stethoscope, Sprout, Car, Settings, ShoppingCart, Smartphone, Globe, Cctv, Network, ShieldCheck } from "lucide-react";
+import { Menu, X, ChevronDown, Pickaxe, Stethoscope, Sprout, Car, Settings, ShoppingCart, Smartphone, Globe, Cctv, Network, ShieldCheck, HardHat } from "lucide-react";
 import PuduLogo from "./PuduLogo";
 import Link from "next/link";
 
@@ -28,6 +28,7 @@ export const Header = () => {
     { name: "Automoción (SIO Logistics)", href: "/industrias/automocion", icon: <Car className="w-4 h-4" /> },
     { name: "E-commerce (SIO E-com)", href: "/industrias/ecommerce", icon: <ShoppingCart className="w-4 h-4" /> },
     { name: "Cybersecurity & GovTech", href: "/industrias/cybersecurity-govtech", icon: <ShieldCheck className="w-4 h-4" /> },
+    { name: "Construcción (SIO Build)", href: "/industrias/construccion", icon: <HardHat className="w-4 h-4" /> },
   ];
 
   const groupB = [

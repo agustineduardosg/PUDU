@@ -152,6 +152,7 @@ const ContactFormInner = ({ preselectedIndustry, themeColor }: { preselectedIndu
           <option value="agricultura">Agricultura (Agro-Tecnología y Eficiencia Hídrica)</option>
           <option value="industrial">Industrial (Manufactura e Inteligencia OEE)</option>
           <option value="automocion">Automoción (Movilidad y Flotas Inteligentes)</option>
+          <option value="construccion">Construcción y Administración (ERP de Control de Obra)</option>
           <option value="Integración IA y Datos">Integración IA y Datos</option>
           <option value="Ciberseguridad y Monitoreo">Ciberseguridad y Monitoreo</option>
         </select>

@@ -20,6 +20,7 @@ export const Footer = () => {
     { name: "Videovigilancia Rural", href: "/industrias/videovigilancia-rural" },
     { name: "Redes e Infraestructura", href: "/industrias/redes-infraestructura" },
     { name: "Cybersecurity & GovTech", href: "/industrias/cybersecurity-govtech" },
+    { name: "Construcción (SIO Build)", href: "/industrias/construccion" },
   ];
 
   const [isLoginOpen, setIsLoginOpen] = React.useState(false);
