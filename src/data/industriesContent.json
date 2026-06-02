@@ -345,36 +345,36 @@
     "id": "construccion",
     "colorTheme": "#F97316",
     "hero": {
-      "title": "Construcción y Adm. (SIO Build)",
-      "subtitle": "Control total de obra, presupuestos, subcontratos y avance físico-financiero en tiempo real con nuestro Building Construction Project Control ERP.",
+      "title": "Construcción y Adm. (SesHat Pro)",
+      "subtitle": "Gestión inteligente de obras con SesHat Pro Building, potenciado con IA nativa y su asistente ISIS para el control automatizado de contratos y presupuestos.",
       "videoPlaceholderUrl": "/videos/industries/construction.mp4"
     },
     "storytelling": {
-      "pain": "El descontrol de costos, los desfases en cronogramas de obra y la falta de visibilidad en el avance físico-financiero generan pérdidas millonarias y retrasos críticos en proyectos inmobiliarios y de infraestructura.",
-      "solution": "SIO Build, cimentado en nuestro ERP de control especializado, centraliza presupuestos, cubicaciones, existencias de bodega, control de mano de obra y liquidaciones de subcontratos en un solo motor de precisión.",
-      "upgrade": "Logramos un control milimétrico del margen operacional de cada obra, optimizando el abastecimiento logístico y conectando el terreno con la administración corporativa de forma transparente y automatizada."
+      "pain": "El descontrol de costos, las brechas contractuales y la falta de visibilidad en el avance físico-financiero generan contingencias legales y pérdidas críticas en proyectos inmobiliarios.",
+      "solution": "SesHat Pro Building centraliza presupuestos, existencias y cubicaciones de obra, integrando a ISIS, nuestro asistente de inteligencia artificial embebido nativamente para auditar, redactar y gestionar contratos en tiempo real.",
+      "upgrade": "Logramos una gestión contractual blindada y un control de costos milimétrico en terreno, asistido 24/7 por el asistente IA ISIS que previene desvíos y optimiza la relación con proveedores y subcontratos."
     },
     "detailedServices": [
       {
+        "id": "asistente-ia-isis",
+        "title": "Asistente Contractual ISIS",
+        "icon": "Cpu",
+        "description": "IA nativa embebida que revisa cláusulas, audita estados de pago y gestiona desviaciones de contratos en tiempo real."
+      },
+      {
         "id": "control-presupuestario-desviaciones",
-        "title": "Control Presupuestario & Desviaciones",
+        "title": "Control Físico-Financiero",
         "icon": "BarChart3",
-        "description": "Monitoreo en tiempo real del costo real versus el presupuestado (línea base) para prevenir desviaciones financieras y resguardar el margen operacional."
+        "description": "Monitoreo preciso de avance de obra y costos asociados, sincronizado directamente con la bitácora administrativa de SesHat Pro Building."
       },
       {
-        "id": "suministros-bodega-subcontratos",
-        "title": "Suministros y Subcontratos",
+        "id": "gestion-proveedores-subcontratos",
+        "title": "Subcontratos y Suministros",
         "icon": "PackageSearch",
-        "description": "Flujo integrado de solicitudes de compra, control digital de existencias en bodega e hitos de pago por avance físico para subcontratistas."
-      },
-      {
-        "id": "planificacion-avance-fisico",
-        "title": "Planificación & Avance Físico",
-        "icon": "ClipboardCheck",
-        "description": "Conexión de la bitácora de obra con firmas digitales, reportes fotográficos automáticos y sincronización directa con cartas Gantt."
+        "description": "Flujo de adquisiciones automatizado y trazabilidad completa de órdenes de compra e hitos de liberación de fondos."
       }
     ],
-    "transversalValue": "SIO Build es la columna vertebral tecnológica diseñada para constructoras e inmobiliarias que exigen precisión milimétrica en sus márgenes.",
-    "ctaLabel": "Cotizar SIO Build ERP"
+    "transversalValue": "SesHat Pro Building y el asistente ISIS representan la nueva frontera del control tecnológico y la protección de márgenes en construcción.",
+    "ctaLabel": "Cotizar SesHat Pro ERP"
   }
 }

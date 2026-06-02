@@ -158,11 +158,11 @@ export const IndustryGrid = () => {
     },
     {
       id: "construccion",
-      title: "Construcción y Adm. (SIO Build)",
+      title: "Construcción y Adm. (SesHat Pro)",
       features: [
-        "Project Control ERP",
-        "Suministros y Bodegas",
-        "Control Presupuestario"
+        "SesHat Pro Building",
+        "Asistente IA ISIS",
+        "Gestión Contractual"
       ],
       icon: <HardHat className="w-8 h-8 text-white" />,
       span: "md:col-span-1 md:row-span-1",

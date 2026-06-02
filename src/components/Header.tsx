@@ -28,7 +28,7 @@ export const Header = () => {
     { name: "Automoción (SIO Logistics)", href: "/industrias/automocion", icon: <Car className="w-4 h-4" /> },
     { name: "E-commerce (SIO E-com)", href: "/industrias/ecommerce", icon: <ShoppingCart className="w-4 h-4" /> },
     { name: "Cybersecurity & GovTech", href: "/industrias/cybersecurity-govtech", icon: <ShieldCheck className="w-4 h-4" /> },
-    { name: "Construcción (SIO Build)", href: "/industrias/construccion", icon: <HardHat className="w-4 h-4" /> },
+    { name: "Construcción (SesHat Pro)", href: "/industrias/construccion", icon: <HardHat className="w-4 h-4" /> },
   ];
 
   const groupB = [
