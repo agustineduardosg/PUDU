@@ -5,6 +5,7 @@ WORKDIR /app
 # Enable corepack for modern package managers if needed, 
 # but we'll stick to npm as package-lock.json is present.
 COPY package.json package-lock.json ./
+COPY prisma/schema.prisma ./prisma/schema.prisma
 RUN npm ci
 
 ARG DATABASE_URL
