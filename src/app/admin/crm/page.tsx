@@ -7,7 +7,6 @@ import {
   Target,
   Users,
 } from "lucide-react";
-import { prisma } from "@/lib/prisma";
 import { updateLeadStage } from "./actions";
 
 export const dynamic = "force-dynamic";
@@ -23,6 +22,76 @@ const stages = [
   { label: "Perdidos", status: "LOST", color: "bg-rose-400" },
 ] as const;
 
+type CrmLead = {
+  company: string | null;
+  createdAt: Date;
+  email: string;
+  id: string;
+  name: string;
+  priority: string;
+  source: string;
+  status: string;
+  tasks: { dueAt: Date | null }[];
+};
+
+const demoLeads: CrmLead[] = [
+  {
+    company: "Clínica Andina · Demo",
+    createdAt: new Date("2026-07-25T10:30:00-04:00"),
+    email: "contacto@clinica-demo.cl",
+    id: "demo-clinica",
+    name: "Carolina Muñoz",
+    priority: "HIGH",
+    source: "INSTAGRAM",
+    status: "NEW",
+    tasks: [{ dueAt: new Date("2026-07-29T10:00:00-04:00") }],
+  },
+  {
+    company: "Taller Norte · Demo",
+    createdAt: new Date("2026-07-23T09:15:00-04:00"),
+    email: "ventas@taller-demo.cl",
+    id: "demo-taller",
+    name: "Felipe Rojas",
+    priority: "MEDIUM",
+    source: "WEBSITE",
+    status: "QUALIFYING",
+    tasks: [{ dueAt: new Date("2026-07-30T15:30:00-04:00") }],
+  },
+  {
+    company: "Estudio Sur · Demo",
+    createdAt: new Date("2026-07-21T16:45:00-04:00"),
+    email: "hola@estudio-demo.cl",
+    id: "demo-estudio",
+    name: "Marcela Soto",
+    priority: "URGENT",
+    source: "REFERRAL",
+    status: "CONTACTED",
+    tasks: [],
+  },
+  {
+    company: "Constructora Pacífico · Demo",
+    createdAt: new Date("2026-07-18T11:00:00-04:00"),
+    email: "proyectos@constructora-demo.cl",
+    id: "demo-constructora",
+    name: "Diego Arancibia",
+    priority: "HIGH",
+    source: "LINKEDIN",
+    status: "MEETING",
+    tasks: [{ dueAt: new Date("2026-08-01T09:00:00-04:00") }],
+  },
+  {
+    company: "EcoMarket · Demo",
+    createdAt: new Date("2026-07-10T12:20:00-04:00"),
+    email: "gerencia@ecomarket-demo.cl",
+    id: "demo-ecomarket",
+    name: "Paula Contreras",
+    priority: "MEDIUM",
+    source: "CAMPAIGN",
+    status: "PROPOSAL",
+    tasks: [],
+  },
+];
+
 function formatDate(value: Date) {
   return new Intl.DateTimeFormat("es-CL", {
     day: "2-digit",
@@ -30,8 +99,23 @@ function formatDate(value: Date) {
   }).format(value);
 }
 
-export default async function CrmPipelinePage() {
-  const [leads, pendingTasks, queuedMessages] = await Promise.all([
+async function loadCrmData() {
+  const isDemo = process.env.CRM_DEMO_MODE === "true";
+
+  if (isDemo) {
+    return {
+      isDemo,
+      leads: demoLeads,
+      pendingTasks: demoLeads.reduce(
+        (total, lead) => total + lead.tasks.length,
+        0,
+      ),
+      queuedMessages: 3,
+    };
+  }
+
+  const { prisma } = await import("@/lib/prisma");
+  const [databaseLeads, pendingTasks, queuedMessages] = await Promise.all([
     prisma.contactSubmission.findMany({
       include: {
         tasks: {
@@ -50,6 +134,17 @@ export default async function CrmPipelinePage() {
     }),
   ]);
 
+  return {
+    isDemo,
+    leads: databaseLeads as CrmLead[],
+    pendingTasks,
+    queuedMessages,
+  };
+}
+
+export default async function CrmPipelinePage() {
+  const { isDemo, leads, pendingTasks, queuedMessages } = await loadCrmData();
+
   const wonCount = leads.filter((lead) => lead.status === "WON").length;
   const activeCount = leads.filter(
     (lead) => !["WON", "LOST"].includes(lead.status),
@@ -57,6 +152,12 @@ export default async function CrmPipelinePage() {
 
   return (
     <div className="animate-in fade-in duration-700">
+      {isDemo && (
+        <div className="mb-6 rounded-2xl border border-amber-400/20 bg-amber-400/10 px-5 py-4 text-sm text-amber-200">
+          Vista de demostración: los prospectos son ficticios y los movimientos
+          entre etapas están desactivados.
+        </div>
+      )}
       <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-6 mb-8">
         <div>
           <div className="flex items-center gap-2 text-brand-emerald text-xs font-black uppercase tracking-[0.2em] mb-3">
@@ -160,7 +261,7 @@ export default async function CrmPipelinePage() {
                       </div>
 
                       <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between">
-                        {stageIndex > 0 ? (
+                        {!isDemo && stageIndex > 0 ? (
                           <form action={updateLeadStage}>
                             <input type="hidden" name="leadId" value={lead.id} />
                             <button
@@ -181,7 +282,7 @@ export default async function CrmPipelinePage() {
                           {lead.source}
                         </span>
 
-                        {stageIndex < stages.length - 1 ? (
+                        {!isDemo && stageIndex < stages.length - 1 ? (
                           <form action={updateLeadStage}>
                             <input type="hidden" name="leadId" value={lead.id} />
                             <button
