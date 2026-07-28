@@ -7,6 +7,7 @@ import {
   Target,
   Users,
 } from "lucide-react";
+import { crmDemoLeads, type CrmDemoLead } from "@/data/crmDemo";
 import { updateLeadStage } from "./actions";
 
 export const dynamic = "force-dynamic";
@@ -22,76 +23,6 @@ const stages = [
   { label: "Perdidos", status: "LOST", color: "bg-rose-400" },
 ] as const;
 
-type CrmLead = {
-  company: string | null;
-  createdAt: Date;
-  email: string;
-  id: string;
-  name: string;
-  priority: string;
-  source: string;
-  status: string;
-  tasks: { dueAt: Date | null }[];
-};
-
-const demoLeads: CrmLead[] = [
-  {
-    company: "Clínica Andina · Demo",
-    createdAt: new Date("2026-07-25T10:30:00-04:00"),
-    email: "contacto@clinica-demo.cl",
-    id: "demo-clinica",
-    name: "Carolina Muñoz",
-    priority: "HIGH",
-    source: "INSTAGRAM",
-    status: "NEW",
-    tasks: [{ dueAt: new Date("2026-07-29T10:00:00-04:00") }],
-  },
-  {
-    company: "Taller Norte · Demo",
-    createdAt: new Date("2026-07-23T09:15:00-04:00"),
-    email: "ventas@taller-demo.cl",
-    id: "demo-taller",
-    name: "Felipe Rojas",
-    priority: "MEDIUM",
-    source: "WEBSITE",
-    status: "QUALIFYING",
-    tasks: [{ dueAt: new Date("2026-07-30T15:30:00-04:00") }],
-  },
-  {
-    company: "Estudio Sur · Demo",
-    createdAt: new Date("2026-07-21T16:45:00-04:00"),
-    email: "hola@estudio-demo.cl",
-    id: "demo-estudio",
-    name: "Marcela Soto",
-    priority: "URGENT",
-    source: "REFERRAL",
-    status: "CONTACTED",
-    tasks: [],
-  },
-  {
-    company: "Constructora Pacífico · Demo",
-    createdAt: new Date("2026-07-18T11:00:00-04:00"),
-    email: "proyectos@constructora-demo.cl",
-    id: "demo-constructora",
-    name: "Diego Arancibia",
-    priority: "HIGH",
-    source: "LINKEDIN",
-    status: "MEETING",
-    tasks: [{ dueAt: new Date("2026-08-01T09:00:00-04:00") }],
-  },
-  {
-    company: "EcoMarket · Demo",
-    createdAt: new Date("2026-07-10T12:20:00-04:00"),
-    email: "gerencia@ecomarket-demo.cl",
-    id: "demo-ecomarket",
-    name: "Paula Contreras",
-    priority: "MEDIUM",
-    source: "CAMPAIGN",
-    status: "PROPOSAL",
-    tasks: [],
-  },
-];
-
 function formatDate(value: Date) {
   return new Intl.DateTimeFormat("es-CL", {
     day: "2-digit",
@@ -105,8 +36,8 @@ async function loadCrmData() {
   if (isDemo) {
     return {
       isDemo,
-      leads: demoLeads,
-      pendingTasks: demoLeads.reduce(
+      leads: crmDemoLeads,
+      pendingTasks: crmDemoLeads.reduce(
         (total, lead) => total + lead.tasks.length,
         0,
       ),
@@ -136,7 +67,7 @@ async function loadCrmData() {
 
   return {
     isDemo,
-    leads: databaseLeads as CrmLead[],
+    leads: databaseLeads as CrmDemoLead[],
     pendingTasks,
     queuedMessages,
   };

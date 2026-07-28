@@ -50,6 +50,7 @@ export const Header = () => {
         }`}>
           {/* Logo */}
           <PuduLogo 
+            href="/"
             color="currentColor" 
             className={`h-10 w-28 transition-colors duration-500 ${
               isScrolled ? "text-foreground" : "text-white"

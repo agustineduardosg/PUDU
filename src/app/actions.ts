@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import nodemailer from "nodemailer";
+import { crmDemoLeads } from "@/data/crmDemo";
 
 export async function submitContactForm(formData: FormData) {
   const name = formData.get("name") as string;
@@ -110,6 +111,18 @@ export async function saveQuote(data: {
 }
 
 export async function getDashboardData() {
+  if (process.env.CRM_DEMO_MODE === "true") {
+    return {
+      metrics: {
+        quotesCount: 0,
+        totalValue: 0,
+        dbStatus: "DEMO",
+      },
+      recentQuotes: [],
+      recentLeads: crmDemoLeads.slice(0, 5),
+    };
+  }
+
   try {
     const [quotesCount, totalProposed, recentQuotes, recentLeads] = await Promise.all([
       prisma.quote.count(),
@@ -141,15 +154,19 @@ export async function getDashboardData() {
       recentQuotes,
       recentLeads,
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("CRITICAL: Error fetching dashboard data:", error);
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : "Error desconocido de base de datos";
     // Return empty state instead of crashing, but include error info for the dev
     return {
       metrics: {
         quotesCount: 0,
         totalValue: 0,
         dbStatus: "ERROR",
-        errorMessage: error.message || "Error desconocido de base de datos"
+        errorMessage,
       },
       recentQuotes: [],
       recentLeads: [],
@@ -158,6 +175,10 @@ export async function getDashboardData() {
   }
 }
 export async function getAllLeads() {
+  if (process.env.CRM_DEMO_MODE === "true") {
+    return crmDemoLeads;
+  }
+
   try {
     const leads = await prisma.contactSubmission.findMany({
       orderBy: {
@@ -171,6 +192,10 @@ export async function getAllLeads() {
   }
 }
 export async function getAllQuotes() {
+  if (process.env.CRM_DEMO_MODE === "true") {
+    return [];
+  }
+
   try {
     const quotes = await prisma.quote.findMany({
       orderBy: {

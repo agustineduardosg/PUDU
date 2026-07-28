@@ -43,9 +43,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ onClose }) => {
       {/* Sidebar Header */}
       <div className="p-8 border-b border-white/5 mb-6 relative">
         <div className="flex items-center justify-between">
-          <Link href="/admin">
-            <PuduLogo color="white" className="h-8 w-24" />
-          </Link>
+          <PuduLogo href="/admin" color="white" className="h-8 w-24" />
           <button 
             onClick={onClose}
             className="lg:hidden p-2 hover:bg-white/5 rounded-xl transition-colors"
