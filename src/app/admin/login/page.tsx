@@ -29,7 +29,7 @@ export default function LoginPage() {
         return;
       }
 
-      router.replace("/admin");
+      router.replace("/admin/crm");
       router.refresh();
     } catch {
       setError("No fue posible conectar con el servidor.");
