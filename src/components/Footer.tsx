@@ -93,6 +93,12 @@ export const Footer = () => {
           </div>
           
           <div className="flex items-center gap-8">
+            <Link
+              href="/politica-de-privacidad"
+              className="text-white/40 hover:text-brand-blue transition-colors"
+            >
+              Privacidad
+            </Link>
             <button 
               onClick={() => setIsLoginOpen(true)}
               className="text-white/20 hover:text-brand-blue transition-colors flex items-center gap-2 group"
