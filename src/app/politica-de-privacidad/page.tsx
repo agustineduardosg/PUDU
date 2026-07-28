@@ -49,6 +49,11 @@ const sections = [
           Datos técnicos básicos necesarios para seguridad, diagnóstico y
           funcionamiento de nuestros servicios.
         </li>
+        <li>
+          Fuente de la visita, campaña, página de entrada, tipo general de
+          dispositivo y acciones de conversión realizadas en el sitio. Esta
+          medición propia no almacena la dirección IP ni el navegador completo.
+        </li>
       </ul>
     ),
   },
@@ -67,6 +72,10 @@ const sections = [
         <li>
           Mantener la seguridad, prevenir abusos y mejorar nuestros procesos y
           servicios.
+        </li>
+        <li>
+          Medir de forma agregada el rendimiento del sitio y atribuir una
+          solicitud a su fuente o campaña de origen.
         </li>
         <li>
           Cumplir obligaciones contractuales o legales aplicables en Chile.

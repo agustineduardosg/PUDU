@@ -32,7 +32,8 @@ export const Footer = () => {
           <div className="col-span-1 md:col-span-4">
             <PuduLogo color="white" className="h-10 w-28 mb-8" />
             <p className="text-white/50 leading-relaxed mb-8 max-w-sm">
-              La Casa Tecnológica líder en transformación digital industrial en Chile. Ingeniería ágil, resultados de alta precisión y arquitectura senior.
+              Tecnología chilena para convertir procesos lentos en software,
+              automatizaciones y experiencias digitales que generan resultados.
             </p>
             <div className="flex items-center gap-4">
               <a href="https://lnkd.in/d9dmZYc3" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-brand-blue hover:text-white transition-all text-white">
@@ -106,7 +107,9 @@ export const Footer = () => {
               <span className="w-1.5 h-1.5 rounded-full bg-white/10 group-hover:bg-brand-blue transition-colors" />
               Portal de Sistemas
             </button>
-            <p className="text-xs">Potenciado por <span className="text-white/60">Vibe Coding & Precision AI.</span></p>
+            <p className="text-xs">
+              Ingeniería acelerada por IA y supervisada por experiencia senior.
+            </p>
           </div>
         </div>
       </div>

@@ -14,6 +14,7 @@ import {
   Phone,
   Save,
   ShieldAlert,
+  Sparkles,
   UserRound,
 } from "lucide-react";
 import {
@@ -346,6 +347,49 @@ export default async function LeadDetailPage({
         </div>
 
         <aside className="space-y-6">
+          <section className="rounded-[2rem] border border-brand-emerald/20 bg-brand-emerald/[0.05] p-6">
+            <div className="flex items-start gap-3">
+              <Sparkles className="mt-0.5 h-5 w-5 text-brand-emerald" />
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <h2 className="font-black">Calificación automática</h2>
+                  <span className="rounded-full bg-white/5 px-2.5 py-1 text-[9px] font-black uppercase tracking-wider text-white/45">
+                    Confianza {lead.qualificationConfidence || 0}%
+                  </span>
+                </div>
+                <p className="mt-3 text-sm leading-relaxed text-white/65">
+                  {lead.qualificationSummary ||
+                    "Este prospecto todavía no ha sido clasificado automáticamente."}
+                </p>
+                {lead.qualificationReason && (
+                  <p className="mt-3 text-xs leading-relaxed text-white/40">
+                    {lead.qualificationReason}
+                  </p>
+                )}
+                {lead.tags && lead.tags.length > 0 && (
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {lead.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-white/10 bg-slate-950/60 px-2.5 py-1 text-[9px] font-bold text-white/45"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                {lead.classificationVersion && (
+                  <p className="mt-4 text-[9px] uppercase tracking-wider text-white/20">
+                    Motor {lead.classificationVersion}
+                    {lead.qualifiedAt
+                      ? ` · ${formatDate(lead.qualifiedAt, true)}`
+                      : ""}
+                  </p>
+                )}
+              </div>
+            </div>
+          </section>
+
           <form
             action={updateLeadProfile}
             className="rounded-[2rem] border border-white/10 bg-[#0f172a]/80 p-6"

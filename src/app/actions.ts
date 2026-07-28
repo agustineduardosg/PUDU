@@ -5,35 +5,122 @@ import { revalidatePath } from "next/cache";
 import nodemailer from "nodemailer";
 import { crmDemoLeads } from "@/data/crmDemo";
 
+function formValue(formData: FormData, field: string, maxLength: number) {
+  return String(formData.get(field) || "").trim().slice(0, maxLength);
+}
+
+function escapeHtml(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
 export async function submitContactForm(formData: FormData) {
-  const name = formData.get("name") as string;
-  const company = formData.get("company") as string;
-  const email = formData.get("email") as string;
-  const interest = formData.get("interest") as string;
-  const message = formData.get("message") as string;
+  const name = formValue(formData, "name", 160);
+  const company = formValue(formData, "company", 200);
+  const email = formValue(formData, "email", 254).toLowerCase();
+  const phone = formValue(formData, "phone", 40);
+  const interest = formValue(formData, "interest", 200);
+  const message = formValue(formData, "message", 4000);
+  const utmSource = formValue(formData, "utmSource", 120);
+  const utmMedium = formValue(formData, "utmMedium", 120);
+  const utmCampaign = formValue(formData, "utmCampaign", 180);
+  const utmContent = formValue(formData, "utmContent", 180);
+  const landingPath = formValue(formData, "landingPath", 500);
+  const referrer = formValue(formData, "referrer", 500);
+  const conversionSessionKey = formValue(
+    formData,
+    "conversionSessionKey",
+    120,
+  );
 
   if (!name || !email || !message) {
     return { error: "Todos los campos obligatorios son necesarios." };
   }
+  if (!email.includes("@") || !email.includes(".")) {
+    return { error: "Ingresa un correo válido." };
+  }
+
+  let submission: { id: string };
 
   try {
-    // 1. Guardar en Base de Datos
-    const submission = await prisma.contactSubmission.create({
-      data: { name, company, email, interest, message },
+    submission = await prisma.contactSubmission.create({
+      data: {
+        company: company || null,
+        email,
+        interest,
+        landingPath: landingPath || null,
+        message,
+        name,
+        phone: phone || null,
+        referrer: referrer || null,
+        utmCampaign: utmCampaign || null,
+        utmContent: utmContent || null,
+        utmMedium: utmMedium || null,
+        utmSource: utmSource || null,
+      },
     });
+  } catch (error) {
+    console.error("Error saving contact submission:", error);
+    return {
+      error:
+        "No pudimos registrar tu solicitud. Inténtalo nuevamente en unos minutos.",
+    };
+  }
 
-    // 2. Configurar Transportador (Zoho)
+  if (conversionSessionKey) {
+    try {
+      await prisma.conversionSession.upsert({
+        create: {
+          events: {
+            create: {
+              name: "LEAD_SUBMITTED",
+              path: landingPath || "/",
+              metadata: { interest },
+            },
+          },
+          firstPath: landingPath || "/",
+          firstReferrer: referrer || null,
+          leadId: submission.id,
+          sessionKey: conversionSessionKey,
+          utmCampaign: utmCampaign || null,
+          utmContent: utmContent || null,
+          utmMedium: utmMedium || null,
+          utmSource: utmSource || null,
+        },
+        update: {
+          events: {
+            create: {
+              name: "LEAD_SUBMITTED",
+              path: landingPath || "/",
+              metadata: { interest },
+            },
+          },
+          leadId: submission.id,
+        },
+        where: { sessionKey: conversionSessionKey },
+      });
+    } catch (error) {
+      // The lead is already safe in the CRM. Analytics should not make the
+      // visitor resubmit the form if attribution fails.
+      console.error("Contact saved, but conversion attribution failed:", error);
+    }
+  }
+
+  try {
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST || "smtp.zoho.com",
       port: Number(process.env.SMTP_PORT) || 465,
-      secure: true, // true for 465
+      secure: true,
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
       },
     });
 
-    // 3. Enviar Correo
     await transporter.sendMail({
       from: `"PUDU Ecosystem" <${process.env.SMTP_USER}>`,
       to: "agustineduardosg@puduit.tech, puduit_solutions@puduit.tech",
@@ -41,26 +128,32 @@ export async function submitContactForm(formData: FormData) {
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: auto; border: 1px solid #eee; padding: 20px; border-radius: 10px;">
           <h2 style="color: #10B981;">Nuevo Contacto desde PUDU Landing</h2>
-          <p><strong>Nombre:</strong> ${name}</p>
-          <p><strong>Empresa/Cargo:</strong> ${company || "No especificado"}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Interés:</strong> ${interest}</p>
+          <p><strong>Nombre:</strong> ${escapeHtml(name)}</p>
+          <p><strong>Empresa/Cargo:</strong> ${escapeHtml(company || "No especificado")}</p>
+          <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+          <p><strong>Teléfono:</strong> ${escapeHtml(phone || "No especificado")}</p>
+          <p><strong>Interés:</strong> ${escapeHtml(interest)}</p>
+          <p><strong>Origen:</strong> ${escapeHtml([utmSource, utmMedium, utmCampaign].filter(Boolean).join(" / ") || "Directo")}</p>
           <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
           <p><strong>Mensaje:</strong></p>
-          <p style="background: #f9f9f9; padding: 15px; border-radius: 5px;">${message}</p>
+          <p style="background: #f9f9f9; padding: 15px; border-radius: 5px;">${escapeHtml(message)}</p>
           <footer style="margin-top: 20px; font-size: 12px; color: #666;">
             Enviado automáticamente desde el motor PUDU Ecosystem. ID: ${submission.id}
           </footer>
         </div>
       `,
     });
-
-    revalidatePath("/");
-    return { success: "¡Solicitud enviada con éxito! Nos contactaremos pronto." };
   } catch (error) {
-    console.error("Error submitting form:", error);
-    return { error: "Hubo un problema al enviar tu solicitud. Inténtalo de nuevo." };
+    // El prospecto ya quedó guardado en el CRM. Una falla de notificación no
+    // debe hacer que la persona reenvíe el formulario y genere duplicados.
+    console.error("Contact saved, but notification email failed:", error);
   }
+
+  revalidatePath("/");
+  return {
+    success:
+      "¡Solicitud recibida! Revisaremos tu caso y te contactaremos dentro de 1 día hábil.",
+  };
 }
 
 export async function saveQuote(data: {

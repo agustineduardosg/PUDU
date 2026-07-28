@@ -123,40 +123,97 @@ enum InstagramMessageDirection {
   OUTBOUND
 }
 
+enum ConversionEventName {
+  PAGE_VIEW
+  CTA_CLICK
+  DIAGNOSTIC_STARTED
+  DIAGNOSTIC_COMPLETED
+  CONTACT_FORM_STARTED
+  LEAD_SUBMITTED
+}
+
 model ContactSubmission {
-  id              String            @id @default(cuid())
-  name            String
-  company         String?
-  email           String?
-  phone           String?
-  city            String?
-  instagram       String?
-  interest        String
-  message         String
-  source          LeadSource        @default(WEBSITE)
-  status          LeadStatus        @default(NEW)
-  priority        LeadPriority      @default(MEDIUM)
-  score           Int               @default(0)
-  tags            String[]          @default([])
-  assignedTo      String?
-  notes           String?
-  lastContactAt   DateTime?
-  nextFollowUpAt  DateTime?
-  doNotContact    Boolean           @default(false)
-  doNotContactReason String?
-  unsubscribedAt  DateTime?
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  activities      LeadActivity[]
-  tasks           LeadTask[]
-  messages        OutboundMessage[]
-  campaignMembers CampaignMember[]
-  instagramConversations InstagramConversation[]
+  id                      String                  @id @default(cuid())
+  name                    String
+  company                 String?
+  email                   String?
+  phone                   String?
+  city                    String?
+  instagram               String?
+  interest                String
+  message                 String
+  source                  LeadSource              @default(WEBSITE)
+  utmSource               String?
+  utmMedium               String?
+  utmCampaign             String?
+  utmContent              String?
+  landingPath             String?
+  referrer                String?
+  status                  LeadStatus              @default(NEW)
+  priority                LeadPriority            @default(MEDIUM)
+  score                   Int                     @default(0)
+  tags                    String[]                @default([])
+  qualificationSummary    String?
+  qualificationReason     String?
+  qualificationConfidence Int                     @default(0)
+  classificationVersion   String?
+  qualifiedAt             DateTime?
+  assignedTo              String?
+  notes                   String?
+  lastContactAt           DateTime?
+  nextFollowUpAt          DateTime?
+  doNotContact            Boolean                 @default(false)
+  doNotContactReason      String?
+  unsubscribedAt          DateTime?
+  createdAt               DateTime                @default(now())
+  updatedAt               DateTime                @updatedAt
+  activities              LeadActivity[]
+  tasks                   LeadTask[]
+  messages                OutboundMessage[]
+  campaignMembers         CampaignMember[]
+  instagramConversations  InstagramConversation[]
+  conversionSession       ConversionSession?
 
   @@index([status, createdAt])
   @@index([email])
   @@index([nextFollowUpAt])
   @@index([doNotContact, updatedAt])
+  @@index([priority, score])
+  @@index([utmSource, createdAt])
+}
+
+model ConversionSession {
+  id            String             @id @default(cuid())
+  sessionKey    String             @unique
+  firstPath     String
+  firstReferrer String?
+  utmSource     String?
+  utmMedium     String?
+  utmCampaign   String?
+  utmContent    String?
+  deviceType    String?
+  leadId        String?            @unique
+  lead          ContactSubmission? @relation(fields: [leadId], references: [id], onDelete: SetNull)
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+  events        ConversionEvent[]
+
+  @@index([createdAt])
+  @@index([utmSource, createdAt])
+  @@index([utmCampaign, createdAt])
+}
+
+model ConversionEvent {
+  id        String              @id @default(cuid())
+  sessionId String
+  session   ConversionSession   @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  name      ConversionEventName
+  path      String
+  metadata  Json?
+  createdAt DateTime            @default(now())
+
+  @@index([name, createdAt])
+  @@index([sessionId, createdAt])
 }
 
 model InstagramAccount {
@@ -193,26 +250,26 @@ model InstagramConversation {
 }
 
 model InstagramMessage {
-  id            String                    @id @default(cuid())
+  id             String                    @id @default(cuid())
   conversationId String
-  conversation  InstagramConversation     @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  metaMessageId String                    @unique
-  direction     InstagramMessageDirection
-  text          String?
-  payload       Json?
-  occurredAt    DateTime
-  createdAt     DateTime                  @default(now())
+  conversation   InstagramConversation     @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  metaMessageId  String                    @unique
+  direction      InstagramMessageDirection
+  text           String?
+  payload        Json?
+  occurredAt     DateTime
+  createdAt      DateTime                  @default(now())
 
   @@index([conversationId, occurredAt])
 }
 
 model InstagramWebhookEvent {
-  id          String   @id @default(cuid())
-  status      String
-  payload     Json
+  id           String    @id @default(cuid())
+  status       String
+  payload      Json
   errorMessage String?
-  receivedAt  DateTime @default(now())
-  processedAt DateTime?
+  receivedAt   DateTime  @default(now())
+  processedAt  DateTime?
 
   @@index([status, receivedAt])
 }
@@ -250,15 +307,15 @@ model LeadTask {
 }
 
 model OutboundMessage {
-  id                String             @id @default(cuid())
+  id                String                 @id @default(cuid())
   leadId            String?
-  lead              ContactSubmission? @relation(fields: [leadId], references: [id], onDelete: SetNull)
+  lead              ContactSubmission?     @relation(fields: [leadId], references: [id], onDelete: SetNull)
   campaignId        String?
-  campaign          Campaign?          @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+  campaign          Campaign?              @relation(fields: [campaignId], references: [id], onDelete: SetNull)
   templateId        String?
-  template          MessageTemplate?   @relation(fields: [templateId], references: [id], onDelete: SetNull)
+  template          MessageTemplate?       @relation(fields: [templateId], references: [id], onDelete: SetNull)
   channel           MessageChannel
-  status            MessageStatus      @default(DRAFT)
+  status            MessageStatus          @default(DRAFT)
   recipient         String
   subject           String?
   content           String
@@ -268,11 +325,11 @@ model OutboundMessage {
   errorMessage      String?
   approvedAt        DateTime?
   approvedBy        String?
-  sendAttempts      Int                @default(0)
+  sendAttempts      Int                    @default(0)
   lastAttemptAt     DateTime?
   createdBy         String?
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt
+  createdAt         DateTime               @default(now())
+  updatedAt         DateTime               @updatedAt
   deliveryEvents    MessageDeliveryEvent[]
 
   @@index([status, scheduledAt])

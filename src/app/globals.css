@@ -41,6 +41,24 @@ body {
   box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
 
+@layer components {
+  .form-control {
+    width: 100%;
+    border: 1px solid color-mix(in srgb, var(--foreground) 10%, transparent);
+    border-radius: 1rem;
+    background: var(--background);
+    padding: 1rem 1.5rem;
+    color: var(--foreground);
+    outline: none;
+    transition: border-color 180ms ease, box-shadow 180ms ease;
+  }
+
+  .form-control:focus {
+    border-color: var(--color-brand-emerald);
+    box-shadow: 0 0 0 4px rgb(16 185 129 / 0.1);
+  }
+}
+
 @layer utilities {
   .text-gradient-emerald {
     @apply bg-clip-text text-transparent bg-linear-to-r from-brand-emerald to-brand-blue;

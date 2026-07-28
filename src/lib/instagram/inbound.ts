@@ -2,9 +2,17 @@ import {
   ActivityType,
   InstagramConversationStatus,
   InstagramMessageDirection,
+  LeadPriority,
   LeadSource,
   Prisma,
+  TaskStatus,
 } from "@/generated/prisma";
+import {
+  classifyInstagramLead,
+  INSTAGRAM_RESPONSE_TASK_TITLE,
+  LEAD_CLASSIFICATION_VERSION,
+  preserveAdvancedLeadStatus,
+} from "@/lib/crm/lead-classification";
 import { prisma } from "@/lib/prisma";
 
 type InstagramMessagingEvent = {
@@ -31,6 +39,35 @@ type InstagramWebhookPayload = {
 
 function clean(value: unknown, maxLength = 2000) {
   return String(value || "").trim().slice(0, maxLength);
+}
+
+const priorityRank: Record<LeadPriority, number> = {
+  [LeadPriority.LOW]: 0,
+  [LeadPriority.MEDIUM]: 1,
+  [LeadPriority.HIGH]: 2,
+  [LeadPriority.URGENT]: 3,
+};
+
+function higherPriority(current: LeadPriority, recommended: LeadPriority) {
+  return priorityRank[current] >= priorityRank[recommended]
+    ? current
+    : recommended;
+}
+
+function conversationStatusAfterClassification(
+  current: InstagramConversationStatus | undefined,
+  recommended: InstagramConversationStatus,
+  blocked: boolean,
+) {
+  if (blocked) return InstagramConversationStatus.BLOCKED;
+  if (
+    current === InstagramConversationStatus.BLOCKED ||
+    current === InstagramConversationStatus.CLOSED ||
+    current === InstagramConversationStatus.HUMAN_REQUIRED
+  ) {
+    return current;
+  }
+  return recommended;
 }
 
 function normalizedUsername(value: unknown) {
@@ -155,6 +192,7 @@ export async function processInstagramWebhook(
               source: LeadSource.INSTAGRAM,
             },
           }));
+        const isNewLead = !existingLead;
         const conversation = await transaction.instagramConversation.upsert({
           create: {
             accountId: account.id,
@@ -192,11 +230,133 @@ export async function processInstagramWebhook(
             text: text || null,
           },
         });
+        const recentMessages = await transaction.instagramMessage.findMany({
+          orderBy: { occurredAt: "desc" },
+          select: { text: true },
+          take: 10,
+          where: {
+            conversationId: conversation.id,
+            direction: InstagramMessageDirection.INBOUND,
+          },
+        });
+        const classification = classifyInstagramLead(
+          recentMessages
+            .reverse()
+            .map((message) => message.text)
+            .filter((message): message is string => Boolean(message)),
+          event.occurredAt,
+        );
+        const leadPriority = isNewLead
+          ? classification.priority
+          : higherPriority(lead.priority, classification.priority);
+        const leadStatus = preserveAdvancedLeadStatus(
+          lead.status,
+          classification.recommendedLeadStatus,
+        );
+        const nextFollowUpAt =
+          lead.nextFollowUpAt &&
+          lead.nextFollowUpAt.getTime() < classification.dueAt.getTime()
+            ? lead.nextFollowUpAt
+            : classification.dueAt;
+        const assignedTo =
+          lead.assignedTo ||
+          clean(process.env.CRM_DEFAULT_ASSIGNEE, 120) ||
+          "Agustín";
+        const tags = [...new Set([...lead.tags, ...classification.tags])];
+
+        await transaction.contactSubmission.update({
+          data: {
+            assignedTo,
+            classificationVersion: LEAD_CLASSIFICATION_VERSION,
+            interest:
+              classification.tags.some((tag) => tag.startsWith("servicio:")) ||
+              isNewLead
+                ? classification.interest
+                : lead.interest,
+            lastContactAt: event.occurredAt,
+            nextFollowUpAt,
+            priority: leadPriority,
+            qualificationConfidence: classification.confidence,
+            qualificationReason: classification.reason,
+            qualificationSummary: classification.summary,
+            qualifiedAt:
+              classification.recommendedLeadStatus === "QUALIFYING"
+                ? event.occurredAt
+                : lead.qualifiedAt,
+            score: Math.max(lead.score, classification.score),
+            status: leadStatus,
+            tags,
+          },
+          where: { id: lead.id },
+        });
+        await transaction.instagramConversation.update({
+          data: {
+            status: conversationStatusAfterClassification(
+              conversation.status,
+              classification.conversationStatus,
+              lead.doNotContact,
+            ),
+          },
+          where: { id: conversation.id },
+        });
+
+        if (!lead.doNotContact) {
+          const responseTask = await transaction.leadTask.findFirst({
+            orderBy: { createdAt: "desc" },
+            where: {
+              leadId: lead.id,
+              status: { in: [TaskStatus.PENDING, TaskStatus.IN_PROGRESS] },
+              title: INSTAGRAM_RESPONSE_TASK_TITLE,
+            },
+          });
+          const taskDescription =
+            `${classification.summary} ${classification.reason}`.trim();
+
+          if (responseTask) {
+            await transaction.leadTask.update({
+              data: {
+                assignedTo: responseTask.assignedTo || assignedTo,
+                description: taskDescription,
+                dueAt:
+                  responseTask.dueAt &&
+                  responseTask.dueAt.getTime() < classification.dueAt.getTime()
+                    ? responseTask.dueAt
+                    : classification.dueAt,
+                priority: higherPriority(
+                  responseTask.priority,
+                  classification.priority,
+                ),
+              },
+              where: { id: responseTask.id },
+            });
+          } else {
+            await transaction.leadTask.create({
+              data: {
+                assignedTo,
+                description: taskDescription,
+                dueAt: classification.dueAt,
+                leadId: lead.id,
+                priority: classification.priority,
+                title: INSTAGRAM_RESPONSE_TASK_TITLE,
+              },
+            });
+          }
+        }
+
         await transaction.leadActivity.create({
           data: {
             body: text || "El prospecto envió un archivo o contenido multimedia.",
             leadId: lead.id,
             metadata: {
+              classification: {
+                confidence: classification.confidence,
+                interest: classification.interest,
+                priority: classification.priority,
+                reason: classification.reason,
+                score: classification.score,
+                tags: classification.tags,
+                version: LEAD_CLASSIFICATION_VERSION,
+              },
               conversationId: conversation.id,
               instagramMessageId: messageId,
               source,
@@ -204,10 +364,6 @@ export async function processInstagramWebhook(
             title: "Mensaje recibido por Instagram",
             type: ActivityType.INSTAGRAM,
           },
-        });
-        await transaction.contactSubmission.update({
-          data: { lastContactAt: event.occurredAt },
-          where: { id: lead.id },
         });
       });
       processed += 1;

@@ -1,66 +1,109 @@
 "use client";
 
-import React, { useState } from "react";
-import { Send, Phone, Mail, MapPin, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  AlertCircle,
+  CheckCircle2,
+  Clock3,
+  Loader2,
+  Mail,
+  MapPin,
+  Phone,
+  Send,
+} from "lucide-react";
 import PuduLogo from "./PuduLogo";
 import { submitContactForm } from "@/app/actions";
+import {
+  getConversionContext,
+  trackConversion,
+} from "@/lib/analytics/client";
 
-export const ContactForm = ({ preselectedIndustry, themeColor }: { preselectedIndustry?: string; themeColor?: string }) => {
+type ContactFormProps = {
+  preselectedIndustry?: string;
+  themeColor?: string;
+};
+
+type Attribution = {
+  conversionSessionKey: string;
+  utmSource: string;
+  utmMedium: string;
+  utmCampaign: string;
+  utmContent: string;
+  landingPath: string;
+  referrer: string;
+};
+
+const interestOptions = [
+  ["Transformación digital general", "Aún no sé qué solución necesito"],
+  ["Landing page y conversión", "Landing page o sitio que convierta"],
+  ["CRM y gestión comercial", "CRM y seguimiento de ventas"],
+  ["Automatización e IA", "Automatización de tareas e inteligencia artificial"],
+  ["Software, SaaS o aplicación", "Software, SaaS o aplicación a medida"],
+  ["Agenda online", "Agenda online y gestión de clientes"],
+  ["Integración de sistemas y datos", "Integración de sistemas y datos"],
+  ["Ciberseguridad y monitoreo", "Ciberseguridad y monitoreo"],
+];
+
+export const ContactForm = ({
+  preselectedIndustry,
+  themeColor,
+}: ContactFormProps) => {
   return (
-    <section className="py-24 bg-background">
+    <section id="contacto" className="scroll-mt-24 bg-background py-24">
       <div className="container mx-auto px-6">
-        <div className="max-w-6xl mx-auto glass rounded-[2.5rem] overflow-hidden shadow-2xl border-border/10">
+        <div className="glass mx-auto max-w-6xl overflow-hidden rounded-[2.5rem] border-border/10 shadow-2xl">
           <div className="flex flex-col lg:flex-row">
-            {/* Info Side */}
-            <div className="lg:w-2/5 bg-black p-12 text-white flex flex-col justify-between">
+            <div className="flex flex-col justify-between bg-black p-8 text-white sm:p-12 lg:w-2/5">
               <div>
-                <PuduLogo color="white" className="h-10 w-28 mb-8" />
-                <h2 className="text-4xl font-black mb-6">Tu industria está lista para el siguiente nivel. ¿Lo estás tú?</h2>
-                <p className="text-white/60 mb-12">
-                  Ya sea que necesites escalar un sistema legado, automatizar tu cadena logística o digitalizar procesos clínicos, estamos aquí para ejecutar tu Prime Utility Digital Upgrade.
+                <PuduLogo color="white" className="mb-8 h-10 w-28" />
+                <p className="mb-4 text-xs font-black uppercase tracking-[0.24em] text-brand-emerald">
+                  Diagnóstico inicial sin costo
+                </p>
+                <h2 className="mb-6 text-3xl font-black sm:text-4xl">
+                  Cuéntanos dónde se frena tu negocio.
+                </h2>
+                <p className="mb-10 text-white/65">
+                  Revisaremos tu caso y te propondremos una ruta concreta: qué
+                  resolver primero, cómo medirlo y qué tecnología necesitas.
                 </p>
 
-                <div className="space-y-8">
-                  <div className="flex items-center gap-6">
-                    <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center">
-                      <Phone className="w-6 h-6 text-brand-emerald" />
-                    </div>
-                    <div>
-                      <div className="text-sm text-white/40 uppercase tracking-widest font-bold">Teléfono</div>
-                      <div className="text-lg">+56 9 6904 0587</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-6">
-                    <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center">
-                      <Mail className="w-6 h-6 text-brand-blue" />
-                    </div>
-                    <div>
-                      <div className="text-sm text-white/40 uppercase tracking-widest font-bold">Email</div>
-                      <div className="text-lg">agustineduardosg@puduit.tech</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-6">
-                    <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center">
-                      <MapPin className="w-6 h-6 text-brand-fire-start" />
-                    </div>
-                    <div>
-                      <div className="text-sm text-white/40 uppercase tracking-widest font-bold">Ubicación</div>
-                      <div className="text-lg">Santiago, Chile</div>
-                    </div>
-                  </div>
+                <div className="space-y-7">
+                  <ContactItem
+                    icon={<Clock3 className="h-6 w-6 text-brand-emerald" />}
+                    label="Compromiso"
+                    value="Respuesta humana en 1 día hábil"
+                  />
+                  <ContactItem
+                    icon={<Phone className="h-6 w-6 text-brand-emerald" />}
+                    label="Teléfono"
+                    value="+56 9 6904 0587"
+                  />
+                  <ContactItem
+                    icon={<Mail className="h-6 w-6 text-brand-blue" />}
+                    label="Email"
+                    value="agustineduardosg@puduit.tech"
+                  />
+                  <ContactItem
+                    icon={<MapPin className="h-6 w-6 text-brand-fire-start" />}
+                    label="Cobertura"
+                    value="Concepción y todo Chile"
+                  />
                 </div>
               </div>
 
-              <div className="mt-16 pt-8 border-t border-white/10">
-                <p className="text-sm text-white/40 italic">
-                  &quot;Tu visión, nuestra precisión técnica.&quot;
+              <div className="mt-16 border-t border-white/10 pt-8">
+                <p className="text-sm italic text-white/45">
+                  Sin spam ni propuestas genéricas. Primero entendemos el
+                  problema.
                 </p>
               </div>
             </div>
 
-            {/* Form Side */}
-            <div className="lg:w-3/5 p-12 bg-background/50 backdrop-blur-xl">
-              <ContactFormInner preselectedIndustry={preselectedIndustry} themeColor={themeColor} />
+            <div className="bg-background/50 p-8 backdrop-blur-xl sm:p-12 lg:w-3/5">
+              <ContactFormInner
+                preselectedIndustry={preselectedIndustry}
+                themeColor={themeColor}
+              />
             </div>
           </div>
         </div>
@@ -69,123 +112,274 @@ export const ContactForm = ({ preselectedIndustry, themeColor }: { preselectedIn
   );
 };
 
-const ContactFormInner = ({ preselectedIndustry, themeColor }: { preselectedIndustry?: string; themeColor?: string }) => {
+const ContactItem = ({
+  icon,
+  label,
+  value,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+}) => (
+  <div className="flex items-center gap-5">
+    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/10">
+      {icon}
+    </div>
+    <div className="min-w-0">
+      <div className="text-xs font-bold uppercase tracking-widest text-white/40">
+        {label}
+      </div>
+      <div className="break-words text-base sm:text-lg">{value}</div>
+    </div>
+  </div>
+);
+
+const ContactFormInner = ({
+  preselectedIndustry,
+  themeColor,
+}: ContactFormProps) => {
   const [state, setState] = useState<{ success?: string; error?: string }>({});
   const [isPending, setIsPending] = useState(false);
+  const [interest, setInterest] = useState(
+    preselectedIndustry || "Transformación digital general",
+  );
+  const [message, setMessage] = useState("");
+  const formStartedRef = useRef(false);
+  const [attribution, setAttribution] = useState<Attribution>({
+    conversionSessionKey: "",
+    utmSource: "",
+    utmMedium: "",
+    utmCampaign: "",
+    utmContent: "",
+    landingPath: "",
+    referrer: "",
+  });
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  useEffect(() => {
+    const handleDiagnostic = (event: Event) => {
+      const customEvent = event as CustomEvent<{
+        interest?: string;
+        message?: string;
+      }>;
+
+      if (customEvent.detail?.interest) {
+        setInterest(customEvent.detail.interest);
+      }
+      if (customEvent.detail?.message) {
+        setMessage(customEvent.detail.message);
+      }
+    };
+
+    const locationTimer = window.setTimeout(() => {
+      const params = new URLSearchParams(window.location.search);
+      const queryInterest = params.get("interest");
+
+      if (queryInterest) {
+        setInterest(queryInterest);
+      }
+
+      const context = getConversionContext();
+      setAttribution({
+        conversionSessionKey: context.sessionKey,
+        landingPath: context.landingPath,
+        referrer: context.referrer,
+        utmCampaign: context.utmCampaign,
+        utmContent: context.utmContent,
+        utmMedium: context.utmMedium,
+        utmSource: context.utmSource,
+      });
+    }, 0);
+
+    window.addEventListener("pudu:diagnostic", handleDiagnostic);
+    return () => {
+      window.clearTimeout(locationTimer);
+      window.removeEventListener("pudu:diagnostic", handleDiagnostic);
+    };
+  }, []);
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setIsPending(true);
     setState({});
-    
-    const formData = new FormData(e.currentTarget);
-    const result = await submitContactForm(formData);
-    
+
+    const form = event.currentTarget;
+    const result = await submitContactForm(new FormData(form));
+
     if (result.error) {
       setState({ error: result.error });
     } else {
       setState({ success: result.success });
-      (e.target as HTMLFormElement).reset();
+      form.reset();
+      setInterest("Transformación digital general");
+      setMessage("");
     }
     setIsPending(false);
   };
 
+  const handleFormFocus = () => {
+    if (formStartedRef.current) return;
+    formStartedRef.current = true;
+    trackConversion("CONTACT_FORM_STARTED");
+  };
+
   return (
-    <form className="space-y-6" onSubmit={handleSubmit}>
+    <form
+      className="space-y-6"
+      onFocusCapture={handleFormFocus}
+      onSubmit={handleSubmit}
+    >
+      <div>
+        <p className="text-sm font-black uppercase tracking-[0.2em] text-brand-blue">
+          Empecemos por tu objetivo
+        </p>
+        <h3 className="mt-2 text-3xl font-black text-foreground">
+          Solicita tu diagnóstico digital
+        </h3>
+      </div>
+
       {state.success && (
-        <div className="p-4 rounded-2xl bg-brand-emerald/10 border border-brand-emerald/20 text-brand-emerald flex items-center gap-3">
-          <CheckCircle2 className="w-5 h-5 flex-shrink-0" />
+        <div className="flex items-center gap-3 rounded-2xl border border-brand-emerald/20 bg-brand-emerald/10 p-4 text-brand-emerald">
+          <CheckCircle2 className="h-5 w-5 shrink-0" />
           <p className="text-sm font-bold">{state.success}</p>
         </div>
       )}
       {state.error && (
-        <div className="p-4 rounded-2xl bg-brand-fire-start/10 border border-brand-fire-start/20 text-brand-fire-start flex items-center gap-3">
-          <AlertCircle className="w-5 h-5 flex-shrink-0" />
+        <div className="flex items-center gap-3 rounded-2xl border border-brand-fire-start/20 bg-brand-fire-start/10 p-4 text-brand-fire-start">
+          <AlertCircle className="h-5 w-5 shrink-0" />
           <p className="text-sm font-bold">{state.error}</p>
         </div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <label className="text-sm font-bold ml-1">Nombre Completo</label>
-          <input 
+      <input
+        type="hidden"
+        name="conversionSessionKey"
+        value={attribution.conversionSessionKey}
+      />
+      <input type="hidden" name="utmSource" value={attribution.utmSource} />
+      <input type="hidden" name="utmMedium" value={attribution.utmMedium} />
+      <input type="hidden" name="utmCampaign" value={attribution.utmCampaign} />
+      <input type="hidden" name="utmContent" value={attribution.utmContent} />
+      <input type="hidden" name="landingPath" value={attribution.landingPath} />
+      <input type="hidden" name="referrer" value={attribution.referrer} />
+
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <Field label="Nombre">
+          <input
             name="name"
-            type="text" 
+            type="text"
             required
-            placeholder="Ej: Juan Pérez"
-            className="w-full px-6 py-4 rounded-2xl bg-background border border-foreground/10 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 outline-none transition-all"
+            autoComplete="name"
+            placeholder="Ej: Camila Soto"
+            className="form-control"
           />
-        </div>
-        <div className="space-y-2">
-          <label className="text-sm font-bold ml-1">Empresa / Cargo</label>
-          <input 
+        </Field>
+        <Field label="Empresa (opcional)">
+          <input
             name="company"
-            type="text" 
-            placeholder="Ej: Minera Norte / Gerente TI"
-            className="w-full px-6 py-4 rounded-2xl bg-background border border-foreground/10 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 outline-none transition-all"
+            type="text"
+            autoComplete="organization"
+            placeholder="Ej: Clínica Sur"
+            className="form-control"
           />
-        </div>
+        </Field>
       </div>
 
-      <div className="space-y-2">
-        <label className="text-sm font-bold ml-1">Correo Corporativo</label>
-        <input 
-          name="email"
-          type="email" 
-          required
-          placeholder="juan@empresa.cl"
-          className="w-full px-6 py-4 rounded-2xl bg-white border border-foreground/10 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 outline-none transition-all"
-        />
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <Field label="Correo">
+          <input
+            name="email"
+            type="email"
+            required
+            autoComplete="email"
+            placeholder="camila@empresa.cl"
+            className="form-control"
+          />
+        </Field>
+        <Field label="WhatsApp (opcional)">
+          <input
+            name="phone"
+            type="tel"
+            autoComplete="tel"
+            placeholder="+56 9 1234 5678"
+            className="form-control"
+          />
+        </Field>
       </div>
 
-      <div className="space-y-2">
-        <label className="text-sm font-bold ml-1">Área de Interés</label>
-        <select 
+      <Field label="¿Qué quieres mejorar primero?">
+        <select
           name="interest"
-          defaultValue={preselectedIndustry || "Transformación Digital General"}
-          className="w-full px-6 py-4 rounded-2xl bg-white border border-foreground/10 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 outline-none transition-all appearance-none cursor-pointer"
-          style={themeColor ? { borderColor: `${themeColor}33` } as React.CSSProperties : {}}
+          value={interest}
+          onChange={(event) => setInterest(event.target.value)}
+          className="form-control cursor-pointer appearance-none"
+          style={
+            themeColor
+              ? ({ borderColor: `${themeColor}33` } as React.CSSProperties)
+              : {}
+          }
         >
-          <option value="Transformación Digital General">Transformación Digital General</option>
-          <option value="mineria">Minería (Telemetría y Seguridad)</option>
-          <option value="healthcare">Healthcare (Salud Conectada e Interoperabilidad)</option>
-          <option value="agricultura">Agricultura (Agro-Tecnología y Eficiencia Hídrica)</option>
-          <option value="industrial">Industrial (Manufactura e Inteligencia OEE)</option>
-          <option value="automocion">Automoción (Movilidad y Flotas Inteligentes)</option>
-          <option value="construccion">Construcción (SesHat Pro Building & Asistente ISIS)</option>
-          <option value="Integración IA y Datos">Integración IA y Datos</option>
-          <option value="Ciberseguridad y Monitoreo">Ciberseguridad y Monitoreo</option>
+          {interestOptions.map(([value, label]) => (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          ))}
+          {preselectedIndustry &&
+            !interestOptions.some(([value]) => value === preselectedIndustry) && (
+              <option value={preselectedIndustry}>{preselectedIndustry}</option>
+            )}
         </select>
-      </div>
+      </Field>
 
-      <div className="space-y-2">
-        <label className="text-sm font-bold ml-1">Mensaje</label>
-        <textarea 
+      <Field label="¿Qué está ocurriendo hoy?">
+        <textarea
           name="message"
           rows={4}
           required
-          placeholder="Cuéntanos sobre tu desafío tecnológico..."
-          className="w-full px-6 py-4 rounded-2xl bg-white border border-foreground/10 focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 outline-none transition-all resize-none"
+          value={message}
+          onChange={(event) => setMessage(event.target.value)}
+          placeholder="Ej: Los contactos llegan por Instagram, pero no tenemos seguimiento y se pierden oportunidades."
+          className="form-control resize-none"
         />
-      </div>
+      </Field>
 
-      <button 
+      <button
         disabled={isPending}
-        className="w-full text-white py-5 rounded-2xl text-lg font-black flex items-center justify-center gap-3 hover:scale-[1.02] active:scale-95 transition-all shadow-xl mt-4 disabled:opacity-50"
-        style={{ 
-          background: themeColor ? `linear-gradient(to right, ${themeColor}, ${themeColor}dd)` : "linear-gradient(to right, #f59e0b, #ef4444)",
-          boxShadow: themeColor ? `0 20px 25px -5px ${themeColor}33` : undefined
+        className="mt-4 flex w-full items-center justify-center gap-3 rounded-2xl py-5 text-lg font-black text-white shadow-xl transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50"
+        style={{
+          background: themeColor
+            ? `linear-gradient(to right, ${themeColor}, ${themeColor}dd)`
+            : "linear-gradient(to right, #059669, #2563eb)",
+          boxShadow: themeColor
+            ? `0 20px 25px -5px ${themeColor}33`
+            : undefined,
         }}
       >
         {isPending ? (
-          <>Enviando... <Loader2 className="w-5 h-5 animate-spin" /></>
+          <>
+            Enviando... <Loader2 className="h-5 w-5 animate-spin" />
+          </>
         ) : (
           <>
-            {preselectedIndustry ? `Solicitar Auditoría Specialized` : "Enviar Solicitud"} 
-            <Send className="w-5 h-5" />
+            Solicitar diagnóstico inicial <Send className="h-5 w-5" />
           </>
         )}
       </button>
+      <p className="text-center text-xs text-foreground/50">
+        Respuesta humana en 1 día hábil. Tus datos no se comparten.
+      </p>
     </form>
   );
 };
+
+const Field = ({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) => (
+  <div className="space-y-2">
+    <label className="ml-1 text-sm font-bold">{label}</label>
+    {children}
+  </div>
+);
