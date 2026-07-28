@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { 
   Users, 
+  Kanban,
   FileText, 
   LayoutDashboard, 
   Settings, 
@@ -18,7 +19,8 @@ import PuduLogo from "../PuduLogo";
 
 const navItems = [
   { name: "Dashboard", href: "/admin", icon: <LayoutDashboard className="w-5 h-5" /> },
-  { name: "Leads (CRM)", href: "/admin/leads", icon: <Users className="w-5 h-5" /> },
+  { name: "Pipeline CRM", href: "/admin/crm", icon: <Kanban className="w-5 h-5" /> },
+  { name: "Leads Entrantes", href: "/admin/leads", icon: <Users className="w-5 h-5" /> },
   { name: "Historial CPQ", href: "/admin/history", icon: <FileText className="w-5 h-5" /> },
   { name: "Nuevo Cotizador", href: "/admin/cotizador", icon: <Plus className="w-5 h-5" /> },
   { name: "Configuración", href: "/admin/settings", icon: <Settings className="w-5 h-5" /> },
@@ -31,9 +33,9 @@ interface AdminSidebarProps {
 export const AdminSidebar: React.FC<AdminSidebarProps> = ({ onClose }) => {
   const pathname = usePathname();
 
-  const handleLogout = () => {
-    document.cookie = "pudu_admin_auth=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-    window.location.href = "/";
+  const handleLogout = async () => {
+    await fetch("/api/admin/logout", { method: "POST" });
+    window.location.href = "/admin/login";
   };
 
   return (
@@ -62,7 +64,9 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ onClose }) => {
       {/* Navigation */}
       <nav className="flex-1 px-4 space-y-2">
         {navItems.map((item) => {
-          const isActive = pathname === item.href;
+          const isActive =
+            pathname === item.href ||
+            (item.href !== "/admin" && pathname.startsWith(`${item.href}/`));
           return (
             <Link 
               key={item.name} 

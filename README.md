@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PUDU IT Solutions
 
-## Getting Started
+Landing corporativa y panel operativo de PUDU, construidos con Next.js,
+TypeScript, Tailwind CSS, Prisma y PostgreSQL.
 
-First, run the development server:
+## Módulos actuales
+
+- Landing e industrias.
+- Formulario de contacto y captura de leads.
+- Panel administrativo.
+- Pipeline CRM de ocho etapas.
+- Tareas, actividades y preparación de mensajes salientes.
+- Cotizador y registro de propuestas.
+
+## Configuración local
+
+1. Copia `.env.example` como `.env.local`.
+2. Configura `DATABASE_URL`, `ADMIN_PASSWORD` y `ADMIN_SESSION_SECRET`.
+3. Instala las dependencias:
+
+```bash
+npm install
+```
+
+4. Genera el cliente de Prisma y aplica las migraciones:
+
+```bash
+npx prisma generate
+npx prisma migrate deploy
+```
+
+5. Inicia el proyecto:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+La aplicación local queda disponible en
+[http://localhost:3001](http://localhost:3001).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Seguridad administrativa
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+El acceso a `/admin` usa una cookie de sesión firmada, `HttpOnly`,
+`SameSite=Strict` y con una duración máxima de ocho horas. La contraseña y el
+secreto de firma solo se leen desde variables de entorno y nunca deben
+incorporarse al repositorio.
 
-## Learn More
+Genera `ADMIN_SESSION_SECRET` con un valor aleatorio de al menos 32 caracteres.
+En producción, utiliza una contraseña exclusiva y configura HTTPS.
 
-To learn more about Next.js, take a look at the following resources:
+## CRM
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+La migración `20260727000100_crm_foundation` amplía los leads existentes sin
+eliminarlos y agrega:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- etapas y prioridades;
+- origen del prospecto;
+- datos de Instagram, teléfono y ciudad;
+- tareas y próximos seguimientos;
+- historial de actividades;
+- mensajes salientes por email, WhatsApp, Instagram, LinkedIn o SMS.
 
 ## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Validación antes de publicar
+
+Antes de publicar una versión nueva, ejecuta:
+
+```bash
+npm run lint
+npm run build
+```
