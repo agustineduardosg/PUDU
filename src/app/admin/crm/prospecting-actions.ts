@@ -5,7 +5,7 @@ import {
   LeadSource,
   MessageChannel,
   Prisma,
-} from "@prisma/client";
+} from "@/generated/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";

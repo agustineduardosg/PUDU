@@ -6,7 +6,7 @@ import {
   LeadStatus,
   MessageChannel,
   TaskStatus,
-} from "@prisma/client";
+} from "@/generated/prisma";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/require-admin";
