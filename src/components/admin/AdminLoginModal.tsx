@@ -47,7 +47,7 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
       setIsSuccess(true);
       window.setTimeout(() => {
         onClose();
-        router.push("/admin");
+        router.push("/admin/crm");
         router.refresh();
       }, 700);
     } catch {
