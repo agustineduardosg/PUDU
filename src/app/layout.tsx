@@ -1,11 +1,5 @@
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
 import "./globals.css";
-
-const outfit = Outfit({
-  variable: "--font-outfit",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "PUDU | Prime Utility Digital Upgrade",
@@ -23,10 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${outfit.variable} antialiased selection:bg-brand-emerald/30`}>
+      <body className="antialiased selection:bg-brand-emerald/30">
         {children}
       </body>
     </html>
   );
 }
-

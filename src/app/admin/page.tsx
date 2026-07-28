@@ -23,7 +23,11 @@ export default async function AdminDashboard() {
           <Database className="w-5 h-5 shrink-0" />
           <div>
             <p className="font-bold text-sm">Error de Conexión a Base de Datos</p>
-            <p className="text-xs opacity-70">{(data.metrics as any).errorMessage}</p>
+            <p className="text-xs opacity-70">
+              {"errorMessage" in data.metrics
+                ? data.metrics.errorMessage
+                : "No fue posible conectar con la base de datos."}
+            </p>
           </div>
         </div>
       )}
@@ -148,4 +152,3 @@ export default async function AdminDashboard() {
     </div>
   );
 }
-
