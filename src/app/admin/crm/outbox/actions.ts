@@ -214,18 +214,30 @@ export async function sendApprovedMessages(formData: FormData) {
           data: {
             errorMessage: null,
             providerMessageId: delivery.messageId,
-            sentAt: new Date(),
-            status: MessageStatus.SENT,
+            sentAt: delivery.mode === "smtp" ? new Date() : null,
+            status:
+              delivery.mode === "preview"
+                ? MessageStatus.PREVIEWED
+                : MessageStatus.SENT,
           },
           where: { id: message.id },
         }),
         prisma.messageDeliveryEvent.create({
           data: {
             createdBy: administrator,
-            detail: "El proveedor SMTP aceptó el mensaje.",
+            detail:
+              delivery.mode === "preview"
+                ? "Mensaje capturado en el modo de prueba local. No salió a Internet."
+                : "El proveedor SMTP aceptó el mensaje.",
             messageId: message.id,
-            metadata: { providerMessageId: delivery.messageId },
-            type: DeliveryEventType.SENT,
+            metadata: {
+              mode: delivery.mode,
+              providerMessageId: delivery.messageId,
+            },
+            type:
+              delivery.mode === "preview"
+                ? DeliveryEventType.PREVIEW_CAPTURED
+                : DeliveryEventType.SENT,
           },
         }),
       ]);
