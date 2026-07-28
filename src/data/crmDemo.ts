@@ -3,7 +3,7 @@ export type CrmDemoLead = {
   city: string | null;
   company: string | null;
   createdAt: Date;
-  email: string;
+  email: string | null;
   id: string;
   instagram: string | null;
   interest: string;

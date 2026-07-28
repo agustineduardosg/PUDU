@@ -3,38 +3,16 @@
 import { useMemo, useState } from "react";
 import { MessageSquareText, Save, Sparkles } from "lucide-react";
 import { createMessageDraft } from "@/app/admin/crm/actions";
-
-const templates = [
-  {
-    id: "first-contact",
-    label: "Primer acercamiento",
-    subject: "Una idea tecnológica para tu empresa",
-    content:
-      "Hola {nombre}, soy parte de PUDU IT Solutions. Estuvimos revisando el trabajo de {empresa} y vemos una oportunidad concreta para mejorar {interes}. ¿Te parece si coordinamos una conversación breve esta semana?",
-  },
-  {
-    id: "follow-up",
-    label: "Seguimiento",
-    subject: "Seguimiento a nuestra conversación",
-    content:
-      "Hola {nombre}, quería retomar nuestra conversación sobre {interes}. Podemos preparar una propuesta acotada con alcance, plazos y próximos pasos. ¿Qué día te acomoda revisarla?",
-  },
-  {
-    id: "proposal",
-    label: "Envío de propuesta",
-    subject: "Propuesta PUDU IT Solutions",
-    content:
-      "Hola {nombre}, ya preparamos la propuesta para {empresa}. Resume la solución para {interes}, el plan de implementación y la inversión estimada. Quedo atento para revisarla contigo.",
-  },
-] as const;
+import type { CrmMessageTemplate } from "@/data/messageTemplates";
 
 type MessageComposerProps = {
   company: string | null;
-  email: string;
+  email: string | null;
   interest: string;
   isDemo: boolean;
   leadId: string;
   leadName: string;
+  templates: CrmMessageTemplate[];
 };
 
 export function MessageComposer({
@@ -44,9 +22,10 @@ export function MessageComposer({
   isDemo,
   leadId,
   leadName,
+  templates,
 }: MessageComposerProps) {
   const [channel, setChannel] = useState("EMAIL");
-  const [recipient, setRecipient] = useState(email);
+  const [recipient, setRecipient] = useState(email || "");
   const [subject, setSubject] = useState("");
   const [content, setContent] = useState("");
 
@@ -62,9 +41,7 @@ export function MessageComposer({
   function applyTemplate(templateId: string) {
     const template = templates.find((candidate) => candidate.id === templateId);
 
-    if (!template) {
-      return;
-    }
+    if (!template) return;
 
     const personalize = (value: string) =>
       Object.entries(replacements).reduce(
@@ -73,7 +50,8 @@ export function MessageComposer({
         value,
       );
 
-    setSubject(personalize(template.subject));
+    setChannel(template.channel);
+    setSubject(personalize(template.subject || ""));
     setContent(personalize(template.content));
   }
 
@@ -91,7 +69,7 @@ export function MessageComposer({
         <div>
           <h2 className="font-black">Nuevo borrador</h2>
           <p className="text-xs text-white/40">
-            Personaliza antes de programar o enviar.
+            Personaliza y revisa antes de enviar.
           </p>
         </div>
       </div>
@@ -112,7 +90,7 @@ export function MessageComposer({
             </option>
             {templates.map((template) => (
               <option key={template.id} value={template.id}>
-                {template.label}
+                {template.name}
               </option>
             ))}
           </select>
@@ -130,9 +108,7 @@ export function MessageComposer({
             onChange={(event) => {
               const nextChannel = event.target.value;
               setChannel(nextChannel);
-              if (nextChannel === "EMAIL") {
-                setRecipient(email);
-              }
+              if (nextChannel === "EMAIL") setRecipient(email || "");
             }}
             className="mt-2 w-full rounded-xl border border-white/10 bg-slate-950 p-3 text-sm"
           >

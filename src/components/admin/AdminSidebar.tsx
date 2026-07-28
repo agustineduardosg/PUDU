@@ -13,13 +13,21 @@ import {
   LogOut,
   ChevronRight,
   Plus,
-  X
+  X,
+  Upload,
+  ListTodo,
+  MessageSquareText,
+  Megaphone,
 } from "lucide-react";
 import PuduLogo from "../PuduLogo";
 
 const navItems = [
   { name: "Dashboard", href: "/admin", icon: <LayoutDashboard className="w-5 h-5" /> },
   { name: "Pipeline CRM", href: "/admin/crm", icon: <Kanban className="w-5 h-5" /> },
+  { name: "Prospección", href: "/admin/crm/prospects", icon: <Upload className="w-5 h-5" /> },
+  { name: "Tareas CRM", href: "/admin/crm/tasks", icon: <ListTodo className="w-5 h-5" /> },
+  { name: "Plantillas", href: "/admin/crm/templates", icon: <MessageSquareText className="w-5 h-5" /> },
+  { name: "Campañas", href: "/admin/crm/campaigns", icon: <Megaphone className="w-5 h-5" /> },
   { name: "Leads Entrantes", href: "/admin/leads", icon: <Users className="w-5 h-5" /> },
   { name: "Historial CPQ", href: "/admin/history", icon: <FileText className="w-5 h-5" /> },
   { name: "Nuevo Cotizador", href: "/admin/cotizador", icon: <Plus className="w-5 h-5" /> },
@@ -60,11 +68,14 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ onClose }) => {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-4 space-y-2">
+      <nav className="flex-1 overflow-y-auto px-4 space-y-2 custom-scrollbar">
         {navItems.map((item) => {
           const isActive =
             pathname === item.href ||
-            (item.href !== "/admin" && pathname.startsWith(`${item.href}/`));
+            (item.href === "/admin/crm" &&
+              pathname.startsWith("/admin/crm/leads/")) ||
+            (!["/admin", "/admin/crm"].includes(item.href) &&
+              pathname.startsWith(`${item.href}/`));
           return (
             <Link 
               key={item.name} 
