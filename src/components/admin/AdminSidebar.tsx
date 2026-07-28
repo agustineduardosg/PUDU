@@ -19,6 +19,7 @@ import {
   MessageSquareText,
   Megaphone,
   Send,
+  Instagram,
 } from "lucide-react";
 import PuduLogo from "../PuduLogo";
 
@@ -30,6 +31,7 @@ const navItems = [
   { name: "Plantillas", href: "/admin/crm/templates", icon: <MessageSquareText className="w-5 h-5" /> },
   { name: "Campañas", href: "/admin/crm/campaigns", icon: <Megaphone className="w-5 h-5" /> },
   { name: "Bandeja de salida", href: "/admin/crm/outbox", icon: <Send className="w-5 h-5" /> },
+  { name: "Instagram Inbox", href: "/admin/crm/instagram", icon: <Instagram className="w-5 h-5" /> },
   { name: "Leads Entrantes", href: "/admin/leads", icon: <Users className="w-5 h-5" /> },
   { name: "Historial CPQ", href: "/admin/history", icon: <FileText className="w-5 h-5" /> },
   { name: "Nuevo Cotizador", href: "/admin/cotizador", icon: <Plus className="w-5 h-5" /> },
