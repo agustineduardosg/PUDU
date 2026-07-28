@@ -13,9 +13,15 @@ export type CrmDemoLead = {
   notes: string | null;
   phone: string | null;
   priority: string;
+  qualificationConfidence?: number;
+  qualificationReason?: string | null;
+  qualificationSummary?: string | null;
+  classificationVersion?: string | null;
+  qualifiedAt?: Date | null;
   score: number;
   source: string;
   status: string;
+  tags?: string[];
   tasks: { dueAt: Date | null }[];
 };
 

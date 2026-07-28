@@ -20,12 +20,14 @@ import {
   Megaphone,
   Send,
   Instagram,
+  ChartNoAxesCombined,
 } from "lucide-react";
 import PuduLogo from "../PuduLogo";
 
 const navItems = [
   { name: "Dashboard", href: "/admin", icon: <LayoutDashboard className="w-5 h-5" /> },
   { name: "Pipeline CRM", href: "/admin/crm", icon: <Kanban className="w-5 h-5" /> },
+  { name: "Analítica", href: "/admin/crm/analytics", icon: <ChartNoAxesCombined className="w-5 h-5" /> },
   { name: "Prospección", href: "/admin/crm/prospects", icon: <Upload className="w-5 h-5" /> },
   { name: "Tareas CRM", href: "/admin/crm/tasks", icon: <ListTodo className="w-5 h-5" /> },
   { name: "Plantillas", href: "/admin/crm/templates", icon: <MessageSquareText className="w-5 h-5" /> },

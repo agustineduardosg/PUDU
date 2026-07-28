@@ -7,8 +7,8 @@ import { Zap, ShieldCheck, Users, TrendingUp } from "lucide-react";
 export const PuduMethod = () => {
   const steps = [
     {
-      title: "Vibe Coding Efficiency",
-      description: "Utilizamos IA generativa de última generación para prototipar e implementar soluciones 3 veces más rápido.",
+      title: "Ingeniería aumentada por IA",
+      description: "Utilizamos IA generativa para acelerar análisis, prototipado y desarrollo bajo control técnico.",
       icon: <Zap className="w-6 h-6 text-brand-fire-start" />,
     },
     {
@@ -29,26 +29,32 @@ export const PuduMethod = () => {
   ];
 
   return (
-    <section id="metodo" className="py-24 relative overflow-hidden bg-background">
+    <section id="metodo" className="scroll-mt-28 py-24 relative overflow-hidden bg-background">
       <div className="container mx-auto px-6">
         <div className="flex flex-col lg:flex-row items-center gap-16">
           <div className="lg:w-1/2">
             <h2 className="text-4xl md:text-5xl font-black mb-8 leading-tight">
-              La Revolución del <br />
-              <span className="text-brand-emerald">Vibe Coding.</span>
+              Ingeniería acelerada por IA. <br />
+              <span className="text-brand-emerald">Supervisión humana en cada decisión.</span>
             </h2>
             <div className="space-y-6">
               <p className="text-lg md:text-xl text-foreground/70 leading-relaxed">
-                ¿Cómo logramos lo que a otros les toma meses en solo semanas? No es magia, es <span className="text-brand-emerald font-bold">Vibe Coding</span>.
+                Combinamos automatización, inteligencia artificial y experiencia
+                senior para validar antes, construir más rápido y reducir
+                retrabajo.
               </p>
               <p className="text-base md:text-lg text-foreground/60 leading-relaxed">
-                Combinamos décadas de experiencia en Project Management Senior con las herramientas de IA más potentes del planeta. Esto nos permite prototipar, iterar y desplegar soluciones de alta complejidad a una velocidad sin precedentes.
+                Cada solución conserva arquitectura, seguridad, trazabilidad y
+                revisión humana. La IA acelera el trabajo; el criterio técnico
+                sigue siendo responsable del resultado.
               </p>
               <div className="flex items-center gap-4 p-5 md:p-6 glass rounded-2xl border-brand-fire-start/20">
-                <div className="text-3xl md:text-4xl font-black text-brand-fire-start">3x</div>
+                <div className="text-xl md:text-2xl font-black text-brand-fire-start">
+                  Iteración continua
+                </div>
                 <div className="text-xs md:text-sm font-medium leading-tight">
-                  Semanas, no meses. <br />
-                  Sin sacrificar la robustez arquitectónica que tu empresa exige.
+                  Prototipamos, validamos y mejoramos con trazabilidad. <br />
+                  Sin sacrificar la robustez que tu empresa necesita.
                 </div>
               </div>
             </div>

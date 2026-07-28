@@ -2,8 +2,10 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import PuduLogo from "./PuduLogo";
+import Link from "next/link";
+import { trackConversion } from "@/lib/analytics/client";
 
 export const Hero = () => {
   return (
@@ -43,62 +45,94 @@ export const Hero = () => {
       {/* Content Container */}
       <div className="container mx-auto px-6 relative z-20 text-center">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="max-w-4xl mx-auto"
         >
           <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-brand-emerald/10 border border-brand-emerald/20 mb-8 backdrop-blur-md">
             <PuduLogo className="h-4 w-4" color="#10B981" />
-            <span className="text-xs font-bold uppercase tracking-widest text-brand-emerald">La nueva era industrial</span>
+            <span className="text-xs font-bold uppercase tracking-widest text-brand-emerald">
+              Software, automatización e IA desde Chile
+            </span>
           </div>
 
           <motion.h1
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={false}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-3xl md:text-7xl font-black mb-8 leading-tight tracking-tight text-white px-2"
+            className="mb-8 px-2 text-3xl font-black leading-tight tracking-tight text-white md:text-5xl lg:text-7xl"
           >
-            No construimos software. <br />
-            <span className="text-gradient-emerald text-2xl md:text-6xl block mt-2">
-              Entregamos el Upgrade que tu industria necesita.
+            Convierte procesos lentos <br />
+            <span className="text-gradient-emerald mt-2 block text-2xl md:text-4xl lg:text-6xl">
+              en sistemas que venden, coordinan y escalan.
             </span>
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-lg md:text-2xl text-white/80 mb-12 leading-relaxed max-w-3xl mx-auto"
           >
-            &quot;En un mundo que se mueve a la velocidad del rayo, las soluciones tradicionales de IT se han vuelto lentas, costosas y desconectadas de la realidad del terreno. PUDU nace de una convicción simple: <span className="text-brand-emerald font-medium">La tecnología debe ser tan ágil como nuestra fauna y tan sólida como nuestra industria.</span>&quot;
+            Diseñamos landing pages, CRM, automatizaciones y software a medida
+            para resolver cuellos de botella reales en empresas y
+            emprendimientos.
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-6"
           >
-            <button className="px-10 py-5 bg-gradient-fire text-white rounded-2xl font-black text-lg shadow-xl shadow-brand-fire-start/20 hover:scale-[1.05] transition-all flex items-center gap-2 group">
-              Inicia tu Transformación <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </button>
-            <button className="px-10 py-5 bg-white/10 border border-white/20 text-white font-bold rounded-2xl hover:bg-white/20 transition-all backdrop-blur-sm">
-              Ver el Método PUDU
-            </button>
+            <Link
+              href="/#diagnostico"
+              onClick={() =>
+                trackConversion("CTA_CLICK", {
+                  cta: "hero_diagnostic",
+                  destination: "diagnostico",
+                })
+              }
+              className="group flex items-center gap-2 rounded-2xl bg-gradient-fire px-8 py-5 text-base font-black text-white shadow-xl shadow-brand-fire-start/20 transition-all hover:scale-[1.03] md:text-lg"
+            >
+              Obtener diagnóstico gratuito
+              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+            </Link>
+            <Link
+              href="/#resultados"
+              onClick={() =>
+                trackConversion("CTA_CLICK", {
+                  cta: "hero_outcomes",
+                  destination: "resultados",
+                })
+              }
+              className="rounded-2xl border border-white/20 bg-white/10 px-8 py-5 text-base font-bold text-white backdrop-blur-sm transition-all hover:bg-white/20 md:text-lg"
+            >
+              Ver cómo podemos ayudarte
+            </Link>
+          </motion.div>
+
+          <motion.div
+            initial={false}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="mt-7 hidden flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-white/55 sm:flex"
+          >
+            {[
+              "Sin compromiso",
+              "Respuesta en 1 día hábil",
+              "Atención directa",
+            ].map((item) => (
+              <span key={item} className="inline-flex items-center gap-1.5">
+                <CheckCircle2 className="h-3.5 w-3.5 text-brand-emerald" />
+                {item}
+              </span>
+            ))}
           </motion.div>
         </motion.div>
       </div>
 
-      {/* Decorative animated elements */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 z-20 opacity-40 text-white">
-        <span className="text-xs font-bold uppercase tracking-tighter">Explorar</span>
-        <motion.div 
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="w-1 h-12 bg-gradient-to-b from-brand-emerald to-transparent rounded-full"
-        />
-      </div>
     </section>
   );
 };

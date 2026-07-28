@@ -171,7 +171,7 @@ export const IndustryGrid = () => {
   ];
 
   return (
-    <section id="soluciones" className="py-24 bg-background overflow-hidden border-t border-white/5">
+    <section id="soluciones" className="scroll-mt-28 py-24 bg-background overflow-hidden border-t border-white/5">
       <div className="container mx-auto px-6">
         <div className="max-w-3xl mb-16 text-left">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-blue/10 border border-brand-blue/20 mb-6">

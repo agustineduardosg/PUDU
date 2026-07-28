@@ -58,7 +58,11 @@ async function loadInstagramInbox() {
             company: true,
             doNotContact: true,
             id: true,
+            interest: true,
             name: true,
+            priority: true,
+            qualificationConfidence: true,
+            score: true,
             status: true,
           },
         },
@@ -213,6 +217,23 @@ export default async function InstagramInboxPage() {
                         conversation.account.username ||
                         "Cuenta PUDU"}
                     </p>
+                    {conversation.lead && (
+                      <div className="mt-3 flex flex-wrap gap-2 text-[9px] font-black uppercase tracking-wider">
+                        <span className="rounded-full bg-brand-emerald/10 px-2 py-1 text-brand-emerald">
+                          {conversation.lead.interest}
+                        </span>
+                        <span className="rounded-full bg-white/5 px-2 py-1 text-white/40">
+                          Score {conversation.lead.score}
+                        </span>
+                        <span className="rounded-full bg-white/5 px-2 py-1 text-white/40">
+                          {conversation.lead.priority}
+                        </span>
+                        <span className="rounded-full bg-white/5 px-2 py-1 text-white/40">
+                          Confianza{" "}
+                          {conversation.lead.qualificationConfidence}%
+                        </span>
+                      </div>
+                    )}
                   </div>
                   <div className="text-xs text-white/30 sm:text-right">
                     <p>{formatDate(conversation.lastMessageAt)}</p>

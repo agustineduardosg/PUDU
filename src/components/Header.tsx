@@ -49,22 +49,29 @@ export const Header = () => {
           isScrolled ? "bg-opacity-90 dark:bg-slate-900/90" : "bg-opacity-50 dark:bg-slate-900/50"
         }`}>
           {/* Logo */}
-          <PuduLogo 
+          <Link
             href="/"
-            color="currentColor" 
-            className={`h-10 w-28 transition-colors duration-500 ${
+            aria-label="Ir al inicio de PUDU"
+            className={`flex items-center gap-2 transition-colors duration-500 ${
               isScrolled ? "text-foreground" : "text-white"
             }`}
-          />
+          >
+            <PuduLogo color="currentColor" className="h-8 w-8" />
+            <span className="text-lg font-black tracking-[0.16em]">PUDU</span>
+          </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-8">
             <div 
               className="relative"
               onMouseEnter={() => setSolutionsOpen(true)}
               onMouseLeave={() => setSolutionsOpen(false)}
             >
               <button 
+                type="button"
+                aria-expanded={solutionsOpen}
+                aria-haspopup="menu"
+                onClick={() => setSolutionsOpen((open) => !open)}
                 className={`flex items-center gap-1.5 text-sm font-bold transition-colors cursor-pointer ${
                   isScrolled 
                     ? "text-foreground/80 hover:text-brand-blue" 
@@ -138,15 +145,19 @@ export const Header = () => {
           </div>
 
           {/* CTA */}
-          <div className="hidden md:block">
-            <button className="bg-gradient-fire text-white px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-wider shadow-md hover:scale-105 active:scale-95 transition-all">
-              Digital Upgrade
-            </button>
+          <div className="hidden lg:block">
+            <Link
+              href="/#diagnostico"
+              className="inline-flex bg-gradient-fire text-white px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-wider shadow-md hover:scale-105 active:scale-95 transition-all"
+            >
+              Diagnóstico gratis
+            </Link>
           </div>
 
           {/* Mobile Toggle */}
           <button 
-            className="md:hidden text-foreground p-2"
+            aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+            className="flex h-11 w-11 items-center justify-center text-foreground lg:hidden"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X /> : <Menu />}
@@ -161,12 +172,12 @@ export const Header = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 right-0 mt-2 mx-6 glass p-6 rounded-3xl md:hidden flex flex-col gap-4 overflow-hidden"
+            className="absolute left-0 right-0 top-full mx-6 mt-2 flex max-h-[calc(100vh-7rem)] flex-col gap-4 overflow-y-auto rounded-3xl border border-slate-200 bg-white/95 p-6 text-slate-950 shadow-2xl backdrop-blur-2xl lg:hidden dark:border-white/10 dark:bg-slate-950/95 dark:text-white"
           >
             <div className="flex flex-col gap-2">
               <button 
                 onClick={() => setMobileSolutionsOpen(!mobileSolutionsOpen)}
-                className="flex items-center justify-between text-lg font-black text-foreground py-2"
+                className="flex items-center justify-between py-2 text-lg font-black text-slate-950 dark:text-white"
               >
                 SOLUCIONES
                 <ChevronDown className={`transition-transform duration-300 ${mobileSolutionsOpen ? "rotate-180" : ""}`} />
@@ -184,7 +195,7 @@ export const Header = () => {
                       <p className="text-[10px] font-black text-brand-blue uppercase tracking-widest mb-3">Ecosistemas SIO</p>
                       <div className="grid gap-3">
                         {groupA.map(item => (
-                          <Link key={item.name} href={item.href} className="text-sm font-medium text-foreground/70" onClick={() => setMobileMenuOpen(false)}>
+                          <Link key={item.name} href={item.href} className="text-sm font-medium text-slate-700 dark:text-white/70" onClick={() => setMobileMenuOpen(false)}>
                             {item.name}
                           </Link>
                         ))}
@@ -194,7 +205,7 @@ export const Header = () => {
                       <p className="text-[10px] font-black text-brand-blue uppercase tracking-widest mb-3">Técnicas a Medida</p>
                       <div className="grid gap-3">
                         {groupB.map(item => (
-                          <Link key={item.name} href={item.href} className="text-sm font-medium text-foreground/70" onClick={() => setMobileMenuOpen(false)}>
+                          <Link key={item.name} href={item.href} className="text-sm font-medium text-slate-700 dark:text-white/70" onClick={() => setMobileMenuOpen(false)}>
                             {item.name}
                           </Link>
                         ))}
@@ -207,15 +218,19 @@ export const Header = () => {
               <Link
                 href="/#metodo"
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-lg font-black text-foreground py-2 border-t border-white/5"
+                className="border-t border-slate-200 py-2 text-lg font-black text-slate-950 dark:border-white/5 dark:text-white"
               >
                 EL MÉTODO PUDU
               </Link>
             </div>
             
-            <button className="bg-gradient-fire text-white px-6 py-4 rounded-2xl text-sm font-black uppercase tracking-widest mt-4 shadow-lg">
-              Solicitar Digital Upgrade
-            </button>
+            <Link
+              href="/#diagnostico"
+              onClick={() => setMobileMenuOpen(false)}
+              className="bg-gradient-fire text-center text-white px-6 py-4 rounded-2xl text-sm font-black uppercase tracking-widest mt-4 shadow-lg"
+            >
+              Obtener diagnóstico
+            </Link>
           </motion.div>
         )}
       </AnimatePresence>
