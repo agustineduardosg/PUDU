@@ -35,4 +35,4 @@ COPY --from=builder /app/prisma ./prisma
 
 EXPOSE 3000
 
-CMD ["sh", "-c", "node node_modules/prisma/build/index.js migrate deploy && exec node server.js"]
+CMD ["sh", "-c", "if [ \"$PRISMA_BASELINE_EXISTING_DATABASE\" = \"true\" ]; then node node_modules/prisma/build/index.js migrate resolve --applied 20260727000000_application_baseline || true; fi; node node_modules/prisma/build/index.js migrate deploy && exec node server.js"]
