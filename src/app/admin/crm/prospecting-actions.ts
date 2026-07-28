@@ -320,10 +320,11 @@ export async function createCampaign(formData: FormData) {
     throw new Error("Completa el nombre y selecciona un canal válido.");
   }
 
-  await prisma.campaign.create({
+  const campaign = await prisma.campaign.create({
     data: { channel, description: description || null, name },
   });
   revalidateCrm();
+  redirect(`/admin/crm/campaigns/${campaign.id}`);
 }
 
 export async function updateCampaignStatus(formData: FormData) {

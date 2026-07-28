@@ -1,5 +1,7 @@
+import Link from "next/link";
 import {
   CheckCircle2,
+  ExternalLink,
   Megaphone,
   PauseCircle,
   PlayCircle,
@@ -209,23 +211,37 @@ export default async function CampaignsPage() {
                     </p>
                   </div>
 
-                  {!isDemo && !["COMPLETED", "ARCHIVED"].includes(campaign.status) && (
-                    <form action={updateCampaignStatus}>
-                      <input type="hidden" name="campaignId" value={campaign.id} />
-                      <button
-                        name="status"
-                        value={nextStatus}
-                        className="flex items-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-xs font-black text-white/50 hover:text-white"
-                      >
-                        {campaign.status === "ACTIVE" ? (
-                          <PauseCircle className="h-4 w-4" />
-                        ) : (
-                          <PlayCircle className="h-4 w-4" />
-                        )}
-                        {campaign.status === "ACTIVE" ? "Pausar" : "Activar"}
-                      </button>
-                    </form>
-                  )}
+                  <div className="flex items-center gap-2">
+                    {!isDemo &&
+                      !["COMPLETED", "ARCHIVED"].includes(campaign.status) && (
+                        <form action={updateCampaignStatus}>
+                          <input
+                            type="hidden"
+                            name="campaignId"
+                            value={campaign.id}
+                          />
+                          <button
+                            name="status"
+                            value={nextStatus}
+                            className="flex items-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-xs font-black text-white/50 hover:text-white"
+                          >
+                            {campaign.status === "ACTIVE" ? (
+                              <PauseCircle className="h-4 w-4" />
+                            ) : (
+                              <PlayCircle className="h-4 w-4" />
+                            )}
+                            {campaign.status === "ACTIVE" ? "Pausar" : "Activar"}
+                          </button>
+                        </form>
+                      )}
+                    <Link
+                      href={`/admin/crm/campaigns/${campaign.id}`}
+                      className="flex items-center gap-2 rounded-xl bg-pink-400/10 px-3 py-2 text-xs font-black text-pink-300"
+                    >
+                      Gestionar
+                      <ExternalLink className="h-4 w-4" />
+                    </Link>
+                  </div>
                 </div>
 
                 <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
