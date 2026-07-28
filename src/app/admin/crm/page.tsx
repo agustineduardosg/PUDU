@@ -1,6 +1,8 @@
+import Link from "next/link";
 import {
   ArrowLeft,
   ArrowRight,
+  ArrowUpRight,
   CalendarClock,
   Mail,
   MessageSquareText,
@@ -190,6 +192,14 @@ export default async function CrmPipelinePage() {
                           </span>
                         </div>
                       </div>
+
+                      <Link
+                        href={`/admin/crm/leads/${lead.id}`}
+                        className="mt-4 w-full rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2.5 text-xs font-black flex items-center justify-center gap-2 hover:border-brand-emerald/30 hover:text-brand-emerald"
+                      >
+                        Abrir ficha
+                        <ArrowUpRight className="w-3.5 h-3.5" />
+                      </Link>
 
                       <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between">
                         {!isDemo && stageIndex > 0 ? (
