@@ -196,6 +196,7 @@ model MessageTemplate {
   createdAt  DateTime          @default(now())
   updatedAt  DateTime          @updatedAt
   messages   OutboundMessage[]
+  campaigns  Campaign[]
 
   @@index([channel, isActive])
 }
@@ -205,6 +206,8 @@ model Campaign {
   name        String
   description String?
   channel     MessageChannel
+  templateId  String?
+  template    MessageTemplate?  @relation(fields: [templateId], references: [id], onDelete: SetNull)
   status      CampaignStatus    @default(DRAFT)
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
@@ -212,6 +215,7 @@ model Campaign {
   messages    OutboundMessage[]
 
   @@index([status, createdAt])
+  @@index([templateId])
 }
 
 model CampaignMember {
