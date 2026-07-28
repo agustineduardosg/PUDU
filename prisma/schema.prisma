@@ -95,6 +95,17 @@ enum CampaignMemberStatus {
   SKIPPED
 }
 
+enum DeliveryEventType {
+  APPROVED
+  APPROVAL_REVOKED
+  QUEUED
+  SEND_STARTED
+  SENT
+  FAILED
+  CANCELLED
+  BLOCKED
+}
+
 model ContactSubmission {
   id              String            @id @default(cuid())
   name            String
@@ -114,6 +125,9 @@ model ContactSubmission {
   notes           String?
   lastContactAt   DateTime?
   nextFollowUpAt  DateTime?
+  doNotContact    Boolean           @default(false)
+  doNotContactReason String?
+  unsubscribedAt  DateTime?
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
   activities      LeadActivity[]
@@ -124,6 +138,7 @@ model ContactSubmission {
   @@index([status, createdAt])
   @@index([email])
   @@index([nextFollowUpAt])
+  @@index([doNotContact, updatedAt])
 }
 
 model LeadActivity {
@@ -175,14 +190,33 @@ model OutboundMessage {
   sentAt            DateTime?
   providerMessageId String?
   errorMessage      String?
+  approvedAt        DateTime?
+  approvedBy        String?
+  sendAttempts      Int                @default(0)
+  lastAttemptAt     DateTime?
   createdBy         String?
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
+  deliveryEvents    MessageDeliveryEvent[]
 
   @@index([status, scheduledAt])
   @@index([leadId, createdAt])
   @@index([campaignId, status])
   @@index([templateId])
+  @@index([approvedAt, status])
+}
+
+model MessageDeliveryEvent {
+  id        String            @id @default(cuid())
+  messageId String
+  message   OutboundMessage   @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  type      DeliveryEventType
+  detail    String?
+  metadata  Json?
+  createdBy String?
+  createdAt DateTime          @default(now())
+
+  @@index([messageId, createdAt])
 }
 
 model MessageTemplate {

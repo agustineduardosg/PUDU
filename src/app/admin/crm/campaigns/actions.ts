@@ -118,7 +118,11 @@ export async function addCampaignMembers(formData: FormData) {
 
   const validLeads = await prisma.contactSubmission.findMany({
     select: { id: true },
-    where: { id: { in: leadIds } },
+    where: {
+      doNotContact: false,
+      id: { in: leadIds },
+      unsubscribedAt: null,
+    },
   });
 
   await prisma.campaignMember.createMany({
@@ -192,12 +196,14 @@ export async function generateApprovedCampaignDrafts(formData: FormData) {
           lead: {
             select: {
               company: true,
+              doNotContact: true,
               email: true,
               id: true,
               instagram: true,
               interest: true,
               name: true,
               phone: true,
+              unsubscribedAt: true,
             },
           },
         },
@@ -233,7 +239,11 @@ export async function generateApprovedCampaignDrafts(formData: FormData) {
         item,
       ): item is typeof item & {
         recipient: string;
-      } => Boolean(item.recipient) && !existingLeadIds.has(item.lead.id),
+      } =>
+        Boolean(item.recipient) &&
+        !item.lead.doNotContact &&
+        !item.lead.unsubscribedAt &&
+        !existingLeadIds.has(item.lead.id),
     );
 
   if (draftableMembers.length === 0) {
