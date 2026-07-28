@@ -1,6 +1,6 @@
 import React from "react";
 import { getAllLeads } from "@/app/actions";
-import { Users, Mail, Calendar, Building2, MessageSquare, ExternalLink } from "lucide-react";
+import { Users, Mail, Building2 } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -73,7 +73,9 @@ export default async function LeadsPage() {
                     </td>
                     <td className="p-6">
                       <div className="max-w-xs">
-                        <p className="text-sm text-white/60 line-clamp-2 italic">"{lead.message}"</p>
+                        <p className="text-sm text-white/60 line-clamp-2 italic">
+                          &ldquo;{lead.message}&rdquo;
+                        </p>
                       </div>
                     </td>
                   </tr>

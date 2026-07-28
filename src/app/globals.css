@@ -6,8 +6,8 @@
   --color-brand-fire-start: #F59E0B;
   --color-brand-fire-end: #EF4444;
   
-  --font-sans: "Outfit", var(--font-geist-sans);
-  --font-display: "Outfit", var(--font-geist-sans);
+  --font-sans: "Segoe UI", Inter, Arial, sans-serif;
+  --font-display: "Segoe UI", Inter, Arial, sans-serif;
 }
 
 :root {

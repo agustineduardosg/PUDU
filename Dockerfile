@@ -22,7 +22,11 @@ ENV NODE_ENV=production
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-# Automatically leverage standalone output trace
+# Keep the exact dependency tree built in the first stage so the production
+# container can execute the pinned Prisma migration CLI before starting.
+COPY --from=builder /app/node_modules ./node_modules
+
+# Automatically leverage standalone output trace.
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
@@ -30,4 +34,4 @@ COPY --from=builder /app/prisma ./prisma
 
 EXPOSE 3000
 
-CMD ["node", "server.js"]
+CMD ["sh", "-c", "node node_modules/prisma/build/index.js migrate deploy && exec node server.js"]

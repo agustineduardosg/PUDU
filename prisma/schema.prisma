@@ -5,6 +5,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -12,14 +13,338 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum LeadStatus {
+  NEW
+  QUALIFYING
+  CONTACTED
+  MEETING
+  PROPOSAL
+  NEGOTIATION
+  WON
+  LOST
+}
+
+enum LeadPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum LeadSource {
+  WEBSITE
+  INSTAGRAM
+  LINKEDIN
+  REFERRAL
+  CAMPAIGN
+  MANUAL
+  OTHER
+}
+
+enum ActivityType {
+  NOTE
+  EMAIL
+  CALL
+  WHATSAPP
+  INSTAGRAM
+  MEETING
+  STATUS_CHANGE
+  PROPOSAL
+}
+
+enum TaskStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum MessageChannel {
+  EMAIL
+  WHATSAPP
+  INSTAGRAM
+  LINKEDIN
+  SMS
+}
+
+enum MessageStatus {
+  DRAFT
+  SCHEDULED
+  QUEUED
+  PREVIEWED
+  SENT
+  DELIVERED
+  REPLIED
+  FAILED
+  CANCELLED
+}
+
+enum CampaignStatus {
+  DRAFT
+  ACTIVE
+  PAUSED
+  COMPLETED
+  ARCHIVED
+}
+
+enum CampaignMemberStatus {
+  PENDING
+  APPROVED
+  CONTACTED
+  REPLIED
+  QUALIFIED
+  SKIPPED
+}
+
+enum DeliveryEventType {
+  APPROVED
+  APPROVAL_REVOKED
+  QUEUED
+  SEND_STARTED
+  PREVIEW_CAPTURED
+  SENT
+  FAILED
+  CANCELLED
+  BLOCKED
+}
+
+enum InstagramConversationStatus {
+  NEW
+  BOT_ACTIVE
+  WAITING_REPLY
+  HUMAN_REQUIRED
+  QUALIFIED
+  CLOSED
+  BLOCKED
+}
+
+enum InstagramMessageDirection {
+  INBOUND
+  OUTBOUND
+}
+
 model ContactSubmission {
-  id        String   @id @default(cuid())
-  name      String
-  company   String?
-  email     String
-  interest  String
-  message   String
-  createdAt DateTime @default(now())
+  id              String            @id @default(cuid())
+  name            String
+  company         String?
+  email           String?
+  phone           String?
+  city            String?
+  instagram       String?
+  interest        String
+  message         String
+  source          LeadSource        @default(WEBSITE)
+  status          LeadStatus        @default(NEW)
+  priority        LeadPriority      @default(MEDIUM)
+  score           Int               @default(0)
+  tags            String[]          @default([])
+  assignedTo      String?
+  notes           String?
+  lastContactAt   DateTime?
+  nextFollowUpAt  DateTime?
+  doNotContact    Boolean           @default(false)
+  doNotContactReason String?
+  unsubscribedAt  DateTime?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  activities      LeadActivity[]
+  tasks           LeadTask[]
+  messages        OutboundMessage[]
+  campaignMembers CampaignMember[]
+  instagramConversations InstagramConversation[]
+
+  @@index([status, createdAt])
+  @@index([email])
+  @@index([nextFollowUpAt])
+  @@index([doNotContact, updatedAt])
+}
+
+model InstagramAccount {
+  id              String                  @id @default(cuid())
+  instagramUserId String                  @unique
+  username        String?
+  displayName     String?
+  isActive        Boolean                 @default(true)
+  createdAt       DateTime                @default(now())
+  updatedAt       DateTime                @updatedAt
+  conversations   InstagramConversation[]
+
+  @@index([isActive, updatedAt])
+}
+
+model InstagramConversation {
+  id             String                      @id @default(cuid())
+  accountId      String
+  account        InstagramAccount            @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  leadId         String?
+  lead           ContactSubmission?          @relation(fields: [leadId], references: [id], onDelete: SetNull)
+  externalUserId String
+  username       String?
+  displayName    String?
+  status         InstagramConversationStatus @default(NEW)
+  lastMessageAt  DateTime
+  createdAt      DateTime                    @default(now())
+  updatedAt      DateTime                    @updatedAt
+  messages       InstagramMessage[]
+
+  @@unique([accountId, externalUserId])
+  @@index([status, lastMessageAt])
+  @@index([leadId, lastMessageAt])
+}
+
+model InstagramMessage {
+  id            String                    @id @default(cuid())
+  conversationId String
+  conversation  InstagramConversation     @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  metaMessageId String                    @unique
+  direction     InstagramMessageDirection
+  text          String?
+  payload       Json?
+  occurredAt    DateTime
+  createdAt     DateTime                  @default(now())
+
+  @@index([conversationId, occurredAt])
+}
+
+model InstagramWebhookEvent {
+  id          String   @id @default(cuid())
+  status      String
+  payload     Json
+  errorMessage String?
+  receivedAt  DateTime @default(now())
+  processedAt DateTime?
+
+  @@index([status, receivedAt])
+}
+
+model LeadActivity {
+  id        String            @id @default(cuid())
+  leadId    String
+  lead      ContactSubmission @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  type      ActivityType
+  title     String
+  body      String?
+  metadata  Json?
+  createdBy String?
+  createdAt DateTime          @default(now())
+
+  @@index([leadId, createdAt])
+}
+
+model LeadTask {
+  id          String            @id @default(cuid())
+  leadId      String
+  lead        ContactSubmission @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  status      TaskStatus        @default(PENDING)
+  priority    LeadPriority      @default(MEDIUM)
+  dueAt       DateTime?
+  assignedTo  String?
+  completedAt DateTime?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  @@index([leadId, status])
+  @@index([dueAt, status])
+}
+
+model OutboundMessage {
+  id                String             @id @default(cuid())
+  leadId            String?
+  lead              ContactSubmission? @relation(fields: [leadId], references: [id], onDelete: SetNull)
+  campaignId        String?
+  campaign          Campaign?          @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+  templateId        String?
+  template          MessageTemplate?   @relation(fields: [templateId], references: [id], onDelete: SetNull)
+  channel           MessageChannel
+  status            MessageStatus      @default(DRAFT)
+  recipient         String
+  subject           String?
+  content           String
+  scheduledAt       DateTime?
+  sentAt            DateTime?
+  providerMessageId String?
+  errorMessage      String?
+  approvedAt        DateTime?
+  approvedBy        String?
+  sendAttempts      Int                @default(0)
+  lastAttemptAt     DateTime?
+  createdBy         String?
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  deliveryEvents    MessageDeliveryEvent[]
+
+  @@index([status, scheduledAt])
+  @@index([leadId, createdAt])
+  @@index([campaignId, status])
+  @@index([templateId])
+  @@index([approvedAt, status])
+}
+
+model MessageDeliveryEvent {
+  id        String            @id @default(cuid())
+  messageId String
+  message   OutboundMessage   @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  type      DeliveryEventType
+  detail    String?
+  metadata  Json?
+  createdBy String?
+  createdAt DateTime          @default(now())
+
+  @@index([messageId, createdAt])
+}
+
+model MessageTemplate {
+  id         String            @id @default(cuid())
+  name       String
+  channel    MessageChannel
+  subject    String?
+  content    String
+  isActive   Boolean           @default(true)
+  usageCount Int               @default(0)
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
+  messages   OutboundMessage[]
+  campaigns  Campaign[]
+
+  @@index([channel, isActive])
+}
+
+model Campaign {
+  id          String            @id @default(cuid())
+  name        String
+  description String?
+  channel     MessageChannel
+  templateId  String?
+  template    MessageTemplate?  @relation(fields: [templateId], references: [id], onDelete: SetNull)
+  status      CampaignStatus    @default(DRAFT)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  members     CampaignMember[]
+  messages    OutboundMessage[]
+
+  @@index([status, createdAt])
+  @@index([templateId])
+}
+
+model CampaignMember {
+  id          String               @id @default(cuid())
+  campaignId  String
+  campaign    Campaign             @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  leadId      String
+  lead        ContactSubmission    @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  status      CampaignMemberStatus @default(PENDING)
+  approvedAt  DateTime?
+  contactedAt DateTime?
+  repliedAt   DateTime?
+  notes       String?
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+
+  @@unique([campaignId, leadId])
+  @@index([campaignId, status])
+  @@index([leadId, createdAt])
 }
 
 model Quote {
@@ -34,13 +359,13 @@ model Quote {
   notes       String?
   createdAt   DateTime @default(now())
 
-  items       QuoteItem[]
+  items QuoteItem[]
 }
 
 model QuoteItem {
-  id          String   @id @default(cuid())
+  id          String @id @default(cuid())
   quoteId     String
-  quote       Quote    @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+  quote       Quote  @relation(fields: [quoteId], references: [id], onDelete: Cascade)
   serviceId   String
   description String
   quantity    Int

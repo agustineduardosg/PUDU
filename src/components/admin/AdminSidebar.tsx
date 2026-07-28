@@ -6,19 +6,33 @@ import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { 
   Users, 
+  Kanban,
   FileText, 
   LayoutDashboard, 
   Settings, 
   LogOut,
   ChevronRight,
   Plus,
-  X
+  X,
+  Upload,
+  ListTodo,
+  MessageSquareText,
+  Megaphone,
+  Send,
+  Instagram,
 } from "lucide-react";
 import PuduLogo from "../PuduLogo";
 
 const navItems = [
   { name: "Dashboard", href: "/admin", icon: <LayoutDashboard className="w-5 h-5" /> },
-  { name: "Leads (CRM)", href: "/admin/leads", icon: <Users className="w-5 h-5" /> },
+  { name: "Pipeline CRM", href: "/admin/crm", icon: <Kanban className="w-5 h-5" /> },
+  { name: "Prospección", href: "/admin/crm/prospects", icon: <Upload className="w-5 h-5" /> },
+  { name: "Tareas CRM", href: "/admin/crm/tasks", icon: <ListTodo className="w-5 h-5" /> },
+  { name: "Plantillas", href: "/admin/crm/templates", icon: <MessageSquareText className="w-5 h-5" /> },
+  { name: "Campañas", href: "/admin/crm/campaigns", icon: <Megaphone className="w-5 h-5" /> },
+  { name: "Bandeja de salida", href: "/admin/crm/outbox", icon: <Send className="w-5 h-5" /> },
+  { name: "Instagram Inbox", href: "/admin/crm/instagram", icon: <Instagram className="w-5 h-5" /> },
+  { name: "Leads Entrantes", href: "/admin/leads", icon: <Users className="w-5 h-5" /> },
   { name: "Historial CPQ", href: "/admin/history", icon: <FileText className="w-5 h-5" /> },
   { name: "Nuevo Cotizador", href: "/admin/cotizador", icon: <Plus className="w-5 h-5" /> },
   { name: "Configuración", href: "/admin/settings", icon: <Settings className="w-5 h-5" /> },
@@ -31,9 +45,9 @@ interface AdminSidebarProps {
 export const AdminSidebar: React.FC<AdminSidebarProps> = ({ onClose }) => {
   const pathname = usePathname();
 
-  const handleLogout = () => {
-    document.cookie = "pudu_admin_auth=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-    window.location.href = "/";
+  const handleLogout = async () => {
+    await fetch("/api/admin/logout", { method: "POST" });
+    window.location.href = "/admin/login";
   };
 
   return (
@@ -41,9 +55,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ onClose }) => {
       {/* Sidebar Header */}
       <div className="p-8 border-b border-white/5 mb-6 relative">
         <div className="flex items-center justify-between">
-          <Link href="/admin">
-            <PuduLogo color="white" className="h-8 w-24" />
-          </Link>
+          <PuduLogo href="/admin" color="white" className="h-8 w-24" />
           <button 
             onClick={onClose}
             className="lg:hidden p-2 hover:bg-white/5 rounded-xl transition-colors"
@@ -60,9 +72,14 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({ onClose }) => {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-4 space-y-2">
+      <nav className="flex-1 overflow-y-auto px-4 space-y-2 custom-scrollbar">
         {navItems.map((item) => {
-          const isActive = pathname === item.href;
+          const isActive =
+            pathname === item.href ||
+            (item.href === "/admin/crm" &&
+              pathname.startsWith("/admin/crm/leads/")) ||
+            (!["/admin", "/admin/crm"].includes(item.href) &&
+              pathname.startsWith(`${item.href}/`));
           return (
             <Link 
               key={item.name} 
