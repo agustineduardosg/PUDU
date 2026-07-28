@@ -77,30 +77,48 @@ enum MessageStatus {
   CANCELLED
 }
 
+enum CampaignStatus {
+  DRAFT
+  ACTIVE
+  PAUSED
+  COMPLETED
+  ARCHIVED
+}
+
+enum CampaignMemberStatus {
+  PENDING
+  APPROVED
+  CONTACTED
+  REPLIED
+  QUALIFIED
+  SKIPPED
+}
+
 model ContactSubmission {
-  id             String        @id @default(cuid())
-  name           String
-  company        String?
-  email          String
-  phone          String?
-  city           String?
-  instagram      String?
-  interest       String
-  message        String
-  source         LeadSource    @default(WEBSITE)
-  status         LeadStatus    @default(NEW)
-  priority       LeadPriority  @default(MEDIUM)
-  score          Int           @default(0)
-  tags           String[]      @default([])
-  assignedTo     String?
-  notes          String?
-  lastContactAt  DateTime?
-  nextFollowUpAt DateTime?
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-  activities     LeadActivity[]
-  tasks          LeadTask[]
-  messages       OutboundMessage[]
+  id              String            @id @default(cuid())
+  name            String
+  company         String?
+  email           String?
+  phone           String?
+  city            String?
+  instagram       String?
+  interest        String
+  message         String
+  source          LeadSource        @default(WEBSITE)
+  status          LeadStatus        @default(NEW)
+  priority        LeadPriority      @default(MEDIUM)
+  score           Int               @default(0)
+  tags            String[]          @default([])
+  assignedTo      String?
+  notes           String?
+  lastContactAt   DateTime?
+  nextFollowUpAt  DateTime?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  activities      LeadActivity[]
+  tasks           LeadTask[]
+  messages        OutboundMessage[]
+  campaignMembers CampaignMember[]
 
   @@index([status, createdAt])
   @@index([email])
@@ -108,7 +126,7 @@ model ContactSubmission {
 }
 
 model LeadActivity {
-  id        String        @id @default(cuid())
+  id        String            @id @default(cuid())
   leadId    String
   lead      ContactSubmission @relation(fields: [leadId], references: [id], onDelete: Cascade)
   type      ActivityType
@@ -116,35 +134,39 @@ model LeadActivity {
   body      String?
   metadata  Json?
   createdBy String?
-  createdAt DateTime      @default(now())
+  createdAt DateTime          @default(now())
 
   @@index([leadId, createdAt])
 }
 
 model LeadTask {
-  id          String        @id @default(cuid())
+  id          String            @id @default(cuid())
   leadId      String
   lead        ContactSubmission @relation(fields: [leadId], references: [id], onDelete: Cascade)
   title       String
   description String?
-  status      TaskStatus    @default(PENDING)
-  priority    LeadPriority  @default(MEDIUM)
+  status      TaskStatus        @default(PENDING)
+  priority    LeadPriority      @default(MEDIUM)
   dueAt       DateTime?
   assignedTo  String?
   completedAt DateTime?
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
 
   @@index([leadId, status])
   @@index([dueAt, status])
 }
 
 model OutboundMessage {
-  id                String        @id @default(cuid())
+  id                String             @id @default(cuid())
   leadId            String?
   lead              ContactSubmission? @relation(fields: [leadId], references: [id], onDelete: SetNull)
+  campaignId        String?
+  campaign          Campaign?          @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+  templateId        String?
+  template          MessageTemplate?   @relation(fields: [templateId], references: [id], onDelete: SetNull)
   channel           MessageChannel
-  status            MessageStatus @default(DRAFT)
+  status            MessageStatus      @default(DRAFT)
   recipient         String
   subject           String?
   content           String
@@ -153,10 +175,60 @@ model OutboundMessage {
   providerMessageId String?
   errorMessage      String?
   createdBy         String?
-  createdAt         DateTime      @default(now())
-  updatedAt         DateTime      @updatedAt
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
 
   @@index([status, scheduledAt])
+  @@index([leadId, createdAt])
+  @@index([campaignId, status])
+  @@index([templateId])
+}
+
+model MessageTemplate {
+  id         String            @id @default(cuid())
+  name       String
+  channel    MessageChannel
+  subject    String?
+  content    String
+  isActive   Boolean           @default(true)
+  usageCount Int               @default(0)
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
+  messages   OutboundMessage[]
+
+  @@index([channel, isActive])
+}
+
+model Campaign {
+  id          String            @id @default(cuid())
+  name        String
+  description String?
+  channel     MessageChannel
+  status      CampaignStatus    @default(DRAFT)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  members     CampaignMember[]
+  messages    OutboundMessage[]
+
+  @@index([status, createdAt])
+}
+
+model CampaignMember {
+  id          String               @id @default(cuid())
+  campaignId  String
+  campaign    Campaign             @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  leadId      String
+  lead        ContactSubmission    @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  status      CampaignMemberStatus @default(PENDING)
+  approvedAt  DateTime?
+  contactedAt DateTime?
+  repliedAt   DateTime?
+  notes       String?
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+
+  @@unique([campaignId, leadId])
+  @@index([campaignId, status])
   @@index([leadId, createdAt])
 }
 
@@ -172,13 +244,13 @@ model Quote {
   notes       String?
   createdAt   DateTime @default(now())
 
-  items       QuoteItem[]
+  items QuoteItem[]
 }
 
 model QuoteItem {
-  id          String   @id @default(cuid())
+  id          String @id @default(cuid())
   quoteId     String
-  quote       Quote    @relation(fields: [quoteId], references: [id], onDelete: Cascade)
+  quote       Quote  @relation(fields: [quoteId], references: [id], onDelete: Cascade)
   serviceId   String
   description String
   quantity    Int

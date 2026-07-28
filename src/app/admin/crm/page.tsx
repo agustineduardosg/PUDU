@@ -176,13 +176,20 @@ export default async function CrmPipelinePage() {
                       </div>
 
                       <div className="mt-4 space-y-2 text-xs text-white/50">
-                        <a
-                          href={`mailto:${lead.email}`}
-                          className="flex items-center gap-2 hover:text-brand-emerald truncate"
-                        >
-                          <Mail className="w-3.5 h-3.5 shrink-0" />
-                          <span className="truncate">{lead.email}</span>
-                        </a>
+                        {lead.email ? (
+                          <a
+                            href={`mailto:${lead.email}`}
+                            className="flex items-center gap-2 hover:text-brand-emerald truncate"
+                          >
+                            <Mail className="w-3.5 h-3.5 shrink-0" />
+                            <span className="truncate">{lead.email}</span>
+                          </a>
+                        ) : (
+                          <div className="flex items-center gap-2">
+                            <Mail className="w-3.5 h-3.5 shrink-0" />
+                            <span>Sin email</span>
+                          </div>
+                        )}
                         <div className="flex items-center gap-2">
                           <CalendarClock className="w-3.5 h-3.5 shrink-0" />
                           <span>

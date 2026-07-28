@@ -26,6 +26,10 @@ import {
   getCrmDemoLeadDetail,
   type CrmDemoLead,
 } from "@/data/crmDemo";
+import {
+  defaultMessageTemplates,
+  type CrmMessageTemplate,
+} from "@/data/messageTemplates";
 
 export const dynamic = "force-dynamic";
 
@@ -97,22 +101,30 @@ async function loadLead(leadId: string) {
     return {
       isDemo,
       lead: getCrmDemoLeadDetail(leadId) as LeadDetail | null,
+      templates: defaultMessageTemplates,
     };
   }
 
   const { prisma } = await import("@/lib/prisma");
-  const databaseLead = await prisma.contactSubmission.findUnique({
-    include: {
-      activities: { orderBy: { createdAt: "desc" } },
-      messages: { orderBy: { createdAt: "desc" } },
-      tasks: { orderBy: [{ status: "asc" }, { dueAt: "asc" }] },
-    },
-    where: { id: leadId },
-  });
+  const [databaseLead, templates] = await Promise.all([
+    prisma.contactSubmission.findUnique({
+      include: {
+        activities: { orderBy: { createdAt: "desc" } },
+        messages: { orderBy: { createdAt: "desc" } },
+        tasks: { orderBy: [{ status: "asc" }, { dueAt: "asc" }] },
+      },
+      where: { id: leadId },
+    }),
+    prisma.messageTemplate.findMany({
+      orderBy: { name: "asc" },
+      where: { isActive: true },
+    }),
+  ]);
 
   return {
     isDemo,
     lead: databaseLead as LeadDetail | null,
+    templates: templates as CrmMessageTemplate[],
   };
 }
 
@@ -122,7 +134,7 @@ export default async function LeadDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const { isDemo, lead } = await loadLead(id);
+  const { isDemo, lead, templates } = await loadLead(id);
 
   if (!lead) {
     notFound();
@@ -190,16 +202,15 @@ export default async function LeadDetailPage({
       </header>
 
       <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3 mb-8">
-        <a
-          href={`mailto:${lead.email}`}
-          className="rounded-2xl border border-white/10 bg-[#0f172a]/70 p-4 hover:border-brand-emerald/30"
-        >
+        <div className="rounded-2xl border border-white/10 bg-[#0f172a]/70 p-4">
           <Mail className="w-4 h-4 text-brand-emerald mb-3" />
           <p className="text-[9px] uppercase tracking-wider text-white/30 font-black">
             Email
           </p>
-          <p className="text-sm font-bold mt-1 break-all">{lead.email}</p>
-        </a>
+          <p className="text-sm font-bold mt-1 break-all">
+            {lead.email || "Sin email"}
+          </p>
+        </div>
         <div className="rounded-2xl border border-white/10 bg-[#0f172a]/70 p-4">
           <Phone className="w-4 h-4 text-brand-blue mb-3" />
           <p className="text-[9px] uppercase tracking-wider text-white/30 font-black">
@@ -291,6 +302,7 @@ export default async function LeadDetailPage({
             isDemo={isDemo}
             leadId={lead.id}
             leadName={lead.name}
+            templates={templates}
           />
 
           <section className="rounded-[2rem] border border-white/10 bg-[#0f172a]/80 p-6">
