@@ -6,20 +6,35 @@ import { Lock, ArrowRight, ShieldAlert } from "lucide-react";
 
 export default function LoginPage() {
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Contraseña estática para desarrollo temporal (hasta configurar auth real)
-    // Se recomienda cambiarla en variables de entorno para prod
-    if (password === "vibe123") {
-      document.cookie = "pudu_admin_auth=authenticated; path=/; max-age=86400"; // 1 day
-      router.push("/admin");
-    } else {
-      setError(true);
-      setTimeout(() => setError(false), 3000);
+
+    setError("");
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("/api/admin/login", {
+        body: JSON.stringify({ password }),
+        headers: { "Content-Type": "application/json" },
+        method: "POST",
+      });
+      const result = (await response.json()) as { error?: string };
+
+      if (!response.ok) {
+        setError(result.error || "No fue posible iniciar sesión.");
+        return;
+      }
+
+      router.replace("/admin");
+      router.refresh();
+    } catch {
+      setError("No fue posible conectar con el servidor.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -48,20 +63,24 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 autoFocus
+                autoComplete="current-password"
+                disabled={isSubmitting}
+                required
                 className={`w-full bg-slate-900/50 border ${error ? "border-red-500" : "border-white/10 focus:border-brand-blue"} outline-none rounded-xl py-4 pl-12 pr-4 text-white placeholder:text-white/20 transition-colors`}
                 placeholder="••••••••••"
               />
             </div>
             {error && (
-              <p className="text-xs text-red-500 mt-2 font-medium">Credenciales inválidas.</p>
+              <p className="text-xs text-red-500 mt-2 font-medium" role="alert">{error}</p>
             )}
           </div>
 
           <button
             type="submit"
+            disabled={isSubmitting}
             className="w-full bg-brand-blue hover:bg-brand-blue/90 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-2 transition-colors group shadow-[0_0_20px_rgba(14,165,233,0.3)]"
           >
-            Acceder al Sistema
+            {isSubmitting ? "Verificando..." : "Acceder al Sistema"}
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </button>
         </form>
@@ -69,4 +88,3 @@ export default function LoginPage() {
     </div>
   );
 }
-

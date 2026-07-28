@@ -1,21 +1,21 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import {
+  ADMIN_SESSION_COOKIE,
+  verifyAdminSessionToken,
+} from './lib/admin-auth';
 
-export function middleware(request: NextRequest) {
-  // Solo aplicar a /admin y subrutas
-  if (request.nextUrl.pathname.startsWith('/admin')) {
-    // Si la ruta es el login, permitir acceso
-    if (request.nextUrl.pathname === '/admin/login') {
-      return NextResponse.next();
-    }
+export async function middleware(request: NextRequest) {
+  if (request.nextUrl.pathname === '/admin/login') {
+    return NextResponse.next();
+  }
 
-    // Verificar si existe la cookie de autenticación
-    const pda = request.cookies.get('pudu_admin_auth');
+  const token = request.cookies.get(ADMIN_SESSION_COOKIE)?.value;
 
-    if (!pda || pda.value !== 'authenticated') {
-      // Redirigir al login si no está autenticado
-      return NextResponse.redirect(new URL('/admin/login', request.url));
-    }
+  if (!(await verifyAdminSessionToken(token))) {
+    const loginUrl = new URL('/admin/login', request.url);
+    loginUrl.searchParams.set('next', request.nextUrl.pathname);
+    return NextResponse.redirect(loginUrl);
   }
 
   return NextResponse.next();
@@ -24,4 +24,3 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: '/admin/:path*',
 };
-
