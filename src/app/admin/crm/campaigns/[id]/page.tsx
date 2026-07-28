@@ -27,6 +27,7 @@ export const dynamic = "force-dynamic";
 
 type LeadSummary = {
   company: string | null;
+  doNotContact?: boolean;
   email: string | null;
   id: string;
   instagram: string | null;
@@ -35,6 +36,7 @@ type LeadSummary = {
   phone: string | null;
   priority: string;
   status: string;
+  unsubscribedAt?: Date | null;
 };
 
 type CampaignDetailView = {
@@ -141,6 +143,7 @@ async function loadCampaign(campaignId: string): Promise<CampaignDetailView | nu
             lead: {
               select: {
                 company: true,
+                doNotContact: true,
                 email: true,
                 id: true,
                 instagram: true,
@@ -149,6 +152,7 @@ async function loadCampaign(campaignId: string): Promise<CampaignDetailView | nu
                 phone: true,
                 priority: true,
                 status: true,
+                unsubscribedAt: true,
               },
             },
           },
@@ -173,6 +177,7 @@ async function loadCampaign(campaignId: string): Promise<CampaignDetailView | nu
       orderBy: [{ priority: "desc" }, { createdAt: "desc" }],
       select: {
         company: true,
+        doNotContact: true,
         email: true,
         id: true,
         instagram: true,
@@ -181,9 +186,12 @@ async function loadCampaign(campaignId: string): Promise<CampaignDetailView | nu
         phone: true,
         priority: true,
         status: true,
+        unsubscribedAt: true,
       },
       where: {
         campaignMembers: { none: { campaignId } },
+        doNotContact: false,
+        unsubscribedAt: null,
         status: { not: "LOST" },
       },
     }),
@@ -221,7 +229,9 @@ export default async function CampaignDetailPage({
     (member) => member.status === "PENDING",
   );
   const readyMembers = approvedMembers.filter((member) =>
-    Boolean(contactForChannel(campaign.channel, member.lead)),
+    Boolean(contactForChannel(campaign.channel, member.lead)) &&
+    !member.lead.doNotContact &&
+    !member.lead.unsubscribedAt,
   );
 
   return (

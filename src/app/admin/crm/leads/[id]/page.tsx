@@ -13,6 +13,7 @@ import {
   MessageSquare,
   Phone,
   Save,
+  ShieldAlert,
   UserRound,
 } from "lucide-react";
 import {
@@ -21,6 +22,7 @@ import {
   updateLeadProfile,
   updateLeadTaskStatus,
 } from "@/app/admin/crm/actions";
+import { updateLeadContactPermission } from "@/app/admin/crm/outbox/actions";
 import { MessageComposer } from "@/components/admin/crm/MessageComposer";
 import {
   getCrmDemoLeadDetail,
@@ -34,6 +36,9 @@ import {
 export const dynamic = "force-dynamic";
 
 type LeadDetail = Omit<CrmDemoLead, "tasks"> & {
+  doNotContact: boolean;
+  doNotContactReason: string | null;
+  unsubscribedAt: Date | null;
   activities: {
     body: string | null;
     createdAt: Date;
@@ -417,6 +422,65 @@ export default async function LeadDetailPage({
               </button>
             </fieldset>
           </form>
+
+          <section
+            className={`rounded-[2rem] border p-6 ${
+              lead.doNotContact
+                ? "border-red-400/20 bg-red-400/[0.06]"
+                : "border-brand-emerald/20 bg-brand-emerald/[0.05]"
+            }`}
+          >
+            <div className="flex items-start gap-3">
+              <ShieldAlert
+                className={`mt-0.5 h-5 w-5 ${
+                  lead.doNotContact ? "text-red-300" : "text-brand-emerald"
+                }`}
+              />
+              <div>
+                <h2 className="font-black">
+                  {lead.doNotContact ? "Contacto bloqueado" : "Contacto permitido"}
+                </h2>
+                <p className="mt-1 text-xs leading-relaxed text-white/40">
+                  {lead.doNotContact
+                    ? lead.doNotContactReason || "Exclusión manual activa."
+                    : "El prospecto puede entrar a la cola previa aprobación."}
+                </p>
+                {lead.unsubscribedAt && (
+                  <p className="mt-2 text-[10px] text-red-200/60">
+                    Registrado {formatDate(lead.unsubscribedAt, true)}
+                  </p>
+                )}
+              </div>
+            </div>
+            {!isDemo && (
+              <form action={updateLeadContactPermission} className="mt-5 space-y-3">
+                <input type="hidden" name="leadId" value={lead.id} />
+                <input
+                  type="hidden"
+                  name="doNotContact"
+                  value={lead.doNotContact ? "false" : "true"}
+                />
+                {!lead.doNotContact && (
+                  <input
+                    name="reason"
+                    placeholder="Motivo: solicitud, rebote, contacto incorrecto..."
+                    className="w-full rounded-xl border border-white/10 bg-slate-950 p-3 text-xs"
+                  />
+                )}
+                <button
+                  className={`w-full rounded-xl px-4 py-3 text-sm font-black ${
+                    lead.doNotContact
+                      ? "bg-brand-emerald text-slate-950"
+                      : "border border-red-400/20 bg-red-400/10 text-red-200"
+                  }`}
+                >
+                  {lead.doNotContact
+                    ? "Volver a permitir contacto"
+                    : "Marcar como no contactar"}
+                </button>
+              </form>
+            )}
+          </section>
 
           <section className="rounded-[2rem] border border-white/10 bg-[#0f172a]/80 p-6">
             <div className="flex items-center gap-3 mb-5">
