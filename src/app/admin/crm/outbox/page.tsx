@@ -28,6 +28,7 @@ const eventLabels: Record<string, string> = {
   BLOCKED: "Bloqueado",
   CANCELLED: "Cancelado",
   FAILED: "Fallido",
+  PREVIEW_CAPTURED: "Capturado localmente",
   QUEUED: "En cola",
   SEND_STARTED: "Intento iniciado",
   SENT: "Enviado",
@@ -93,6 +94,7 @@ async function loadOutbox() {
           in: [
             MessageStatus.SENT,
             MessageStatus.DELIVERED,
+            MessageStatus.PREVIEWED,
             MessageStatus.CANCELLED,
           ],
         },
@@ -199,6 +201,7 @@ export default async function OutboxPage() {
   const isDemo = process.env.CRM_DEMO_MODE === "true";
   const remaining = Math.max(0, config.dailyLimit - sentToday);
   const deliveryReady = config.enabled && config.configured && remaining > 0;
+  const isPreview = config.mode === "preview";
 
   return (
     <div className="animate-in fade-in duration-500">
@@ -230,10 +233,16 @@ export default async function OutboxPage() {
             )}
             <div>
               <p className="text-sm font-black">
-                {deliveryReady ? "Proveedor habilitado" : "Envío real bloqueado"}
+                {isPreview
+                  ? "Modo de prueba local"
+                  : deliveryReady
+                    ? "Proveedor habilitado"
+                    : "Envío real bloqueado"}
               </p>
               <p className="text-xs text-white/45">
-                {!config.configured
+                {isPreview
+                  ? "Los mensajes se capturan sin salir a Internet."
+                  : !config.configured
                   ? "Falta completar la cuenta SMTP."
                   : !config.enabled
                     ? "Requiere habilitación explícita en configuración."
@@ -346,14 +355,16 @@ export default async function OutboxPage() {
                   value="yes"
                   className="h-4 w-4 accent-emerald-400"
                 />
-                Confirmo el envío real de los mensajes seleccionados
+                {isPreview
+                  ? "Confirmo la captura local de los mensajes seleccionados"
+                  : "Confirmo el envío real de los mensajes seleccionados"}
               </label>
               <button
                 disabled={!deliveryReady || isDemo || queued.length === 0}
                 className="inline-flex items-center justify-center gap-2 rounded-xl bg-brand-blue px-5 py-3 text-sm font-black disabled:cursor-not-allowed disabled:opacity-30"
               >
                 <Send className="h-4 w-4" />
-                Enviar seleccionados
+                {isPreview ? "Capturar seleccionados" : "Enviar seleccionados"}
               </button>
             </div>
           </form>

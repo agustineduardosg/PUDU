@@ -11,13 +11,17 @@ export function getEmailDeliveryConfig() {
   const user = process.env.SMTP_USER?.trim() || "";
   const pass = process.env.SMTP_PASS || "";
   const from = process.env.SMTP_FROM?.trim() || user;
+  const mode =
+    process.env.CRM_EMAIL_DELIVERY_MODE === "preview" ? "preview" : "smtp";
 
   return {
-    configured: Boolean(host && port && user && pass && from),
+    configured:
+      mode === "preview" || Boolean(host && port && user && pass && from),
     dailyLimit: numericLimit(process.env.CRM_EMAIL_DAILY_LIMIT),
     enabled: process.env.CRM_EMAIL_SENDING_ENABLED === "true",
     from,
     host,
+    mode,
     pass,
     port,
     user,
@@ -71,19 +75,29 @@ export async function sendEmailMessage(input: {
     throw new Error("La cuenta SMTP todavía no está configurada.");
   }
 
-  const transporter = nodemailer.createTransport({
-    auth: { pass: config.pass, user: config.user },
-    host: config.host,
-    port: config.port,
-    secure: config.port === 465,
-  });
+  const transporter =
+    config.mode === "preview"
+      ? nodemailer.createTransport({
+          buffer: true,
+          newline: "unix",
+          streamTransport: true,
+        })
+      : nodemailer.createTransport({
+          auth: { pass: config.pass, user: config.user },
+          host: config.host,
+          port: config.port,
+          secure: config.port === 465,
+        });
   const result = await transporter.sendMail({
-    from: config.from,
+    from:
+      config.mode === "preview"
+        ? "PUDU CRM Local <preview@pudu.test>"
+        : config.from,
     html: input.content.replaceAll("\n", "<br />"),
     subject: input.subject,
     text: input.content,
     to: input.recipient,
   });
 
-  return { messageId: result.messageId };
+  return { messageId: result.messageId, mode: config.mode };
 }
