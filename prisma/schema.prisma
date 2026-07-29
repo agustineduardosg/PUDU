@@ -132,6 +132,17 @@ enum ConversionEventName {
   LEAD_SUBMITTED
 }
 
+enum IncidentSeverity {
+  INFO
+  WARNING
+  CRITICAL
+}
+
+enum IncidentStatus {
+  OPEN
+  RESOLVED
+}
+
 model ContactSubmission {
   id                      String                  @id @default(cuid())
   name                    String
@@ -157,10 +168,13 @@ model ContactSubmission {
   qualificationReason     String?
   qualificationConfidence Int                     @default(0)
   classificationVersion   String?
+  submissionToken         String?                  @unique
   qualifiedAt             DateTime?
   assignedTo              String?
   notes                   String?
   lastContactAt           DateTime?
+  firstResponseAt         DateTime?
+  responseDueAt           DateTime?
   nextFollowUpAt          DateTime?
   doNotContact            Boolean                 @default(false)
   doNotContactReason      String?
@@ -180,6 +194,7 @@ model ContactSubmission {
   @@index([doNotContact, updatedAt])
   @@index([priority, score])
   @@index([utmSource, createdAt])
+  @@index([firstResponseAt, responseDueAt])
 }
 
 model ConversionSession {
@@ -214,6 +229,39 @@ model ConversionEvent {
 
   @@index([name, createdAt])
   @@index([sessionId, createdAt])
+}
+
+model AbuseThrottle {
+  id              String   @id @default(cuid())
+  scope           String
+  keyHash         String
+  windowStartedAt DateTime @default(now())
+  count           Int      @default(1)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([scope, keyHash])
+  @@index([updatedAt])
+}
+
+model SystemIncident {
+  id              String           @id @default(cuid())
+  fingerprint     String           @unique
+  source          String
+  severity        IncidentSeverity @default(WARNING)
+  status          IncidentStatus   @default(OPEN)
+  title           String
+  detail          String
+  metadata        Json?
+  occurrences     Int              @default(1)
+  firstOccurredAt DateTime         @default(now())
+  lastOccurredAt  DateTime         @default(now())
+  resolvedAt      DateTime?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@index([status, lastOccurredAt])
+  @@index([severity, status])
 }
 
 model InstagramAccount {

@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ConversionEventName } from "@/generated/prisma";
+import { recordIncident } from "@/lib/operations/incidents";
 import { prisma } from "@/lib/prisma";
+import {
+  consumeRateLimit,
+  requestIdentifierFromHeaders,
+} from "@/lib/security/rate-limit";
 
 const allowedEvents = new Set<ConversionEventName>([
   "PAGE_VIEW",
@@ -57,6 +62,20 @@ export async function POST(request: NextRequest) {
   }
 
   try {
+    const throttle = await consumeRateLimit({
+      identifier: requestIdentifierFromHeaders(request.headers, sessionKey),
+      limit: 80,
+      scope: "conversion-events",
+      windowMs: 15 * 60 * 1000,
+    });
+
+    if (!throttle.allowed) {
+      return NextResponse.json(
+        { error: "Límite de eventos alcanzado." },
+        { status: 429 },
+      );
+    }
+
     const session = await prisma.conversionSession.upsert({
       create: {
         deviceType: deviceType(request.headers.get("user-agent") || ""),
@@ -84,6 +103,12 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ accepted: true }, { status: 202 });
   } catch (error) {
     console.error("Could not store conversion event:", error);
+    await recordIncident({
+      detail: error instanceof Error ? error.message : "Error desconocido",
+      fingerprint: "conversion-event-storage",
+      source: "analytics",
+      title: "No se pudo registrar un evento de conversión",
+    });
     return NextResponse.json(
       { error: "No se pudo registrar el evento." },
       { status: 500 },

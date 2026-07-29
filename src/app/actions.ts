@@ -1,6 +1,14 @@
 "use server";
 
+import { randomUUID } from "node:crypto";
+import { IncidentSeverity, Prisma } from "@/generated/prisma";
 import { prisma } from "@/lib/prisma";
+import { recordIncident } from "@/lib/operations/incidents";
+import { nextBusinessResponseDueAt } from "@/lib/operations/sla";
+import {
+  consumeRateLimit,
+  requestIdentifier,
+} from "@/lib/security/rate-limit";
 import { after } from "next/server";
 import { revalidatePath } from "next/cache";
 import nodemailer from "nodemailer";
@@ -20,6 +28,10 @@ function escapeHtml(value: string) {
 }
 
 export async function submitContactForm(formData: FormData) {
+  const successfulSubmission = {
+    success:
+      "¡Solicitud recibida! Revisaremos tu caso y te contactaremos dentro de 1 día hábil.",
+  };
   const name = formValue(formData, "name", 160);
   const company = formValue(formData, "company", 200);
   const email = formValue(formData, "email", 254).toLowerCase();
@@ -37,6 +49,27 @@ export async function submitContactForm(formData: FormData) {
     "conversionSessionKey",
     120,
   );
+  const honeypot = formValue(formData, "website", 240);
+  const submissionToken =
+    formValue(formData, "submissionToken", 120) || randomUUID();
+
+  if (honeypot) {
+    return successfulSubmission;
+  }
+
+  const throttle = await consumeRateLimit({
+    identifier: await requestIdentifier(),
+    limit: 12,
+    scope: "contact-form",
+    windowMs: 60 * 60 * 1000,
+  });
+
+  if (!throttle.allowed) {
+    return {
+      error:
+        "Recibimos demasiados intentos desde este dispositivo. Espera unos minutos antes de volver a enviar.",
+    };
+  }
 
   if (!name || (!email && !phone) || !message) {
     return { error: "Todos los campos obligatorios son necesarios." };
@@ -84,8 +117,10 @@ export async function submitContactForm(formData: FormData) {
           "Solicitud directa mediante formulario de diagnóstico.",
         qualificationSummary: `${name} solicita orientación sobre ${interest}.`,
         referrer: referrer || null,
+        responseDueAt: nextBusinessResponseDueAt(),
         score: isInstagramLead ? 55 : 45,
         source: isInstagramLead ? "INSTAGRAM" : "WEBSITE",
+        submissionToken,
         tags: campaignTags,
         tasks: {
           create: {
@@ -105,7 +140,20 @@ export async function submitContactForm(formData: FormData) {
       },
     });
   } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      error.code === "P2002"
+    ) {
+      return successfulSubmission;
+    }
     console.error("Error saving contact submission:", error);
+    await recordIncident({
+      detail: error instanceof Error ? error.message : "Error desconocido",
+      fingerprint: "contact-form-database",
+      severity: IncidentSeverity.CRITICAL,
+      source: "contact-form",
+      title: "El formulario no pudo guardar un lead",
+    });
     return {
       error:
         "No pudimos registrar tu solicitud. Inténtalo nuevamente en unos minutos.",
@@ -148,6 +196,12 @@ export async function submitContactForm(formData: FormData) {
       // The lead is already safe in the CRM. Analytics should not make the
       // visitor resubmit the form if attribution fails.
       console.error("Contact saved, but conversion attribution failed:", error);
+      await recordIncident({
+        detail: error instanceof Error ? error.message : "Error desconocido",
+        fingerprint: "contact-form-attribution",
+        source: "analytics",
+        title: "Falló la atribución de un lead guardado",
+      });
     }
   }
 
@@ -192,14 +246,17 @@ export async function submitContactForm(formData: FormData) {
       // El prospecto ya quedó guardado en el CRM. Una falla de notificación no
       // debe hacer que la persona reenvíe el formulario y genere duplicados.
       console.error("Contact saved, but notification email failed:", error);
+      await recordIncident({
+        detail: error instanceof Error ? error.message : "Error desconocido",
+        fingerprint: "contact-form-notification",
+        source: "email",
+        title: "No se pudo enviar una notificación de lead",
+      });
     }
   });
 
   revalidatePath("/");
-  return {
-    success:
-      "¡Solicitud recibida! Revisaremos tu caso y te contactaremos dentro de 1 día hábil.",
-  };
+  return successfulSubmission;
 }
 
 export async function saveQuote(data: {

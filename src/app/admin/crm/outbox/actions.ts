@@ -241,6 +241,12 @@ export async function sendApprovedMessages(formData: FormData) {
           },
         }),
       ]);
+      if (delivery.mode === "smtp" && message.leadId) {
+        await prisma.contactSubmission.updateMany({
+          data: { firstResponseAt: new Date() },
+          where: { firstResponseAt: null, id: message.leadId },
+        });
+      }
     } catch (error) {
       const detail =
         error instanceof Error ? error.message.slice(0, 500) : "Error SMTP desconocido.";

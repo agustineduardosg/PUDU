@@ -12,7 +12,7 @@ export const prisma =
   (canReuseClient ? globalForPrisma.prisma : undefined) ||
   new PrismaClient({
     datasourceUrl: databaseUrl,
-    log: ["query"],
+    log: process.env.NODE_ENV === "development" ? ["warn", "error"] : ["error"],
   });
 
 if (process.env.NODE_ENV !== "production") {
