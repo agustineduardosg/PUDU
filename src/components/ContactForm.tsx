@@ -210,7 +210,7 @@ const ContactFormInner = ({
     } else {
       setState({ success: result.success });
       form.reset();
-      setInterest("Transformación digital general");
+      setInterest(preselectedIndustry || "Transformación digital general");
       setMessage("");
     }
     setIsPending(false);
@@ -285,17 +285,16 @@ const ContactFormInner = ({
       </div>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        <Field label="Correo">
+        <Field label="Correo (si prefieres email)">
           <input
             name="email"
             type="email"
-            required
             autoComplete="email"
             placeholder="camila@empresa.cl"
             className="form-control"
           />
         </Field>
-        <Field label="WhatsApp (opcional)">
+        <Field label="WhatsApp (si prefieres contacto directo)">
           <input
             name="phone"
             type="tel"
@@ -305,6 +304,10 @@ const ContactFormInner = ({
           />
         </Field>
       </div>
+
+      <p className="-mt-3 text-xs text-foreground/50">
+        Deja al menos un medio de contacto: correo o WhatsApp.
+      </p>
 
       <Field label="¿Qué quieres mejorar primero?">
         <select

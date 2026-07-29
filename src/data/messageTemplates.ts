@@ -9,6 +9,42 @@ export type CrmMessageTemplate = {
 
 export const defaultMessageTemplates: CrmMessageTemplate[] = [
   {
+    channel: "INSTAGRAM",
+    content:
+      "Hola {nombre}, gracias por escribir SALUD a PUDU. Para orientarte sin pedir datos sensibles: ¿cómo coordinas hoy las solicitudes y confirmaciones de hora?",
+    id: "instagram-salud-qualification",
+    isActive: true,
+    name: "Instagram · Salud",
+    subject: null,
+  },
+  {
+    channel: "INSTAGRAM",
+    content:
+      "Hola {nombre}, gracias por escribir AGENDA a PUDU. ¿Cómo registras hoy una reserva y su confirmación?",
+    id: "instagram-agenda-qualification",
+    isActive: true,
+    name: "Instagram · Agenda",
+    subject: null,
+  },
+  {
+    channel: "INSTAGRAM",
+    content:
+      "Hola {nombre}, gracias por escribir FITNESS a PUDU. ¿Cómo registras hoy las consultas, pagos y renovaciones?",
+    id: "instagram-fitness-qualification",
+    isActive: true,
+    name: "Instagram · Fitness",
+    subject: null,
+  },
+  {
+    channel: "INSTAGRAM",
+    content:
+      "Hola {nombre}, gracias por escribir DIAGNÓSTICO a PUDU 👋 ¿Qué te gustaría ordenar primero: 1) ventas y seguimiento, 2) agenda y reservas, 3) tareas repetitivas o 4) otro proceso? Si prefieres dejar el contexto y tu medio de contacto de una vez, puedes hacerlo aquí: https://puduit.tech/ig",
+    id: "instagram-diagnostic-qualification",
+    isActive: true,
+    name: "Instagram · Diagnóstico",
+    subject: null,
+  },
+  {
     channel: "EMAIL",
     content:
       "Hola {nombre}, soy parte de PUDU IT Solutions. Estuvimos revisando el trabajo de {empresa} y vemos una oportunidad concreta para mejorar {interes}. ¿Te parece si coordinamos una conversación breve esta semana?",

@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { after } from "next/server";
 import { revalidatePath } from "next/cache";
 import nodemailer from "nodemailer";
 import { crmDemoLeads } from "@/data/crmDemo";
@@ -37,26 +38,66 @@ export async function submitContactForm(formData: FormData) {
     120,
   );
 
-  if (!name || !email || !message) {
+  if (!name || (!email && !phone) || !message) {
     return { error: "Todos los campos obligatorios son necesarios." };
   }
-  if (!email.includes("@") || !email.includes(".")) {
+  if (email && (!email.includes("@") || !email.includes("."))) {
     return { error: "Ingresa un correo válido." };
   }
 
   let submission: { id: string };
 
   try {
+    const isInstagramLead = utmSource.toLowerCase() === "instagram";
+    const campaignTags = [
+      ...(isInstagramLead ? ["canal:instagram"] : ["canal:web"]),
+      ...(utmCampaign ? [`campana:${utmCampaign.toLowerCase()}`] : []),
+      ...(utmContent ? [`pieza:${utmContent.toLowerCase()}`] : []),
+    ];
+
     submission = await prisma.contactSubmission.create({
       data: {
+        activities: {
+          create: {
+            title: isInstagramLead
+              ? "Formulario recibido desde Instagram"
+              : "Formulario web recibido",
+            body: `Interés declarado: ${interest}`,
+            type: "NOTE",
+            metadata: {
+              landingPath: landingPath || null,
+              utmCampaign: utmCampaign || null,
+              utmContent: utmContent || null,
+            },
+          },
+        },
+        classificationVersion: "form-inbound-v1",
         company: company || null,
-        email,
+        email: email || null,
         interest,
         landingPath: landingPath || null,
         message,
         name,
         phone: phone || null,
+        priority: isInstagramLead ? "HIGH" : "MEDIUM",
+        qualificationReason:
+          "Solicitud directa mediante formulario de diagnóstico.",
+        qualificationSummary: `${name} solicita orientación sobre ${interest}.`,
         referrer: referrer || null,
+        score: isInstagramLead ? 55 : 45,
+        source: isInstagramLead ? "INSTAGRAM" : "WEBSITE",
+        tags: campaignTags,
+        tasks: {
+          create: {
+            title: isInstagramLead
+              ? "Responder diagnóstico de Instagram"
+              : "Responder solicitud web",
+            description:
+              "Revisar el contexto, validar necesidad y acordar el siguiente paso con la persona.",
+            dueAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+            priority: isInstagramLead ? "HIGH" : "MEDIUM",
+          },
+        },
         utmCampaign: utmCampaign || null,
         utmContent: utmContent || null,
         utmMedium: utmMedium || null,
@@ -110,44 +151,49 @@ export async function submitContactForm(formData: FormData) {
     }
   }
 
-  try {
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || "smtp.zoho.com",
-      port: Number(process.env.SMTP_PORT) || 465,
-      secure: true,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
+  after(async () => {
+    try {
+      const transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST || "smtp.zoho.com",
+        port: Number(process.env.SMTP_PORT) || 465,
+        secure: true,
+        connectionTimeout: 4_000,
+        greetingTimeout: 4_000,
+        socketTimeout: 5_000,
+        auth: {
+          user: process.env.SMTP_USER,
+          pass: process.env.SMTP_PASS,
+        },
+      });
 
-    await transporter.sendMail({
-      from: `"PUDU Ecosystem" <${process.env.SMTP_USER}>`,
-      to: "agustineduardosg@puduit.tech, puduit_solutions@puduit.tech",
-      subject: `🚀 Nuevo Lead: ${name} - ${interest}`,
-      html: `
-        <div style="font-family: sans-serif; max-width: 600px; margin: auto; border: 1px solid #eee; padding: 20px; border-radius: 10px;">
-          <h2 style="color: #10B981;">Nuevo Contacto desde PUDU Landing</h2>
-          <p><strong>Nombre:</strong> ${escapeHtml(name)}</p>
-          <p><strong>Empresa/Cargo:</strong> ${escapeHtml(company || "No especificado")}</p>
-          <p><strong>Email:</strong> ${escapeHtml(email)}</p>
-          <p><strong>Teléfono:</strong> ${escapeHtml(phone || "No especificado")}</p>
-          <p><strong>Interés:</strong> ${escapeHtml(interest)}</p>
-          <p><strong>Origen:</strong> ${escapeHtml([utmSource, utmMedium, utmCampaign].filter(Boolean).join(" / ") || "Directo")}</p>
-          <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
-          <p><strong>Mensaje:</strong></p>
-          <p style="background: #f9f9f9; padding: 15px; border-radius: 5px;">${escapeHtml(message)}</p>
-          <footer style="margin-top: 20px; font-size: 12px; color: #666;">
-            Enviado automáticamente desde el motor PUDU Ecosystem. ID: ${submission.id}
-          </footer>
-        </div>
-      `,
-    });
-  } catch (error) {
-    // El prospecto ya quedó guardado en el CRM. Una falla de notificación no
-    // debe hacer que la persona reenvíe el formulario y genere duplicados.
-    console.error("Contact saved, but notification email failed:", error);
-  }
+      await transporter.sendMail({
+        from: `"PUDU Ecosystem" <${process.env.SMTP_USER}>`,
+        to: "agustineduardosg@puduit.tech, puduit_solutions@puduit.tech",
+        subject: `🚀 Nuevo Lead: ${name} - ${interest}`,
+        html: `
+          <div style="font-family: sans-serif; max-width: 600px; margin: auto; border: 1px solid #eee; padding: 20px; border-radius: 10px;">
+            <h2 style="color: #10B981;">Nuevo Contacto desde PUDU Landing</h2>
+            <p><strong>Nombre:</strong> ${escapeHtml(name)}</p>
+            <p><strong>Empresa/Cargo:</strong> ${escapeHtml(company || "No especificado")}</p>
+            <p><strong>Email:</strong> ${escapeHtml(email || "No especificado")}</p>
+            <p><strong>Teléfono:</strong> ${escapeHtml(phone || "No especificado")}</p>
+            <p><strong>Interés:</strong> ${escapeHtml(interest)}</p>
+            <p><strong>Origen:</strong> ${escapeHtml([utmSource, utmMedium, utmCampaign].filter(Boolean).join(" / ") || "Directo")}</p>
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+            <p><strong>Mensaje:</strong></p>
+            <p style="background: #f9f9f9; padding: 15px; border-radius: 5px;">${escapeHtml(message)}</p>
+            <footer style="margin-top: 20px; font-size: 12px; color: #666;">
+              Enviado automáticamente desde el motor PUDU Ecosystem. ID: ${submission.id}
+            </footer>
+          </div>
+        `,
+      });
+    } catch (error) {
+      // El prospecto ya quedó guardado en el CRM. Una falla de notificación no
+      // debe hacer que la persona reenvíe el formulario y genere duplicados.
+      console.error("Contact saved, but notification email failed:", error);
+    }
+  });
 
   revalidatePath("/");
   return {

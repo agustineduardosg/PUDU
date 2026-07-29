@@ -40,11 +40,11 @@ async function loadAnalytics() {
   since.setHours(0, 0, 0, 0);
 
   if (isDemo) {
-    return { events: [], isDemo, sessions: [], since };
+    return { events: [], instagramLeads: [], isDemo, sessions: [], since };
   }
 
   const { prisma } = await import("@/lib/prisma");
-  const [sessions, events] = await Promise.all([
+  const [sessions, events, instagramLeads] = await Promise.all([
     prisma.conversionSession.findMany({
       orderBy: { createdAt: "desc" },
       select: {
@@ -61,13 +61,27 @@ async function loadAnalytics() {
       select: { createdAt: true, name: true, sessionId: true },
       where: { createdAt: { gte: since } },
     }),
+    prisma.contactSubmission.findMany({
+      orderBy: { createdAt: "desc" },
+      select: {
+        createdAt: true,
+        interest: true,
+        status: true,
+        tags: true,
+      },
+      where: {
+        createdAt: { gte: since },
+        source: "INSTAGRAM",
+      },
+    }),
   ]);
 
-  return { events, isDemo, sessions, since };
+  return { events, instagramLeads, isDemo, sessions, since };
 }
 
 export default async function ConversionAnalyticsPage() {
-  const { events, isDemo, sessions, since } = await loadAnalytics();
+  const { events, instagramLeads, isDemo, sessions, since } =
+    await loadAnalytics();
   const uniqueByEvent = new Map<string, Set<string>>();
 
   for (const event of events) {
@@ -110,6 +124,65 @@ export default async function ConversionAnalyticsPage() {
     .map(([source, data]) => ({ source, ...data }))
     .sort((a, b) => b.sessions - a.sessions)
     .slice(0, 8);
+
+  const qualifiedStatuses = new Set([
+    "QUALIFYING",
+    "CONTACTED",
+    "MEETING",
+    "PROPOSAL",
+    "NEGOTIATION",
+    "WON",
+  ]);
+  const meetingStatuses = new Set([
+    "MEETING",
+    "PROPOSAL",
+    "NEGOTIATION",
+    "WON",
+  ]);
+  const verticalLabels: Record<string, string> = {
+    belleza: "Belleza",
+    fitness: "Fitness",
+    general: "General",
+    salud: "Salud",
+  };
+  const keywordRowsMap = new Map<
+    string,
+    {
+      keyword: string;
+      leads: number;
+      meetings: number;
+      qualified: number;
+      vertical: string;
+    }
+  >();
+
+  for (const lead of instagramLeads) {
+    const vertical =
+      lead.tags
+        .find((tag) => tag.startsWith("rubro:"))
+        ?.slice("rubro:".length) || "sin-clasificar";
+    const keyword =
+      lead.tags
+        .find((tag) => tag.startsWith("campana:"))
+        ?.slice("campana:".length)
+        .toLocaleUpperCase("es-CL") || "ORGÁNICO";
+    const key = `${vertical}:${keyword}`;
+    const current = keywordRowsMap.get(key) || {
+      keyword,
+      leads: 0,
+      meetings: 0,
+      qualified: 0,
+      vertical: verticalLabels[vertical] || "Sin clasificar",
+    };
+    current.leads += 1;
+    current.qualified += qualifiedStatuses.has(lead.status) ? 1 : 0;
+    current.meetings += meetingStatuses.has(lead.status) ? 1 : 0;
+    keywordRowsMap.set(key, current);
+  }
+
+  const keywordRows = [...keywordRowsMap.values()].sort(
+    (a, b) => b.leads - a.leads,
+  );
 
   const funnel = [
     { label: eventLabels.PAGE_VIEW, value: visits },
@@ -305,6 +378,66 @@ export default async function ConversionAnalyticsPage() {
           </div>
         </section>
       </div>
+
+      <section className="mt-6 overflow-hidden rounded-[2rem] border border-white/10 bg-[#0f172a]/70">
+        <div className="p-5 sm:p-7">
+          <h2 className="text-xl font-black">
+            Instagram por palabra clave y rubro
+          </h2>
+          <p className="mt-1 text-sm text-white/40">
+            DMs capturados durante la temporada editorial de salud, belleza y
+            fitness.
+          </p>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[680px] text-left">
+            <thead className="border-y border-white/5 bg-white/[0.02] text-[10px] font-black uppercase tracking-wider text-white/30">
+              <tr>
+                <th className="px-6 py-4">Rubro</th>
+                <th className="px-4 py-4">Palabra</th>
+                <th className="px-4 py-4">Leads</th>
+                <th className="px-4 py-4">Calificados</th>
+                <th className="px-4 py-4">Conversión</th>
+                <th className="px-6 py-4">Reuniones+</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-white/5">
+              {keywordRows.map((row) => (
+                <tr
+                  key={`${row.vertical}-${row.keyword}`}
+                  className="text-sm"
+                >
+                  <td className="px-6 py-4 font-bold">{row.vertical}</td>
+                  <td className="px-4 py-4">
+                    <span className="rounded-full border border-brand-emerald/20 bg-brand-emerald/10 px-2.5 py-1 text-[10px] font-black text-brand-emerald">
+                      {row.keyword}
+                    </span>
+                  </td>
+                  <td className="px-4 py-4 text-white/60">{row.leads}</td>
+                  <td className="px-4 py-4 text-white/60">
+                    {row.qualified}
+                  </td>
+                  <td className="px-4 py-4 font-bold text-brand-emerald">
+                    {percentage(row.qualified, row.leads)}
+                  </td>
+                  <td className="px-6 py-4 text-white/60">{row.meetings}</td>
+                </tr>
+              ))}
+              {keywordRows.length === 0 && (
+                <tr>
+                  <td
+                    colSpan={6}
+                    className="px-6 py-12 text-center text-sm text-white/30"
+                  >
+                    Los primeros DMs con SALUD, AGENDA, FITNESS o DIAGNÓSTICO
+                    aparecerán aquí.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
   );
 }

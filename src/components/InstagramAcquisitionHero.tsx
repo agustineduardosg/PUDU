@@ -47,16 +47,16 @@ export function InstagramAcquisitionHero() {
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <Link
-              href="#diagnostico"
+              href="#contacto"
               onClick={() =>
                 trackConversion("CTA_CLICK", {
-                  cta: "instagram_landing_diagnostic",
-                  destination: "diagnostico",
+                  cta: "instagram_landing_form",
+                  destination: "contacto",
                 })
               }
               className="inline-flex min-h-14 items-center justify-center gap-2 rounded-2xl bg-gradient-fire px-7 py-4 text-sm font-black text-white shadow-xl shadow-orange-500/15 sm:text-base"
             >
-              Obtener diagnóstico gratuito
+              Solicitar diagnóstico gratuito
               <ArrowDown className="h-4 w-4" />
             </Link>
             <a
