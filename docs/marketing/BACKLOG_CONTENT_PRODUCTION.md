@@ -18,3 +18,18 @@ guiones y fichas maestras se conservan sin cambios en el calendario editorial.
 
 Ninguna pieza del backlog puede pasar a producción o publicación sin una nueva
 aprobación manual.
+
+## Adquisición pagada diferida
+
+Meta Ads, Google Ads, Meta Pixel, Conversions API y formularios instantáneos
+quedan fuera de la fase inaugural. Solo se evaluarán después de validar el
+recorrido orgánico completo y contar con una base suficiente de visitas, DMs,
+formularios, leads calificados y reuniones.
+
+La fase orgánica debe demostrar primero:
+
+- recepción de DMs y respuestas a historias;
+- clasificación de `DIAGNÓSTICO` en el CRM;
+- atribución del enlace de bio mediante UTM;
+- creación de una tarea humana por cada formulario;
+- seguimiento semanal de alcance, retención, visitas al perfil, DMs y leads.

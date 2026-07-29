@@ -38,7 +38,7 @@ export const defaultMessageTemplates: CrmMessageTemplate[] = [
   {
     channel: "INSTAGRAM",
     content:
-      "Hola {nombre}, gracias por escribir DIAGNÓSTICO a PUDU. ¿Qué proceso te gustaría ordenar o mejorar primero? Si prefieres dejar el contexto y tu medio de contacto de una vez, puedes hacerlo aquí: https://puduit.tech/ig",
+      "Hola {nombre}, gracias por escribir DIAGNÓSTICO a PUDU 👋 ¿Qué te gustaría ordenar primero: 1) ventas y seguimiento, 2) agenda y reservas, 3) tareas repetitivas o 4) otro proceso? Si prefieres dejar el contexto y tu medio de contacto de una vez, puedes hacerlo aquí: https://puduit.tech/ig",
     id: "instagram-diagnostic-qualification",
     isActive: true,
     name: "Instagram · Diagnóstico",

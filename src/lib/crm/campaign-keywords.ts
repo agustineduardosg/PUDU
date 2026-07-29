@@ -30,7 +30,7 @@ const keywordDefinitions: Record<
   diagnostico: {
     interest: "Diagnóstico digital general",
     qualificationQuestion:
-      "¿Qué proceso te gustaría ordenar o mejorar primero?",
+      "¿Qué te gustaría ordenar primero: ventas y seguimiento, agenda y reservas, tareas repetitivas u otro proceso?",
     score: 28,
     tags: [
       "campana:diagnostico",
