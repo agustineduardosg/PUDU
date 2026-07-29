@@ -144,6 +144,7 @@ const ContactFormInner = ({
     preselectedIndustry || "Transformación digital general",
   );
   const [message, setMessage] = useState("");
+  const [submissionToken, setSubmissionToken] = useState("");
   const formStartedRef = useRef(false);
   const [attribution, setAttribution] = useState<Attribution>({
     conversionSessionKey: "",
@@ -171,6 +172,7 @@ const ContactFormInner = ({
     };
 
     const locationTimer = window.setTimeout(() => {
+      setSubmissionToken(window.crypto.randomUUID());
       const params = new URLSearchParams(window.location.search);
       const queryInterest = params.get("interest");
 
@@ -205,13 +207,14 @@ const ContactFormInner = ({
     const form = event.currentTarget;
     const result = await submitContactForm(new FormData(form));
 
-    if (result.error) {
+    if ("error" in result) {
       setState({ error: result.error });
     } else {
       setState({ success: result.success });
       form.reset();
       setInterest(preselectedIndustry || "Transformación digital general");
       setMessage("");
+      setSubmissionToken(window.crypto.randomUUID());
     }
     setIsPending(false);
   };
@@ -261,6 +264,20 @@ const ContactFormInner = ({
       <input type="hidden" name="utmContent" value={attribution.utmContent} />
       <input type="hidden" name="landingPath" value={attribution.landingPath} />
       <input type="hidden" name="referrer" value={attribution.referrer} />
+      <input type="hidden" name="submissionToken" value={submissionToken} />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-[10000px] top-auto h-px w-px overflow-hidden"
+      >
+        <label htmlFor="contact-website">Sitio web</label>
+        <input
+          id="contact-website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+        />
+      </div>
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <Field label="Nombre">

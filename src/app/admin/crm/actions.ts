@@ -15,6 +15,13 @@ const allowedStatuses = new Set(Object.values(LeadStatus));
 const allowedPriorities = new Set(Object.values(LeadPriority));
 const allowedChannels = new Set(Object.values(MessageChannel));
 const allowedTaskStatuses = new Set(Object.values(TaskStatus));
+const respondedStatuses = new Set<LeadStatus>([
+  LeadStatus.CONTACTED,
+  LeadStatus.MEETING,
+  LeadStatus.PROPOSAL,
+  LeadStatus.NEGOTIATION,
+  LeadStatus.WON,
+]);
 
 function ensureWritableCrm() {
   if (process.env.CRM_DEMO_MODE === "true") {
@@ -53,7 +60,7 @@ export async function updateLeadStage(formData: FormData) {
   }
 
   const currentLead = await prisma.contactSubmission.findUnique({
-    select: { status: true },
+    select: { firstResponseAt: true, status: true },
     where: { id: leadId },
   });
 
@@ -63,7 +70,13 @@ export async function updateLeadStage(formData: FormData) {
 
   await prisma.$transaction([
     prisma.contactSubmission.update({
-      data: { status: requestedStatus },
+      data: {
+        ...(respondedStatuses.has(requestedStatus) &&
+        !currentLead.firstResponseAt
+          ? { firstResponseAt: new Date() }
+          : {}),
+        status: requestedStatus,
+      },
       where: { id: leadId },
     }),
     prisma.leadActivity.create({
@@ -93,7 +106,7 @@ export async function updateLeadProfile(formData: FormData) {
   }
 
   const previous = await prisma.contactSubmission.findUnique({
-    select: { priority: true, status: true },
+    select: { firstResponseAt: true, priority: true, status: true },
     where: { id: leadId },
   });
 
@@ -111,6 +124,9 @@ export async function updateLeadProfile(formData: FormData) {
     prisma.contactSubmission.update({
       data: {
         assignedTo: assignedTo || null,
+        ...(respondedStatuses.has(status) && !previous.firstResponseAt
+          ? { firstResponseAt: new Date() }
+          : {}),
         nextFollowUpAt,
         priority,
         status,

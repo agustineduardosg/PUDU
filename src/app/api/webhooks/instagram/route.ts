@@ -1,6 +1,8 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
+import { IncidentSeverity } from "@/generated/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { processInstagramWebhook } from "@/lib/instagram/inbound";
+import { recordIncident } from "@/lib/operations/incidents";
 
 export const runtime = "nodejs";
 
@@ -45,6 +47,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ received: true, ...result });
   } catch (error) {
     console.error("No se pudo procesar el webhook de Instagram:", error);
+    await recordIncident({
+      detail: error instanceof Error ? error.message : "Error desconocido",
+      fingerprint: "instagram-webhook-processing",
+      severity: IncidentSeverity.CRITICAL,
+      source: "instagram-webhook",
+      title: "Falló el procesamiento de mensajes de Instagram",
+    });
     return NextResponse.json(
       { error: "No se pudo procesar el evento." },
       { status: 500 },

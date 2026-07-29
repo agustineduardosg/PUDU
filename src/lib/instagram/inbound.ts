@@ -14,6 +14,7 @@ import {
   preserveAdvancedLeadStatus,
 } from "@/lib/crm/lead-classification";
 import { prisma } from "@/lib/prisma";
+import { nextBusinessResponseDueAt } from "@/lib/operations/sla";
 
 type InstagramMessagingEvent = {
   sender?: { id?: string; username?: string };
@@ -189,6 +190,7 @@ export async function processInstagramWebhook(
               name: event.username
                 ? `@${event.username}`
                 : `Prospecto Instagram ${event.externalUserId.slice(-6)}`,
+              responseDueAt: nextBusinessResponseDueAt(event.occurredAt),
               source: LeadSource.INSTAGRAM,
             },
           }));
@@ -284,6 +286,11 @@ export async function processInstagramWebhook(
                 ? event.occurredAt
                 : lead.qualifiedAt,
             score: Math.max(lead.score, classification.score),
+            responseDueAt:
+              lead.responseDueAt &&
+              lead.responseDueAt.getTime() < classification.dueAt.getTime()
+                ? lead.responseDueAt
+                : classification.dueAt,
             status: leadStatus,
             tags,
           },
