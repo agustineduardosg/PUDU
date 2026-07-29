@@ -40,22 +40,46 @@ export function getConversionContext(): ConversionContext {
 
   if (typeof window === "undefined") return emptyContext;
 
+  const params = new URLSearchParams(window.location.search);
+  const currentAttribution = {
+    utmSource: params.get("utm_source") || "",
+    utmMedium: params.get("utm_medium") || "",
+    utmCampaign: params.get("utm_campaign") || "",
+    utmContent: params.get("utm_content") || "",
+  };
+  const hasCurrentAttribution = Object.values(currentAttribution).some(Boolean);
   const stored = window.sessionStorage.getItem(contextKey);
+
   if (stored) {
     try {
-      return JSON.parse(stored) as ConversionContext;
+      const storedContext = JSON.parse(stored) as ConversionContext;
+
+      // A new campaign visit must replace attribution left by an earlier visit
+      // in the same browser tab. Otherwise the CRM credits the new lead to the
+      // first link opened during the session.
+      if (hasCurrentAttribution) {
+        const refreshedContext: ConversionContext = {
+          ...storedContext,
+          ...currentAttribution,
+          landingPath: `${window.location.pathname}${window.location.search}`,
+        };
+
+        window.sessionStorage.setItem(
+          contextKey,
+          JSON.stringify(refreshedContext),
+        );
+        return refreshedContext;
+      }
+
+      return storedContext;
     } catch {
       window.sessionStorage.removeItem(contextKey);
     }
   }
 
-  const params = new URLSearchParams(window.location.search);
   const context: ConversionContext = {
     sessionKey: createSessionKey(),
-    utmSource: params.get("utm_source") || "",
-    utmMedium: params.get("utm_medium") || "",
-    utmCampaign: params.get("utm_campaign") || "",
-    utmContent: params.get("utm_content") || "",
+    ...currentAttribution,
     landingPath: `${window.location.pathname}${window.location.search}`,
     referrer: document.referrer,
   };
