@@ -51,6 +51,7 @@ export default function InstagramLandingPage() {
       </nav>
 
       <InstagramAcquisitionHero />
+      <ContactForm preselectedIndustry="Transformación digital general" />
 
       <section className="border-y border-foreground/10 bg-background py-16">
         <div className="container mx-auto px-6">
@@ -143,7 +144,6 @@ export default function InstagramLandingPage() {
         </div>
       </section>
 
-      <ContactForm />
       <Footer />
     </main>
   );

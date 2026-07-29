@@ -310,7 +310,11 @@ export async function processInstagramWebhook(
             },
           });
           const taskDescription =
-            `${classification.summary} ${classification.reason}`.trim();
+            `${classification.summary} ${classification.reason}${
+              classification.suggestedQuestion
+                ? ` Pregunta sugerida: ${classification.suggestedQuestion}`
+                : ""
+            }`.trim();
 
           if (responseTask) {
             await transaction.leadTask.update({
@@ -349,11 +353,13 @@ export async function processInstagramWebhook(
             leadId: lead.id,
             metadata: {
               classification: {
+                campaignKeyword: classification.campaignKeyword,
                 confidence: classification.confidence,
                 interest: classification.interest,
                 priority: classification.priority,
                 reason: classification.reason,
                 score: classification.score,
+                suggestedQuestion: classification.suggestedQuestion,
                 tags: classification.tags,
                 version: LEAD_CLASSIFICATION_VERSION,
               },

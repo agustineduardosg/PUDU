@@ -3,8 +3,9 @@ import {
   LeadPriority,
   LeadStatus,
 } from "@/generated/prisma";
+import { detectCampaignKeyword } from "@/lib/crm/campaign-keywords";
 
-export const LEAD_CLASSIFICATION_VERSION = "rules-cl-v1";
+export const LEAD_CLASSIFICATION_VERSION = "rules-cl-v2";
 export const INSTAGRAM_RESPONSE_TASK_TITLE = "Responder DM de Instagram";
 
 type SignalGroup = {
@@ -199,6 +200,7 @@ function dueAtFor(priority: LeadPriority, now: Date) {
 }
 
 export type LeadClassification = {
+  campaignKeyword: string | null;
   confidence: number;
   conversationStatus: InstagramConversationStatus;
   dueAt: Date;
@@ -207,6 +209,7 @@ export type LeadClassification = {
   reason: string;
   recommendedLeadStatus: LeadStatus;
   score: number;
+  suggestedQuestion: string | null;
   summary: string;
   tags: string[];
 };
@@ -216,6 +219,7 @@ export function classifyInstagramLead(
   now = new Date(),
 ): LeadClassification {
   const text = normalizeText(messages.filter(Boolean).join("\n"));
+  const campaignKeyword = detectCampaignKeyword(messages);
   const matchedServices = matchGroups(text, services);
   const matchedSignals = matchGroups(text, commercialSignals);
   const hasContactData =
@@ -226,6 +230,7 @@ export function classifyInstagramLead(
   const rawScore =
     matchedServices.reduce((total, group) => total + group.score, 0) +
     matchedSignals.reduce((total, group) => total + group.score, 0) +
+    (campaignKeyword?.score || 0) +
     (hasContactData ? 10 : 0) +
     (substantive ? 6 : 0);
   const score = Math.min(100, rawScore);
@@ -237,26 +242,36 @@ export function classifyInstagramLead(
   const signalLabels = matchedSignals.map((signal) => signal.label);
   const tags = unique([
     "canal:instagram",
+    ...(campaignKeyword?.tags || []),
     ...matchedServices.map((service) => service.tag),
     ...matchedSignals.map((signal) => signal.tag),
     ...(hasContactData ? ["dato:contacto"] : []),
   ]);
   const interest =
-    serviceLabels.length > 0
+    campaignKeyword
+      ? campaignKeyword.interest
+      : serviceLabels.length > 0
       ? serviceLabels.slice(0, 2).join(" + ")
       : "Consulta por Instagram por clasificar";
   const confidence = Math.min(
     95,
     20 + matchedServices.length * 22 + matchedSignals.length * 12 +
+      Number(Boolean(campaignKeyword)) * 28 +
       Number(hasContactData) * 8 +
       Number(substantive) * 6,
   );
   const meaningful =
-    matchedServices.length > 0 || matchedSignals.length > 0 || hasContactData;
+    Boolean(campaignKeyword) ||
+    matchedServices.length > 0 ||
+    matchedSignals.length > 0 ||
+    hasContactData;
   const summary = meaningful
     ? `${interest}. Prioridad ${priority.toLocaleLowerCase("es-CL")} con score ${score}/100.`
     : "Mensaje recibido sin señales comerciales suficientes; requiere revisión.";
   const reasons = [
+    campaignKeyword
+      ? `Palabra de campaña: ${campaignKeyword.keyword} (${campaignKeyword.vertical})`
+      : null,
     serviceLabels.length
       ? `Servicios detectados: ${serviceLabels.join(", ")}`
       : null,
@@ -268,6 +283,7 @@ export function classifyInstagramLead(
   ].filter(Boolean);
 
   return {
+    campaignKeyword: campaignKeyword?.keyword || null,
     confidence,
     conversationStatus:
       score >= 62
@@ -283,6 +299,7 @@ export function classifyInstagramLead(
       ? LeadStatus.QUALIFYING
       : LeadStatus.NEW,
     score,
+    suggestedQuestion: campaignKeyword?.qualificationQuestion || null,
     summary,
     tags,
   };
