@@ -11,6 +11,15 @@ export const defaultMessageTemplates: CrmMessageTemplate[] = [
   {
     channel: "INSTAGRAM",
     content:
+      "Hola {nombre}, gracias por escribir LANDING a PUDU. Para orientarte mejor: ¿hoy tus clientes encuentran en un solo lugar tus servicios, beneficios y una forma clara de contactarte?",
+    id: "instagram-landing-qualification",
+    isActive: true,
+    name: "Instagram · Landing page",
+    subject: null,
+  },
+  {
+    channel: "INSTAGRAM",
+    content:
       "Hola {nombre}, gracias por escribir SALUD a PUDU. Para orientarte sin pedir datos sensibles: ¿cómo coordinas hoy las solicitudes y confirmaciones de hora?",
     id: "instagram-salud-qualification",
     isActive: true,
