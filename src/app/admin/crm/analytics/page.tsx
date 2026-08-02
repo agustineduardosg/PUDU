@@ -429,7 +429,7 @@ export default async function ConversionAnalyticsPage() {
                     colSpan={6}
                     className="px-6 py-12 text-center text-sm text-white/30"
                   >
-                    Los primeros DMs con SALUD, AGENDA, FITNESS o DIAGNÓSTICO
+                    Los primeros DMs con SALUD, AGENDA, FITNESS, LANDING o DIAGNÓSTICO
                     aparecerán aquí.
                   </td>
                 </tr>

@@ -99,7 +99,10 @@ export const ContactForm = ({
               </div>
             </div>
 
-            <div className="bg-background/50 p-8 backdrop-blur-xl sm:p-12 lg:w-3/5">
+            <div
+              id="contacto-form"
+              className="scroll-mt-24 bg-background/50 p-8 backdrop-blur-xl sm:p-12 lg:w-3/5"
+            >
               <ContactFormInner
                 preselectedIndustry={preselectedIndustry}
                 themeColor={themeColor}

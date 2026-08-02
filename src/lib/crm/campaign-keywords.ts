@@ -3,7 +3,7 @@ export const INSTAGRAM_EDITORIAL_CAMPAIGN = "ig_2026_08_verticales";
 export type CampaignKeywordMatch = {
   campaign: string;
   interest: string;
-  keyword: "AGENDA" | "DIAGNÓSTICO" | "FITNESS" | "SALUD";
+  keyword: "AGENDA" | "DIAGNÓSTICO" | "FITNESS" | "LANDING" | "SALUD";
   qualificationQuestion: string;
   score: number;
   tags: string[];
@@ -12,7 +12,7 @@ export type CampaignKeywordMatch = {
 
 const keywordDefinitions: Record<
   string,
-  Omit<CampaignKeywordMatch, "campaign" | "keyword">
+  Omit<CampaignKeywordMatch, "campaign" | "keyword"> & { campaign?: string }
 > = {
   agenda: {
     interest: "Agenda online",
@@ -52,6 +52,21 @@ const keywordDefinitions: Record<
       `utm-campaign:${INSTAGRAM_EDITORIAL_CAMPAIGN}`,
     ],
     vertical: "fitness",
+  },
+  landing: {
+    campaign: "landing_pages",
+    interest: "Landing page y conversión",
+    qualificationQuestion:
+      "¿Hoy tus clientes encuentran en un solo lugar tus servicios, beneficios y una forma clara de contactarte?",
+    score: 36,
+    tags: [
+      "campana:landing-pages",
+      "origen:instagram-story",
+      "rubro:general",
+      "servicio:landing-page",
+      "utm-campaign:landing_pages",
+    ],
+    vertical: "general",
   },
   salud: {
     interest: "Agenda online + CRM",
@@ -95,7 +110,7 @@ export function detectCampaignKeyword(
 
     return {
       ...definition,
-      campaign: INSTAGRAM_EDITORIAL_CAMPAIGN,
+      campaign: definition.campaign || INSTAGRAM_EDITORIAL_CAMPAIGN,
       keyword,
     };
   }

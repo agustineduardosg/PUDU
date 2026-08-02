@@ -1,0 +1,55 @@
+{
+  "campaignId": "IG26-STORY-LANDING-01",
+  "status": "ready_for_manual_review",
+  "format": {
+    "width": 1080,
+    "height": 1920,
+    "ratio": "9:16"
+  },
+  "keyword": "LANDING",
+  "interest": "Landing page y conversión",
+  "utm": {
+    "source": "instagram",
+    "medium": "organic_story",
+    "campaign": "landing_pages"
+  },
+  "publishing": {
+    "automatic": false,
+    "nativeText": true,
+    "nativeInteractiveStickers": true,
+    "requiresCeoApproval": true
+  },
+  "stories": [
+    {
+      "id": "ig26_story_landing_01",
+      "file": "story-01-instagram-sin-landing-v1.png",
+      "purpose": "hook_and_poll"
+    },
+    {
+      "id": "ig26_story_landing_02",
+      "file": "story-02-informacion-dispersa-v1.png",
+      "purpose": "problem_and_poll"
+    },
+    {
+      "id": "ig26_story_landing_03",
+      "file": "story-03-friccion-cliente-v1.png",
+      "purpose": "cost_of_friction"
+    },
+    {
+      "id": "ig26_story_landing_04",
+      "file": "story-04-flujo-conversion-v1.png",
+      "purpose": "solution_flow"
+    },
+    {
+      "id": "ig26_story_landing_05",
+      "file": "story-05-ecosistema-responsive-v1.png",
+      "purpose": "pudu_offer"
+    },
+    {
+      "id": "ig26_story_landing_06",
+      "file": "story-06-cta-diagnostico-v1.png",
+      "purpose": "dm_and_link_conversion",
+      "url": "https://puduit.tech/instagram?utm_source=instagram&utm_medium=organic_story&utm_campaign=landing_pages&utm_content=ig26_story_landing_06&interest=Landing%20page%20y%20conversi%C3%B3n#contacto-form"
+    }
+  ]
+}
